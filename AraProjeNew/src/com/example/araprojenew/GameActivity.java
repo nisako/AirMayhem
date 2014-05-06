@@ -83,8 +83,8 @@ public class GameActivity extends BaseGameActivity{
 	{
 	    super.onPause();
 	    if (this.isGameLoaded()){
-	        ResourcesManager.getInstance().music.pause();
 	        try{
+	        ResourcesManager.getInstance().music.pause();
 	        ((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 	        }
 	        catch(Exception e){
@@ -98,9 +98,9 @@ public class GameActivity extends BaseGameActivity{
 	{
 	    super.onResume();
 	    System.gc();
-	    if (this.isGameLoaded()){
-	    	ResourcesManager.getInstance().music.resume();
+	    if (this.isGameLoaded()){ 	
 	    	 try{
+	    		 ResourcesManager.getInstance().music.resume();
 	 	        ((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 	 	        }
 	 	        catch(Exception e){
