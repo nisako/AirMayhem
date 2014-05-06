@@ -25,14 +25,14 @@ public class GameScene extends BaseScene{
 	protected Sprite arrowSprite;
 	protected AnimatedSprite explosionSprite;
 	protected Boolean animationFlagForPlaneCrush = true;
-	protected Boolean isPaused=false;
+	private Boolean isPaused=false;
 	
 	private Body groundBody,roofBody;
 	
 	private Sprite fieldSprite;
 	private Sprite backgroundSprite;
 
-	@SuppressWarnings("unused") private HUD gameHUD;
+	protected Hud gameHUD;
 	public PhysicsWorld physicsWorld;
 	public Plane plane;
 	public PlaneEnemy planeEnemy;
@@ -130,7 +130,11 @@ public class GameScene extends BaseScene{
 	   
 	}
 	
-	
+	public void pause(){
+		isPaused = !isPaused;
+		gameHUD.pauseButtonTileChanger();
+		setIgnoreUpdate(isPaused);
+	}
 	
 
 }

@@ -7,7 +7,6 @@ import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.text.Text;
-import org.andengine.entity.text.TextOptions;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
@@ -48,6 +47,11 @@ public class Hud extends HUD {
 	    	
 
 	}
+	
+	public void pauseButtonTileChanger(){
+		pauseButton.setCurrentTileIndex((pauseButton.getCurrentTileIndex()+1)%2);
+	}
+	
 	private void createButtons() {
 		gasButton = new ButtonSprite(600, 400,
 				ResourcesManager.getInstance().button_region, vbom) {
@@ -102,26 +106,7 @@ public class Hud extends HUD {
 				ResourcesManager.getInstance().pause_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionDown()) {
-						if(pauseButton.getCurrentTileIndex() == 0){
-							pauseButton.setCurrentTileIndex(1);
-							if(SceneManager.getInstance().getCurrentScene().getClass().equals(HostGameScene.class)){
-								((HostGameScene) SceneManager.getInstance().getCurrentScene()).sendPauseMessage();
-							}
-							else if(SceneManager.getInstance().getCurrentScene().getClass().equals(ClientGameScene.class)){
-								((ClientGameScene) SceneManager.getInstance().getCurrentScene()).sendPauseMessage();
-							}
-							
-						}
-						else if(pauseButton.getCurrentTileIndex() == 1){
-							pauseButton.setCurrentTileIndex(0);
-							if(SceneManager.getInstance().getCurrentScene().getClass().equals(HostGameScene.class)){
-								((HostGameScene) SceneManager.getInstance().getCurrentScene()).sendPauseMessage();
-							}
-							else if(SceneManager.getInstance().getCurrentScene().getClass().equals(ClientGameScene.class)){
-								((ClientGameScene) SceneManager.getInstance().getCurrentScene()).sendPauseMessage();
-							}
-							
-						}
+					((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 				}
 				return true;
 			};

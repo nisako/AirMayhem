@@ -136,11 +136,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 									planeEnemy.crush();
 								}
 								else if(incoming.type == 1){ //pause
-									if(isPaused) ResourcesManager.getInstance().activity.toastOnUIThread("Game Paused by Enemty");
-									else ResourcesManager.getInstance().activity.toastOnUIThread("Game Resumed by Enemty");
-									isPaused = !isPaused;
-									
-									HostGameScene.this.setIgnoreUpdate(isPaused);
+									HostGameScene.super.pause();
 								}
 								
 							}
@@ -243,8 +239,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		//this.sendMessage(new serverSpritePositionMessage(plane.getX(),plane.getY(),plane.getRotation()));
 	}
 	public void sendPauseMessage() {
-		isPaused = !isPaused;
-		this.setIgnoreUpdate(isPaused);
+		super.pause();
 		this.sendMessage(new serverDeathMessage(1));		
 	}
 	public void sendDeathMessage(){

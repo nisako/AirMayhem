@@ -28,12 +28,13 @@ public class PracticeGameScene extends GameScene{
 	private boolean xBigger;
 	public PracticeGameScene(){
 		super();
-		//super.createPhysics();
-		createGameLoopUpdate();
+
 		createBalloon();
+		createGameLoopUpdate();
+		
 		
 		super.physicsWorld.setContactListener(createContactListener());
-		planeEnemy.body.setTransform(-500,-500, 0);
+		planeEnemy.setVisible(false);
 		detachChild(planeEnemy);
 	}
  
@@ -99,7 +100,7 @@ public class PracticeGameScene extends GameScene{
 	}
 	
 	private void createGameLoopUpdate() {
-		TimerHandler gameLoopUpdateTimer = new TimerHandler(2f, true, new ITimerCallback() {
+		TimerHandler gameLoopUpdateTimer = new TimerHandler(0.01f, true, new ITimerCallback() {
 	        public void onTimePassed(TimerHandler pTimerHandler) {	        	
 	        	if(reLocateBalloonFlag) {
 	        		relocateBalloon();
@@ -143,7 +144,7 @@ public class PracticeGameScene extends GameScene{
 	        }
 	    });
 		
-	    //registerUpdateHandler(gameLoopUpdateTimer);	
+	    registerUpdateHandler(gameLoopUpdateTimer);	
 	}
 	
 	private void relocateBalloon(){

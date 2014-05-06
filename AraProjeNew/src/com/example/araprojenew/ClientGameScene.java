@@ -137,13 +137,9 @@ public class ClientGameScene extends GameScene implements
 					score++;
 					planeEnemy.crush();
 				}
-				else if(incoming.type == 1){ 
+				else if(incoming.type == 1){ //pause
 					ClientGameScene.this.setIgnoreUpdate(true);
-					
-					isPaused = !isPaused;
-					if(isPaused) ResourcesManager.getInstance().activity.toastOnUIThread("Game Paused by Enemty");
-					else ResourcesManager.getInstance().activity.toastOnUIThread("Game Resumed by Enemty");
-					ClientGameScene.this.setIgnoreUpdate(isPaused);
+					ClientGameScene.super.pause();
 				}
 				
 			}
@@ -246,8 +242,7 @@ public class ClientGameScene extends GameScene implements
 		sendMessage(new clientShootMessage());
 	}
 	public void sendPauseMessage() {
-		isPaused = !isPaused;
-		this.setIgnoreUpdate(isPaused);
+		super.pause();
 		sendMessage(new clientUtilMessage(1));	
 	}
 	public void sendDeathMessage(){
