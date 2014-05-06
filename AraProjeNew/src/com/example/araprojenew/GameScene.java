@@ -66,6 +66,7 @@ public class GameScene extends BaseScene{
 		camera.setChaseEntity(null); //heb
 	    camera.setHUD(null);
 	    camera.setCenter(400, 240);
+	    
 	}
 	
 	private void createBackground()
@@ -134,6 +135,12 @@ public class GameScene extends BaseScene{
 		isPaused = !isPaused;
 		gameHUD.pauseButtonTileChanger();
 		setIgnoreUpdate(isPaused);
+	}
+	
+	public void resume(){
+		isPaused = false;
+		gameHUD.setPauseButtonTile(0);
+		setIgnoreUpdate(false);
 	}
 	
 

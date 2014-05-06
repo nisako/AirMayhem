@@ -186,7 +186,7 @@ public class ResourcesManager {
     public void loadSplashScreen()
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");    	
-    	splashTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+    	splashTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.DEFAULT);
     	splash1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "thunder.png");
     	splash2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "struck.png");
     	splashScreenFont = FontFactory.create(activity.getFontManager(),activity.getTextureManager(), 256, 256,Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);

@@ -9,9 +9,6 @@ import com.example.araprojenew.SceneManager.SceneType;
 
 import android.app.Activity;
 
-/*TODO 
-*OnMenuKeyPressed ve OnSuspend eklenebilir
-*/
 public abstract class BaseScene extends Scene
 {  
     protected Engine engine;
@@ -37,5 +34,7 @@ public abstract class BaseScene extends Scene
     public abstract SceneType getSceneType();
     
     public abstract void disposeScene();
+        
+    
 
 }

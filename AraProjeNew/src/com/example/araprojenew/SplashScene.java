@@ -19,7 +19,7 @@ public class SplashScene extends BaseScene{
 	
 	@Override
 	public void createScene() {
-		setBackground(new Background(255, 255, 255));
+		setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		Sprite thunder = new Sprite(0, 0, ResourcesManager.getInstance().splash1_region,vbom);
 		Sprite struck = new Sprite(0, 0, ResourcesManager.getInstance().splash2_region,vbom);
 

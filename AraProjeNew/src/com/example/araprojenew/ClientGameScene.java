@@ -24,8 +24,6 @@ import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.andengine.util.math.MathUtils;
 
-import android.widget.Toast;
-
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -100,11 +98,7 @@ public class ClientGameScene extends GameScene implements
 							ServerConnector<SocketConnection> pServerConnector,
 							IServerMessage pServerMessage) throws IOException {
 						serverSpritePositionMessage incoming = (serverSpritePositionMessage) pServerMessage;
-						// TODO Auto-generated method stub
-						 //ResourcesManager.getInstance().activity.toastOnUIThread("test message arrived");
-						// cgs.planeEnemy.body.setTransform(incoming.x,incoming.y,incoming.angle);
-						// cgs.planeEnemy.transBody();
-						 planeEnemy.setPosition(incoming.x, incoming.y);
+						planeEnemy.setPosition(incoming.x, incoming.y);
 						planeEnemy.setRotation(incoming.angle);
 						sendMessage(new clientSpritePositionMesseage(plane.getX(),plane.getY(), plane.getRotation()));
 					}

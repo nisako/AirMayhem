@@ -51,6 +51,9 @@ public class Hud extends HUD {
 	public void pauseButtonTileChanger(){
 		pauseButton.setCurrentTileIndex((pauseButton.getCurrentTileIndex()+1)%2);
 	}
+	public void setPauseButtonTile(int t){
+		pauseButton.setCurrentTileIndex(t);
+	}
 	
 	private void createButtons() {
 		gasButton = new ButtonSprite(600, 400,

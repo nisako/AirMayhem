@@ -74,7 +74,39 @@ public class GameActivity extends BaseGameActivity{
 	protected void onDestroy()
 	{
 		super.onDestroy();
-	        System.exit(0);	
+		if (this.isGameLoaded())
+			System.exit(0);	
+	}
+	
+	@Override
+	protected void onPause()
+	{
+	    super.onPause();
+	    if (this.isGameLoaded()){
+	        ResourcesManager.getInstance().music.pause();
+	        try{
+	        ((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
+	        }
+	        catch(Exception e){
+	        	//pause yoksa biþi yapma
+	        }
+	    }
+	}
+
+	@Override
+	protected synchronized void onResume()
+	{
+	    super.onResume();
+	    System.gc();
+	    if (this.isGameLoaded()){
+	    	ResourcesManager.getInstance().music.resume();
+	    	 try{
+	 	        ((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
+	 	        }
+	 	        catch(Exception e){
+	 	        	//resume yoksa biþi yapma
+	 	        }
+	    }
 	}
 	
 	@Override
@@ -86,6 +118,7 @@ public class GameActivity extends BaseGameActivity{
 	    }
 	    return false; 
 	}
+	
 
 	
 }

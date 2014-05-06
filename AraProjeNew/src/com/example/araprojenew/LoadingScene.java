@@ -12,7 +12,7 @@ public class LoadingScene extends BaseScene
 	@Override
 	public void createScene()
 	{
-	    setBackground(new Background(Color.WHITE));
+	    setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 	    attachChild(new Text(400, 240, resourcesManager.splashScreenFont, "Loading...", vbom));
 	}
 
