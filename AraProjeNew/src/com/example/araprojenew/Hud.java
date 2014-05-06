@@ -21,7 +21,7 @@ public class Hud extends HUD {
 	public Hud(final Plane plane, Camera camera, VertexBufferObjectManager vbom) {
 		this.plane = plane;
 		this.camera = camera;
-		this.vbom = vbom;
+		this.vbom = vbom;	
 		createButtons();
 		createScreenTexts();
 		setTouchAreaBindingOnActionDownEnabled(true); 
