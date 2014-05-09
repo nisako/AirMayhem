@@ -66,7 +66,6 @@ public class GameScene extends BaseScene{
 		camera.setChaseEntity(null); //heb
 	    camera.setHUD(null);
 	    camera.setCenter(400, 240);
-	    
 	}
 	
 	private void createBackground()
