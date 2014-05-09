@@ -67,7 +67,7 @@ public class Plane extends AnimatedSprite{
 		        public void onUpdate(float pSecondsElapsed)
 		        {
 		            super.onUpdate(pSecondsElapsed);
-		            camera.onUpdate(0.1f);
+		            //camera.onUpdate(0.1f);
 		           
 		        }
 			});
@@ -92,7 +92,7 @@ public class Plane extends AnimatedSprite{
 	        		isShoot = false;
 	        	}
 	            super.onUpdate(pSecondsElapsed);
-	            camera.onUpdate(0.1f);
+	            //camera.onUpdate(0.1f);
 	            if(body.getPosition().y < 0) body.setTransform(body.getPosition().x, 0,body.getAngle());
 	            gravity = 1/(1+body.getLinearVelocity().len());
 	            if(gravity>0.04) gravity = 0.04f;
@@ -105,6 +105,7 @@ public class Plane extends AnimatedSprite{
 	            else if(isBreak && body.getLinearVelocity().len() > 0) body.applyForce((float) (-7*Math.cos(body.getAngle())), 0, mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            body.applyForce((float) (-1*Math.cos(body.getAngle())), (float) (-1*Math.sin(body.getAngle())), mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            if(body.getLinearVelocity().len()>maxSpeed) body.setLinearVelocity((float)Math.cos(body.getAngle())*maxSpeed, (float)Math.sin(body.getAngle())*maxSpeed); 
+	            camera.onUpdate(0);
 	        }
 	    });
 	    
@@ -126,10 +127,6 @@ public class Plane extends AnimatedSprite{
 		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
 		shotIndex = (shotIndex+1)% maxShot;
 		
-	}
-	
-	public void copyBody(Body pBody){
-		this.body.setTransform(pBody.getPosition(), pBody.getAngle());
 	}
 	
 	public void crush(){

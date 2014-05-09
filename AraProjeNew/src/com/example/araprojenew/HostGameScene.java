@@ -1,15 +1,13 @@
 package com.example.araprojenew;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.andengine.engine.handler.runnable.RunnableHandler;
+
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.andengine.extension.multiplayer.protocol.adt.message.client.ClientMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 import org.andengine.extension.multiplayer.protocol.server.IClientMessageHandler;
@@ -26,7 +24,6 @@ import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.andengine.util.math.MathUtils;
 
-import android.util.Log;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -55,7 +52,6 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		try {
 			initDiscoveryServer();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		serverStart();
