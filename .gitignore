@@ -35,3 +35,6 @@ AraProjeNew/lint.xml
 *.dex
 AraProjeNew/bin/classes.dex
 *.class
+AraProjeNew/bin/resources.ap_
+AraProjeNew/bin/classes.dex
+AraProjeNew/bin/AraProjeNew.apk

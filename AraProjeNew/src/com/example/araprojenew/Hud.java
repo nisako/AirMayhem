@@ -12,7 +12,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.color.Color;
 
 public class Hud extends HUD {
-	private TiledSprite gasButton, breakButton,shootButton,pauseButton;
+	private TiledSprite gasButton, breakButton,shootButton,pauseButton,alternateShootButton;
 	private Camera camera;
 	private Plane plane;
 	private VertexBufferObjectManager vbom;
@@ -56,7 +56,7 @@ public class Hud extends HUD {
 	}
 	
 	private void createButtons() {
-		gasButton = new ButtonSprite(600, 400,
+		gasButton = new ButtonSprite(700, 300,
 				ResourcesManager.getInstance().button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
@@ -70,7 +70,7 @@ public class Hud extends HUD {
 				return true;
 			};
 		};
-		breakButton = new ButtonSprite(500, 400,
+		breakButton = new ButtonSprite(625, 375,
 				ResourcesManager.getInstance().button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
@@ -85,7 +85,7 @@ public class Hud extends HUD {
 				return true;
 			};
 		};
-		shootButton = new ButtonSprite(100, 400,
+		shootButton = new ButtonSprite(25, 300,
 				ResourcesManager.getInstance().button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
@@ -105,6 +105,14 @@ public class Hud extends HUD {
 				return true;
 			};
 		};
+		alternateShootButton = new ButtonSprite(100, 375,ResourcesManager.getInstance().button_region, vbom) {
+			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
+				if (touchEvent.isActionDown()) {
+					((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
+				}
+				return true;
+			};
+		};
 		pauseButton = new ButtonSprite(GameScene.WORLD_WIDTH/2-100, 20,
 				ResourcesManager.getInstance().pause_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
@@ -114,10 +122,13 @@ public class Hud extends HUD {
 				return true;
 			};
 		};
+		
 		registerTouchArea(pauseButton);
 		attachChild(pauseButton);
 		registerTouchArea(gasButton);
 		attachChild(gasButton);
+		registerTouchArea(alternateShootButton);
+		attachChild(alternateShootButton);
 		registerTouchArea(shootButton);
 		attachChild(shootButton);
 		registerTouchArea(breakButton);
