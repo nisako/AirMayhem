@@ -90,6 +90,7 @@ public class Hud extends HUD {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
 					shootButton.setCurrentTileIndex(0);
+					
 
 				}
 				if (touchEvent.isActionDown()) {
@@ -108,7 +109,7 @@ public class Hud extends HUD {
 		alternateShootButton = new ButtonSprite(100, 375,ResourcesManager.getInstance().button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionDown()) {
-					((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
+					//((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 				}
 				return true;
 			};
