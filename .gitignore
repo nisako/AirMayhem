@@ -30,3 +30,8 @@ gen/com/example/araprojenew/R.java
 *.apk
 *.dex
 *.properties
+AraProjeNew/lint.xml
+*.apk
+*.dex
+AraProjeNew/bin/classes.dex
+*.class

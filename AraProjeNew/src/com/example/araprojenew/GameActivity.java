@@ -101,7 +101,6 @@ public class GameActivity extends BaseGameActivity{
 	    if (this.isGameLoaded()){ 	
 	    	 try{
 	    		 ResourcesManager.getInstance().music.resume();
-	 	        ((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 	 	        }
 	 	        catch(Exception e){
 	 	        	//resume yoksa biþi yapma
