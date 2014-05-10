@@ -4,6 +4,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.HUD;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.text.Text;
@@ -16,15 +17,23 @@ public class Hud extends HUD {
 	private Camera camera;
 	private Plane plane;
 	private VertexBufferObjectManager vbom;
+	private Rectangle healtBar;
 	
 	public Hud(final Plane plane, Camera camera, VertexBufferObjectManager vbom) {
 		this.plane = plane;
 		this.camera = camera;
 		this.vbom = vbom;	
 		createButtons();
+		createHealtBar();
 		createScreenTexts();
 		setTouchAreaBindingOnActionDownEnabled(true); 
 		camera.setHUD(this);
+	}
+
+	private void createHealtBar() {
+		healtBar = new Rectangle(0, 0, 101, 30, ResourcesManager.getInstance().vbom);
+		healtBar.setColor(new Color(1, 0, 0));	
+		attachChild(healtBar);	
 	}
 
 	private void createScreenTexts() {
@@ -41,6 +50,7 @@ public class Hud extends HUD {
 	            healthText.setText("Health:"+plane.health);
 	        	scoreText.setText("Speed:"+(int)plane.body.getLinearVelocity().len()+"       Score:"+GameScene.score+"-"+GameScene.enemyScore);
 	            //scoreText.setText("S:"+(int)plane.shots.get(0).getPosition().x+" d:"+(int)plane.shots.get(0).getPosition().y);
+	        	healtBar.setWidth(plane.health);
 	        }
 	    });
 	    registerUpdateHandler(scoreUpdateTimer);

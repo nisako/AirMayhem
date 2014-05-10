@@ -39,14 +39,16 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	private boolean xBigger;
 	private final int SERVER_PORT = 4444;
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
-
+	
 	// Server object
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private SocketServerDiscoveryServer<DefaultDiscoveryData> mSocketServerDiscoveryServer;
+	private PowerupManager pupManager;
 	
 	public HostGameScene(){
 		super();
 		super.physicsWorld.setContactListener(serverContactListener());
+		pupManager = new PowerupManager(this,plane);
 		setupMessages();
 		createHostGameLoopUpdate();
 		try {
