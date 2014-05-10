@@ -18,7 +18,7 @@ public class PowerupManager {
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				testPup = new Powerup(rand.nextInt(GameScene.WORLD_WIDTH), rand.nextInt(GameScene.WORLD_HEIGHT-200), plane, powerupType.getRandom());
 				pScene.attachChild(testPup);
-				pTimerSeconds = rand.nextInt(15)+5; //TODO bu olmadý galiba
+				//pTimerSeconds = rand.nextInt(15)+5; //TODO bu olmadý galiba
 			}
 		}));
 	}

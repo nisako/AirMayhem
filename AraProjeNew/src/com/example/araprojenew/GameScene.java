@@ -7,6 +7,7 @@ import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
@@ -47,6 +48,7 @@ public class GameScene extends BaseScene{
 	    createHUD();
 	    createBackground();
 	    pupManager = new PowerupManager(this,plane);
+	    //engine.registerUpdateHandler(new FPSLogger());
 	}
 	
 
