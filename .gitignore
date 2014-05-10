@@ -2,6 +2,7 @@
 *.apk
 *.ap_
 *.jar
+*.proporties
 # Files for the Dalvik VM
 *.dex
 
@@ -26,3 +27,6 @@ proguard/
 *.log
 
 gen/com/example/araprojenew/R.java
+*.apk
+*.dex
+*.properties
