@@ -96,9 +96,8 @@ public class Plane extends AnimatedSprite{
 	        		isShoot = false;
 	        	}
 	            if(body.getPosition().y < 0) body.setTransform(body.getPosition().x, 0,body.getAngle());
-	            /*gravity = 1/(1+body.getLinearVelocity().len());
-	            if(gravity>0.04) gravity = 0.04f;*/
-	            gravity = 2;
+	            gravity = 1/(1+body.getLinearVelocity().len());
+	            if(gravity>0.04) gravity = 0.04f;
 	            body.setTransform((body.getPosition().x+50) % 50, body.getPosition().y+gravity, body.getAngle());
 	            if(body.getLinearVelocity().len() > 4){
 	            	body.setAngularVelocity(ResourcesManager.getInstance().sensor2/2);
