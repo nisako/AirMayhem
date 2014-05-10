@@ -176,18 +176,17 @@ public class Plane extends AnimatedSprite{
 				public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 
 		    	explosionSprite.detachSelf();
-		    	respawn();
+		    	respawn();	
 				}
 			});
-    	
-    		animationFlagForPlaneCrush= false;
+    		animationFlagForPlaneCrush= false;	
     	}
 	}
 	
 	public void respawn(){	
 		this.setVisible(true);
 		this.body.setTransform(1,1,0);
-		health = 70;
+		health = 100;
 		ResourcesManager.getInstance().camera.setChaseEntity(this);
 		animationFlagForPlaneCrush= true;
 		body.setLinearVelocity(0, 0);
@@ -200,6 +199,7 @@ public class Plane extends AnimatedSprite{
 		if(pType == powerupType.HEALTUP){
 			healtPack();
 		}
+		//TODO yeni powerup almýþ olsanda normale dönüyor süre bitince düzeltilmesi lazým
 		else if(pType == powerupType.DOUBLESHOT){
 			this.shotType = 2;
 			registerUpdateHandler(new TimerHandler(10, new ITimerCallback() {			
@@ -219,6 +219,7 @@ public class Plane extends AnimatedSprite{
 			}));
 		}
 		else if(pType == powerupType.SHIELD){
+			//TODO bu böyle olmaz yerin dibine de giriyor
 			this.body.setUserData("invul");
 			registerUpdateHandler(new TimerHandler(5, new ITimerCallback() {			
 				@Override

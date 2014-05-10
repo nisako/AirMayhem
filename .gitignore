@@ -26,3 +26,9 @@ proguard/
 #Log Files
 *.log
 gen/com/example/araprojenew/R.java
+AraProjeNew/bin/AraProjeNew.apk
+*.apk
+*.rar
+*.dex
+*.class
+*.ap_
