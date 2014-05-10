@@ -39,16 +39,14 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	private boolean xBigger;
 	private final int SERVER_PORT = 4444;
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
-	
+
 	// Server object
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private SocketServerDiscoveryServer<DefaultDiscoveryData> mSocketServerDiscoveryServer;
-	private PowerupManager pupManager;
 	
 	public HostGameScene(){
 		super();
 		super.physicsWorld.setContactListener(serverContactListener());
-		pupManager = new PowerupManager(this,plane);
 		setupMessages();
 		createHostGameLoopUpdate();
 		try {
@@ -97,10 +95,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 							
 							planeEnemy.setPosition(incoming.x, incoming.y);
 							planeEnemy.setRotation(incoming.angle);
-							//hgs.planeEnemy.body.setTransform(incoming.x,incoming.y,incoming.angle);
-							//hgs.planeEnemy.transBody();
 							sendMessage(new serverSpritePositionMessage(plane.getX(),plane.getY(),plane.getRotation()));
-							
 							}
 							
 						});
@@ -227,7 +222,10 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 						arrowSprite.setRotation(MathUtils.radToDeg((float) Math.atan(subY/subX)));
 					}
 				}
+	        	
+				
 	        }
+			
 	    });
 		
 	    registerUpdateHandler(hostGameLoopUpdateTimer);

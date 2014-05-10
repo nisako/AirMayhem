@@ -36,7 +36,7 @@ public class PlaneEnemy extends AnimatedSprite{
 	public FixtureDef planefix;
 	public int health=70;
 	private AnimatedSprite explosionSprite;
-	static boolean animationFlagForPlaneCrush = true;
+	boolean animationFlagForPlaneCrush = true;
 	
 	public PlaneEnemy(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
     {
@@ -140,7 +140,7 @@ public class PlaneEnemy extends AnimatedSprite{
 		if( animationFlagForPlaneCrush){
     		explosionSprite.setPosition(this);
     		getParent().attachChild(explosionSprite);
-    		detachSelf();
+    		this.setVisible(false);
     		//explosionSprite.animate(100,false);
     		explosionSprite.animate(100,false, new IAnimationListener() { 		
 				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {}					
@@ -159,10 +159,10 @@ public class PlaneEnemy extends AnimatedSprite{
     	}
 	}
 	public void respawn(){
-		SceneManager.getInstance().getCurrentScene().attachChild(this);
+		this.setVisible(true);
 		animationFlagForPlaneCrush = true;
 		this.body.setTransform(0,0,0);
-		health = 70;
+		health = 100;
 		
 	}
 }

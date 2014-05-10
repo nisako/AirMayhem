@@ -35,7 +35,7 @@ public class Plane extends AnimatedSprite{
 	
 	private float gravity;
 
-	static boolean animationFlagForPlaneCrush = true;
+	boolean animationFlagForPlaneCrush = true;
 	
 	
 	public Plane(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)

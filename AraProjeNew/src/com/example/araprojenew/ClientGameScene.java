@@ -1,4 +1,6 @@
 package com.example.araprojenew;
+
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -99,6 +101,8 @@ public class ClientGameScene extends GameScene implements
 						planeEnemy.setPosition(incoming.x, incoming.y);
 						planeEnemy.setRotation(incoming.angle);
 						sendMessage(new clientSpritePositionMesseage(plane.getX(),plane.getY(), plane.getRotation()));
+				        
+						//sendMessage(new clientSpritePositionMesseage(plane.getX(),plane.getY(), plane.getRotation()));
 					}
 
 				});
