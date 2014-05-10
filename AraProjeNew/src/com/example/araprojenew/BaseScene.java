@@ -8,7 +8,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import com.example.araprojenew.SceneManager.SceneType;
 
 import android.app.Activity;
-
+//emre git test
 public abstract class BaseScene extends Scene
 {  
     protected Engine engine;
