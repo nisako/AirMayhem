@@ -23,16 +23,12 @@ public class PracticeGameScene extends GameScene{
 	private Body balloonBody;
 	private AnimatedSprite balloonSprite;
 	private boolean reLocateBalloonFlag=false;
-	
 	private float subX,subY;
 	private boolean xBigger;
 	public PracticeGameScene(){
 		super();
-
 		createBalloon();
 		createGameLoopUpdate();
-		
-		
 		super.physicsWorld.setContactListener(createContactListener());
 		planeEnemy.setVisible(false);
 		detachChild(planeEnemy);

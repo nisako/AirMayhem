@@ -3,23 +3,17 @@ package com.example.araprojenew;
 import java.util.ArrayList;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.IEntity;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import android.app.Activity;
-import android.util.Log;
-
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.MassData;
 /*TODO bu class fazla statik biraz elden geçmesi gerek*/
 public class Plane extends AnimatedSprite{
 	public Body body; 
@@ -33,11 +27,13 @@ public class Plane extends AnimatedSprite{
 	public Sprite shotSprite;
 	public int shotIndex=0;
 	public int maxShot=35;
+	private int shotType=0; //0 default , 2 double,3 triple
 	
-
-	public int health=70;
+	public int maxHealth = 100;
+	public int health = maxHealth;
+	
+	
 	private float gravity;
-	
 
 	static boolean animationFlagForPlaneCrush = true;
 	
@@ -88,11 +84,17 @@ public class Plane extends AnimatedSprite{
 	        public void onUpdate(float pSecondsElapsed)
 	        {
 	        	if(isShoot){
-	        		shoot();
+	        		if(shotType == 0){
+	        			shoot();
+	        		}
+	        		else if(shotType == 2){
+	        			doubleShot();
+	        		}
+	        		else if(shotType == 3){
+	        			tripleShot();
+	        		}
 	        		isShoot = false;
 	        	}
-	            super.onUpdate(pSecondsElapsed);
-	            //camera.onUpdate(0.1f);
 	            if(body.getPosition().y < 0) body.setTransform(body.getPosition().x, 0,body.getAngle());
 	            gravity = 1/(1+body.getLinearVelocity().len());
 	            if(gravity>0.04) gravity = 0.04f;
@@ -105,6 +107,7 @@ public class Plane extends AnimatedSprite{
 	            else if(isBreak && body.getLinearVelocity().len() > 0) body.applyForce((float) (-7*Math.cos(body.getAngle())), 0, mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            body.applyForce((float) (-1*Math.cos(body.getAngle())), (float) (-1*Math.sin(body.getAngle())), mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            if(body.getLinearVelocity().len()>maxSpeed) body.setLinearVelocity((float)Math.cos(body.getAngle())*maxSpeed, (float)Math.sin(body.getAngle())*maxSpeed); 
+	            super.onUpdate(pSecondsElapsed);
 	            camera.onUpdate(0);
 	        }
 	    });
@@ -123,10 +126,37 @@ public class Plane extends AnimatedSprite{
 
 
 	public void shoot() {
-		shots.get(shotIndex).setTransform(body.getPosition().x+1*(float)Math.cos(body.getAngle()),body.getPosition().y+1*(float)Math.sin(body.getAngle()), body.getAngle());
+		float angle = body.getAngle();
+		float x = body.getPosition().x+1*(float)Math.cos(angle);
+		float y = body.getPosition().y+1*(float)Math.sin(angle);
+		shots.get(shotIndex).setTransform(x,y, angle);
 		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
-		shotIndex = (shotIndex+1)% maxShot;
-		
+		shotIndex = (shotIndex+1)% maxShot;		
+	}
+	
+	public void shoot(float dx,float dy,float dAngle) {
+		float angle = body.getAngle()+dAngle;
+		float x = body.getPosition().x+dx+1*(float)Math.cos(angle);
+		float y = body.getPosition().y+dy+1*(float)Math.sin(angle);
+		shots.get(shotIndex).setTransform(x,y, angle);
+		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
+		shotIndex = (shotIndex+1)% maxShot;			
+	}
+	
+	public void doubleShot(){
+		shoot(shotSprite.getWidth()/32,shotSprite.getHeightScaled()/32,0);
+		shoot(-shotSprite.getWidth()/32,-shotSprite.getHeightScaled()/32,0);
+	}
+	
+	public void tripleShot(){
+		shoot(0,0,0.5f);
+		shoot(0,0,0);
+		shoot(0,0,-0.5f);
+	}
+	
+	public void healtPack(){
+		health += (int)maxHealth*0.25;
+		if(health>maxHealth) health = maxHealth;
 	}
 	
 	public void crush(){
@@ -162,6 +192,41 @@ public class Plane extends AnimatedSprite{
 		animationFlagForPlaneCrush= true;
 		body.setLinearVelocity(0, 0);
 		body.setUserData("plane");
+	}
+
+
+
+	public void aplyPowerup(powerupType pType) {
+		if(pType == powerupType.HEALTUP){
+			healtPack();
+		}
+		else if(pType == powerupType.DOUBLESHOT){
+			this.shotType = 2;
+			registerUpdateHandler(new TimerHandler(10, new ITimerCallback() {			
+				@Override
+				public void onTimePassed(TimerHandler pTimerHandler) {
+					Plane.this.shotType = 0;
+				}
+			}));
+		}
+		else if(pType == powerupType.TRIPLESHOT){
+			this.shotType = 3;
+			registerUpdateHandler(new TimerHandler(10, new ITimerCallback() {			
+				@Override
+				public void onTimePassed(TimerHandler pTimerHandler) {
+					Plane.this.shotType = 0;
+				}
+			}));
+		}
+		else if(pType == powerupType.SHIELD){
+			this.body.setUserData("invul");
+			registerUpdateHandler(new TimerHandler(5, new ITimerCallback() {			
+				@Override
+				public void onTimePassed(TimerHandler pTimerHandler) {
+					Plane.this.body.setUserData("invul");
+				}
+			}));
+		}
 	}
 	
 }

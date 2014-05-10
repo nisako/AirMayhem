@@ -66,6 +66,7 @@ public class ResourcesManager {
     public ITextureRegion shot_region;
     public ITiledTextureRegion balloon_region;
     public ITextureRegion arrow_region;
+    public ITextureRegion powerup_region;
 
     public Music music;
     
@@ -152,7 +153,7 @@ public class ResourcesManager {
         shot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shot.png");
         balloon_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "balloon_tiled.png", 6, 1);
         arrow_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "arrow.png");
-        
+        powerup_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "powerup.png");
         try 
         {
             this.gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));

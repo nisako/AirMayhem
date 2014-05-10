@@ -189,7 +189,7 @@ public class ClientGameScene extends GameScene implements
 	}	
 	
 	private void createClientGameLoopUpdate() {
-		TimerHandler clientGameLoopUpdateTimer = new TimerHandler(0.02f, true, new ITimerCallback() {
+		TimerHandler clientGameLoopUpdateTimer = new TimerHandler(0.01f, true, new ITimerCallback() {
 	        public void onTimePassed(TimerHandler pTimerHandler) {	        	
 	        	
 	        	subX = plane.getX() - planeEnemy.getX();

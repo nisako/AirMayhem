@@ -186,7 +186,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	    return contactListener;
 	}
 	private void createHostGameLoopUpdate() {
-		TimerHandler hostGameLoopUpdateTimer = new TimerHandler(0.07f, true, new ITimerCallback() {        
+		TimerHandler hostGameLoopUpdateTimer = new TimerHandler(0.01f, true, new ITimerCallback() {        
 
 			public void onTimePassed(TimerHandler pTimerHandler) {	        	
 	        	

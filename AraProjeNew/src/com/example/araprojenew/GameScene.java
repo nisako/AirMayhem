@@ -2,7 +2,6 @@ package com.example.araprojenew;
 
 
 
-import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
@@ -39,12 +38,15 @@ public class GameScene extends BaseScene{
 	public static int score,enemyScore;
 	
 	protected Rectangle left,right,ground,roof;
+	private PowerupManager pupManager;
+	
 	@Override
 	public void createScene() {
 		createPhysics();
 		createGameObjects();
 	    createHUD();
 	    createBackground();
+	    pupManager = new PowerupManager(this,plane);
 	}
 	
 
