@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.opengl.font.Font;
@@ -69,6 +71,9 @@ public class ResourcesManager {
     public ITextureRegion powerup_region;
 
     public Music music;
+    public Sound fireSound;
+    public Sound explosionSound;
+    public Sound alternateFireSound;    
     
     public Font splashScreenFont;
     public Font hudFont;
@@ -104,7 +109,7 @@ public class ResourcesManager {
 	private void loadMenuGraphics()
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.DEFAULT);
     	play_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "play.png");
     	options_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "options.png");
     	audio_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "audio.png");
@@ -131,6 +136,9 @@ public class ResourcesManager {
     	try
     	{
     	    music = MusicFactory.createMusicFromAsset(engine.getMusicManager(), activity,"mfx/music.ogg");
+    	    fireSound = SoundFactory.createSoundFromAsset(engine.getSoundManager(), activity, "mfx/fire.ogg");
+    	    explosionSound = SoundFactory.createSoundFromAsset(engine.getSoundManager(), activity, "mfx/explosion.ogg");
+    	    alternateFireSound = SoundFactory.createSoundFromAsset(engine.getSoundManager(), activity, "mfx/alternateFire.ogg");
     	}
     	catch (IOException e)
     	{
@@ -143,7 +151,7 @@ public class ResourcesManager {
     private void loadGameGraphics()
     {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
-        gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2000, 2000, TextureOptions.BILINEAR);
+        gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2000, 2000, TextureOptions.DEFAULT);
         button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "button1.png", 2, 1);
         pause_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "pause.png", 2, 1);
         world_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "field.png");

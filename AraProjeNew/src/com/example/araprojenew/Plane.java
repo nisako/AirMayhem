@@ -20,7 +20,7 @@ public class Plane extends AnimatedSprite{
 	private AnimatedSprite explosionSprite;
 	private boolean isGas;
 	private boolean isBreak;
-	public boolean isShoot;
+	public boolean isShoot,isAlternateShoot;
 	private final int maxSpeed=20;
 	
 	public ArrayList<Body> shots;
@@ -95,6 +95,9 @@ public class Plane extends AnimatedSprite{
 	        		}
 	        		isShoot = false;
 	        	}
+	        	if(isAlternateShoot){
+	        		
+	        	}
 	            if(body.getPosition().y < 0) body.setTransform(body.getPosition().x, 0,body.getAngle());
 	            gravity = 1/(1+body.getLinearVelocity().len());
 	            if(gravity>0.04) gravity = 0.04f;
@@ -132,6 +135,7 @@ public class Plane extends AnimatedSprite{
 		shots.get(shotIndex).setTransform(x,y, angle);
 		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
 		shotIndex = (shotIndex+1)% maxShot;		
+		ResourcesManager.getInstance().fireSound.play();
 	}
 	
 	public void shoot(float dx,float dy,float dAngle) {
@@ -140,7 +144,12 @@ public class Plane extends AnimatedSprite{
 		float y = body.getPosition().y+dy+1*(float)Math.sin(angle);
 		shots.get(shotIndex).setTransform(x,y, angle);
 		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
-		shotIndex = (shotIndex+1)% maxShot;			
+		shotIndex = (shotIndex+1)% maxShot;	
+		ResourcesManager.getInstance().fireSound.play();
+	}
+	
+public void alternateShoot(){
+		ResourcesManager.getInstance().alternateFireSound.play();
 	}
 	
 	public void doubleShot(){
@@ -168,7 +177,9 @@ public class Plane extends AnimatedSprite{
     		this.setVisible(false);
     		//explosionSprite.animate(100,false);
     		explosionSprite.animate(100,false, new IAnimationListener() { 		
-				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {}					
+				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
+					ResourcesManager.getInstance().explosionSound.play();
+				}					
 				public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,int pRemainingLoopCount, int pInitialLoopCount) {
 												}								
 				public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,int pOldFrameIndex, int pNewFrameIndex) {}
