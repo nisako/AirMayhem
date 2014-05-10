@@ -39,7 +39,6 @@ public class GameScene extends BaseScene{
 	public static int score,enemyScore;
 	
 	protected Rectangle left,right,ground,roof;
-	private PowerupManager pupManager;
 	
 	@Override
 	public void createScene() {
@@ -47,7 +46,7 @@ public class GameScene extends BaseScene{
 		createGameObjects();
 	    createHUD();
 	    createBackground();
-	    pupManager = new PowerupManager(this,plane);
+	    
 	    //engine.registerUpdateHandler(new FPSLogger());
 	}
 	
