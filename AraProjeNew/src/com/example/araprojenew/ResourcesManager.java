@@ -63,6 +63,7 @@ public class ResourcesManager {
     public BuildableBitmapTextureAtlas gameTextureAtlas;
     
     public ITiledTextureRegion plane_region;
+    public ITiledTextureRegion planeEnemy_region;
     public ITextureRegion world_region;
     public ITextureRegion bacground_region;
     public ITextureRegion shot_region;
@@ -156,6 +157,7 @@ public class ResourcesManager {
         pause_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "pause.png", 2, 1);
         world_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "field.png");
         plane_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "planex.png",4,1);
+        planeEnemy_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "enemyPlanex.png",4,1);
         bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background.png");
         explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosion.png", 12, 1);
         shot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shot.png");
