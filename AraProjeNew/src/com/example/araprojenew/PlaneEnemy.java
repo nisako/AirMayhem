@@ -177,9 +177,15 @@ public void alternateShoot(){
 		this.body.setTransform(100,100, 20);
 	}
 	public void crush(){
+		try{
+			this.getParent().attachChild(explosionSprite);
+		}
+		catch(Exception e){
+			
+		}
 		if( animationFlagForPlaneCrush){
     		explosionSprite.setPosition(this);
-    		getParent().attachChild(explosionSprite);
+    		explosionSprite.setVisible(true);
     		this.setVisible(false);
     		//explosionSprite.animate(100,false);
     		explosionSprite.animate(100,false, new IAnimationListener() { 		
@@ -190,7 +196,7 @@ public void alternateShoot(){
 				
 				public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 
-		    	explosionSprite.detachSelf();
+				explosionSprite.setVisible(false);
 				respawn();
 				}
 			});
