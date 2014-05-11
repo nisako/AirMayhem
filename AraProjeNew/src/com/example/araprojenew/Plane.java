@@ -173,7 +173,7 @@ public void alternateShoot(){
 			this.getParent().attachChild(explosionSprite);
 		}
 		catch(Exception e){
-			
+			//TODO burdaki try catch yerine current scene bir yerden öðrenilip ona attack edilmeli
 		}
 		body.setUserData("invul");
 		if( animationFlagForPlaneCrush){
@@ -232,16 +232,6 @@ public void alternateShoot(){
 					Plane.this.shotType = 0;
 				}
 			}));
-		}
-		else if(pType == powerupType.SHIELD){
-			//TODO bu böyle olmaz yerin dibine de giriyor
-			/*this.body.setUserData("invul");
-			registerUpdateHandler(new TimerHandler(5, new ITimerCallback() {			
-				@Override
-				public void onTimePassed(TimerHandler pTimerHandler) {
-					Plane.this.body.setUserData("invul");
-				}
-			}));*/
 		}
 	}
 	
