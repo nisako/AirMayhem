@@ -40,6 +40,7 @@ public class GameScene extends BaseScene{
 	
 	protected Rectangle left,right,ground,roof;
 	
+	
 	@Override
 	public void createScene() {
 		createPhysics();

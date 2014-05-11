@@ -39,7 +39,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	private boolean xBigger;
 	private final int SERVER_PORT = 4444;
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
-
+	private PowerupManager pupManager;
 	// Server object
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private SocketServerDiscoveryServer<DefaultDiscoveryData> mSocketServerDiscoveryServer;
@@ -54,6 +54,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+		pupManager = new PowerupManager(this, plane,planeEnemy,true);
 		serverStart();
 	}
 
@@ -64,6 +65,8 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_SHOOT, clientShootMessage.class);
 		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_DEATH, serverDeathMessage.class);
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_UTIL, clientShootMessage.class);
+		//this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_POWERUP, clientPowerupMessage.class);
+		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_POWERUP, serverPowerupMessage.class);
 	}
 	
 	private void serverStart(){
@@ -108,8 +111,10 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 									IClientMessage pClientMessage)
 									throws IOException {
 								// Obtain the class-casted client message
-								
+								clientShootMessage incoming =(clientShootMessage) pClientMessage;
+								planeEnemy.shotType = incoming.shotType;
 								planeEnemy.isShot = true;
+								
 								//sendMessage(new serverPlaneBodyMessage());
 								//ResourcesManager.getInstance().activity.toastOnUIThread("shot message arrived");
 							}
@@ -132,10 +137,22 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 									HostGameScene.super.pause();
 								}
 								
-							}
-						
-							
+							}	
 						});
+						
+						/*clientConnector.registerClientMessage(ClientMessages.CLIENT_MESSAGE_POWERUP,clientPowerupMessage.class,new IClientMessageHandler<SocketConnection>() {
+
+							@Override
+							public void onHandleMessage(
+									ClientConnector<SocketConnection> pClientConnector,
+									IClientMessage pClientMessage)
+									throws IOException {
+								clientPowerupMessage incoming = (clientPowerupMessage) pClientMessage;
+								HostGameScene.this.pupManager.removePowerUp(incoming.tag);
+								
+								
+							}	
+						});*/
 						
 						// Return the new client connector
 						return clientConnector;
@@ -231,7 +248,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	    registerUpdateHandler(hostGameLoopUpdateTimer);
 	}
 	public void sendShootMessage(){ //Butona basýlýnca
-		this.sendMessage(new serverShootMessage());
+		this.sendMessage(new serverShootMessage(plane.shotType));
 		//this.sendMessage(new serverSpritePositionMessage(plane.getX(),plane.getY(),plane.getRotation()));
 	}
 	public void sendPauseMessage() {
@@ -241,6 +258,9 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	public void sendDeathMessage(){
 		enemyScore++;
 		this.sendMessage(new serverDeathMessage());
+	}
+	public void sendPowerUp(Powerup testPup) {//eklemek
+		this.sendMessage(new serverPowerupMessage(testPup));		
 	}
 	
 	public void sendMessage(ServerMessage pServerMessage){
@@ -339,5 +359,6 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
     	}
     	}
     //Discovery ile ilgili alanlarýn bitimi
+	
 	
 }

@@ -37,6 +37,7 @@ public class PlaneEnemy extends AnimatedSprite{
 	public int health=70;
 	private AnimatedSprite explosionSprite;
 	boolean animationFlagForPlaneCrush = true;
+	public int shotType;
 	
 	public PlaneEnemy(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
     {
@@ -82,10 +83,21 @@ public class PlaneEnemy extends AnimatedSprite{
 	        @Override
 	        public void onUpdate(float pSecondsElapsed)
 	        {
+	        	PlaneEnemy.this.body.setTransform(PlaneEnemy.this.getX()/32, PlaneEnemy.this.getY()/32, 
+	            		MathUtils.degToRad(PlaneEnemy.this.getRotation()));
 	        	if(isShot){
-	        		shoot();
-	        		isShot=false;
+	        		if(shotType == 0){
+	        			shoot();
+	        		}
+	        		else if(shotType == 2){
+	        			doubleShot();
+	        		}
+	        		else if(shotType == 3){
+	        			tripleShot();
+	        		}
+	        		isShot = false;
 	        	}
+	            
 	            /*super.onUpdate(pSecondsElapsed);
 	            camera.onUpdate(0.1f);
 	            body.setTransform((body.getPosition().x+50) % 50, body.getPosition().y, body.getAngle());
@@ -126,12 +138,40 @@ public class PlaneEnemy extends AnimatedSprite{
 
 
 	public void shoot() {
-		
-		//shots.get(shotIndex).setTransform(body.getPosition().x+1*(float)Math.cos(body.getAngle()),body.getPosition().y+1*(float)Math.sin(body.getAngle()), body.getAngle());
-		shots.get(shotIndex).setTransform(getX()/32+1*(float)Math.cos(MathUtils.degToRad(getRotation())),getY()/32+1*(float)Math.sin(MathUtils.degToRad(getRotation())), MathUtils.degToRad(getRotation()));
+		float angle = body.getAngle();
+		float x = body.getPosition().x+1*(float)Math.cos(angle);
+		float y = body.getPosition().y+1*(float)Math.sin(angle);
+		shots.get(shotIndex).setTransform(x,y, angle);
 		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
-		shotIndex = (shotIndex+1)% maxShot;
+		shotIndex = (shotIndex+1)% maxShot;		
+		ResourcesManager.getInstance().fireSound.play();
 	}
+	
+	public void shoot(float dx,float dy,float dAngle) {
+		float angle = body.getAngle()+dAngle;
+		float x = body.getPosition().x+dx+1*(float)Math.cos(angle);
+		float y = body.getPosition().y+dy+1*(float)Math.sin(angle);
+		shots.get(shotIndex).setTransform(x,y, angle);
+		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
+		shotIndex = (shotIndex+1)% maxShot;	
+		ResourcesManager.getInstance().fireSound.play();
+	}
+	
+public void alternateShoot(){
+		ResourcesManager.getInstance().alternateFireSound.play();
+	}
+	
+	public void doubleShot(){
+		shoot(shotSprite.getWidth()/32,shotSprite.getHeightScaled()/32,0);
+		shoot(-shotSprite.getWidth()/32,-shotSprite.getHeightScaled()/32,0);
+	}
+	
+	public void tripleShot(){
+		shoot(0,0,0.5f);
+		shoot(0,0,0);
+		shoot(0,0,-0.5f);
+	}
+	
 	
 	public synchronized void transBody(){
 		this.body.setTransform(100,100, 20);

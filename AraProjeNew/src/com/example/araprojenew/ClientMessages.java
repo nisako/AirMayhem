@@ -5,6 +5,8 @@ package com.example.araprojenew;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.client.ClientMessage;
 import org.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
@@ -15,17 +17,21 @@ public class ClientMessages {
 	public static final short CLIENT_MESSAGE_SHOOT = 0;
 	public static final short CLIENT_MESSAGE_POSITION = 1;
 	public static final short CLIENT_MESSAGE_UTIL = 4;
+	public static final short CLIENT_MESSAGE_POWERUP = 6;
 
 	//public static final int	CLIENT_FLAG_COUNT = CLIENT_MESSAGE_SHOOT + 1;
 
 	//TODO hatalý isimlendirme ve sabit deðerlerdeki anlamsýzlýk devam
 	public static class clientShootMessage extends ClientMessage{
 		
-		
+		public int shotType;
 		public clientShootMessage(){
 			
 		}
 		
+		public clientShootMessage(int pShotType){
+			shotType = pShotType;
+		}
 		@Override
 		public short getFlag() {
 			return 0;
@@ -34,12 +40,13 @@ public class ClientMessages {
 		@Override
 		protected void onReadTransmissionData(DataInputStream pDataInputStream)
 				throws IOException {
+			this.shotType = pDataInputStream.readInt();
 		}
 
 		@Override
 		protected void onWriteTransmissionData(
 				DataOutputStream pDataOutputStream) throws IOException {
-			
+			pDataOutputStream.writeInt(this.shotType);
 		}
 		
 	}
@@ -103,5 +110,32 @@ public class ClientMessages {
 		}
 		
 	}
+	
+	/*public static class clientPowerupMessage extends ClientMessage{
+		public int tag;
+		public clientPowerupMessage(){
+			
+		}
+		public clientPowerupMessage(int pTag){
+			tag = pTag;
+		}
+		@Override
+		public short getFlag() {
+			return CLIENT_MESSAGE_POWERUP;
+		}
+
+		@Override
+		protected void onReadTransmissionData(
+				DataInputStream pDataInputStream) throws IOException {
+			tag = pDataInputStream.readInt();
+		}
+
+		@Override
+		protected void onWriteTransmissionData(
+				DataOutputStream pDataOutputStream) throws IOException {
+			pDataOutputStream.writeInt(tag);
+		}
+		
+	}*/
 	
 }

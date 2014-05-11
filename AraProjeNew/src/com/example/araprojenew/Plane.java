@@ -27,7 +27,7 @@ public class Plane extends AnimatedSprite{
 	public Sprite shotSprite;
 	public int shotIndex=0;
 	public int maxShot=35;
-	private int shotType=0; //0 default , 2 double,3 triple
+	public int shotType=0; //0 default , 2 double,3 triple
 	
 	public int maxHealth = 100;
 	public int health = maxHealth;
@@ -35,7 +35,7 @@ public class Plane extends AnimatedSprite{
 	
 	private float gravity;
 
-	boolean animationFlagForPlaneCrush = true;
+	public boolean animationFlagForPlaneCrush = true;
 	
 	
 	public Plane(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
@@ -175,7 +175,6 @@ public void alternateShoot(){
     		getParent().attachChild(explosionSprite);
     		ResourcesManager.getInstance().camera.setChaseEntity(explosionSprite);
     		this.setVisible(false);
-    		//explosionSprite.animate(100,false);
     		explosionSprite.animate(100,false, new IAnimationListener() { 		
 				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
 					ResourcesManager.getInstance().explosionSound.play();
@@ -185,7 +184,6 @@ public void alternateShoot(){
 				public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,int pOldFrameIndex, int pNewFrameIndex) {}
 				
 				public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-
 		    	explosionSprite.detachSelf();
 		    	respawn();	
 				}
@@ -231,13 +229,13 @@ public void alternateShoot(){
 		}
 		else if(pType == powerupType.SHIELD){
 			//TODO bu böyle olmaz yerin dibine de giriyor
-			this.body.setUserData("invul");
+			/*this.body.setUserData("invul");
 			registerUpdateHandler(new TimerHandler(5, new ITimerCallback() {			
 				@Override
 				public void onTimePassed(TimerHandler pTimerHandler) {
 					Plane.this.body.setUserData("invul");
 				}
-			}));
+			}));*/
 		}
 	}
 	
