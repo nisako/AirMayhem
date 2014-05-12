@@ -14,48 +14,46 @@ import org.andengine.util.color.Color;
 
 public class Hud extends HUD {
 	private TiledSprite gasButton, breakButton,shootButton,pauseButton,alternateShootButton;
-	private Camera camera;
 	private Plane plane;
 	private VertexBufferObjectManager vbom;
-	private Rectangle healtBar;
+	private Rectangle healtBar,healtBarEmptyArea,healtBarBorder;
 	
 	public Hud(final Plane plane, Camera camera, VertexBufferObjectManager vbom) {
 		this.plane = plane;
-		this.camera = camera;
+		camera.setHUD(this);
 		this.vbom = vbom;	
 		createButtons();
 		createHealtBar();
 		createScreenTexts();
 		setTouchAreaBindingOnActionDownEnabled(true); 
-		camera.setHUD(this);
 	}
 
 	private void createHealtBar() {
-		healtBar = new Rectangle(0, 0, 101, 30, ResourcesManager.getInstance().vbom);
-		healtBar.setColor(new Color(1, 0, 0));	
+		healtBar = new Rectangle(40, 20, plane.health, 30, ResourcesManager.getInstance().vbom);
+		healtBarBorder = new Rectangle(healtBar.getX()-2, healtBar.getY()-3, healtBar.getWidth()+4, healtBar.getHeight()+5, ResourcesManager.getInstance().vbom);
+		healtBarEmptyArea = new Rectangle(healtBar.getX(), healtBar.getY(), healtBar.getWidth(), healtBar.getHeight(), ResourcesManager.getInstance().vbom);
+		healtBar.setColor(Color.RED);	
+		healtBarBorder.setColor(Color.BLACK);	
+		healtBarEmptyArea.setColor(0.21f,0.25f,0.24f);//Gray
+		attachChild(healtBarBorder);
+		attachChild(healtBarEmptyArea);	
 		attachChild(healtBar);	
 	}
 
 	private void createScreenTexts() {
 		//TODO Burayý temizlemek gerek
-		final Text scoreText = new Text(20, 20, ResourcesManager.getInstance().hudFont, "-Scorepeed:0123456789", vbom);
-		final Text healthText = new Text(525, 20, ResourcesManager.getInstance().hudFont, "-health:0123456789", vbom);
-		scoreText.setColor(Color.RED);
-		healthText.setColor(Color.RED);
-		attachChild(healthText);
-		attachChild(scoreText);
+		//final Text scoreText = new Text(20, 20, ResourcesManager.getInstance().hudFont, "-Scorepeed:0123456789", vbom);
+		//attachChild(healthText);
+		//attachChild(scoreText);
 		TimerHandler scoreUpdateTimer = new TimerHandler(0.1f, true, new ITimerCallback() {
 	        public void onTimePassed(TimerHandler pTimerHandler) {
 	        	//scoreText.setText("S:"+plane.body.getPosition().y);
-	            healthText.setText("Health:"+plane.health);
-	        	scoreText.setText("Speed:"+(int)plane.body.getLinearVelocity().len()+"       Score:"+GameScene.score+"-"+GameScene.enemyScore);
+	        	//scoreText.setText("Speed:"+(int)plane.body.getLinearVelocity().len()+"       Score:"+GameScene.score+"-"+GameScene.enemyScore);
 	            //scoreText.setText("S:"+(int)plane.shots.get(0).getPosition().x+" d:"+(int)plane.shots.get(0).getPosition().y);
 	        	healtBar.setWidth(plane.health);
 	        }
 	    });
 	    registerUpdateHandler(scoreUpdateTimer);
-	    	
-
 	}
 	
 	public void pauseButtonTileChanger(){
