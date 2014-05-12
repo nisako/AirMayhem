@@ -5,11 +5,8 @@ package com.example.araprojenew;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import org.andengine.extension.multiplayer.protocol.adt.message.client.ClientMessage;
-import org.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 
 public class ClientMessages {
 

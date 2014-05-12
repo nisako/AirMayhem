@@ -29,12 +29,11 @@ public class PracticeGameScene extends GameScene{
 		super();
 		createBalloon();
 		createGameLoopUpdate();
-		
 		super.physicsWorld.setContactListener(createContactListener());
 		planeEnemy.setVisible(false);
 		detachChild(planeEnemy);
 	}
- 
+
 	private ContactListener createContactListener()
 	{
 	    ContactListener contactListener = new ContactListener()
@@ -65,26 +64,6 @@ public class PracticeGameScene extends GameScene{
 	            if (x2.getBody().getUserData().equals("ground") && x1.getBody().getUserData().equals("plane"))
 	            {
 	            	plane.crush();
-	            /*	if(animationFlagForPlaneCrush){
-		        		explosionSprite.setPosition(plane);	        			        		
-		        		attachChild(explosionSprite);
-		        		detachChild(plane);
-		        		//explosionSprite.animate(100,false);
-		        		explosionSprite.animate(100,false, new IAnimationListener() { 		
-								public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {}					
-								public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,int pRemainingLoopCount, int pInitialLoopCount) {
-																}								
-								public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,int pOldFrameIndex, int pNewFrameIndex) {}
-								
-								public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-									PracticeGameScene.this.setIgnoreUpdate(true);
-									detachChild(line);
-								}
-							});
-		        	
-		        		animationFlagForPlaneCrush= false;	
-		        		camera.setChaseEntity(null);
-	            	}*/
 	            }
 	        } 
 	        @Override public void endContact(Contact contact){}

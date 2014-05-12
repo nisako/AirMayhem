@@ -160,7 +160,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    	    setChildScene(optionsMenuChildScene);
 	    	    return true;
 	        case MENU_AUDIO:
-	        	//TODO 
+	        	//TODO Audio'larý master bir noktada yönetmek çok olasý gözükmüyor þu anda
 	        	return true;
 	        case MENU_MUSIC:
 	        	if(ResourcesManager.getInstance().music.isPlaying())ResourcesManager.getInstance().music.pause();

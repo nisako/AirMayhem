@@ -17,7 +17,8 @@ import org.andengine.ui.activity.BaseGameActivity;
 import android.view.KeyEvent;
 
 
-/*TODO burdaki onpopulate scene ve ondestroy yeterince kullanýlmýyor
+/*TODO genel olarak scene sonunda yok edilmeyen kaynaklar oluyor, bi araþtýrýlmalý
+ * Pause resume ile ilgili de sorun var.
  */
 public class GameActivity extends BaseGameActivity{
 	

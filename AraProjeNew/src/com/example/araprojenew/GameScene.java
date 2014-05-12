@@ -1,13 +1,10 @@
 package com.example.araprojenew;
 
-
-
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
@@ -97,7 +94,7 @@ public class GameScene extends BaseScene{
 	public void createPhysics()
 	{
 	    physicsWorld = new FixedStepPhysicsWorld(60, new Vector2(0, 0), false);		
-	    //TODO bu kýsým world isimli yeni bir classa taþýnabilir
+	    //bu kýsým world isimli yeni bir classa taþýnabilir
 	    ground = new Rectangle(1, 850 , WORLD_WIDTH, 1, vbom);
 		roof = new Rectangle(0, 0, WORLD_WIDTH, 1, vbom);
 		

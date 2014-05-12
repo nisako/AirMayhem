@@ -6,10 +6,7 @@ import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
-import org.andengine.opengl.util.GLState;
 import org.andengine.util.modifier.IModifier;
-import org.andengine.engine.camera.Camera;
 
 import com.example.araprojenew.SceneManager.SceneType;
 

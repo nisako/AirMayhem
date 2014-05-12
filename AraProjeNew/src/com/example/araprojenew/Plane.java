@@ -14,7 +14,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-/*TODO bu class fazla statik biraz elden geçmesi gerek*/
+//TODO bu class'ýn plane enemy ile birlikte ortak bi atasý olmalýydý
 public class Plane extends AnimatedSprite{
 	public Body body; 
 	private AnimatedSprite explosionSprite;
@@ -173,7 +173,7 @@ public void alternateShoot(){
 			this.getParent().attachChild(explosionSprite);
 		}
 		catch(Exception e){
-			//TODO burdaki try catch yerine current scene bir yerden öðrenilip ona attack edilmeli
+			//TODO burdaki try catch yerine current scene bir yerden öðrenilip ona attach edilmeli
 		}
 		body.setUserData("invul");
 		if( animationFlagForPlaneCrush){

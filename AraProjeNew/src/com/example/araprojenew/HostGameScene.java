@@ -39,7 +39,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	private boolean xBigger;
 	private final int SERVER_PORT = 4444;
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
-	private PowerupManager pupManager;
+	@SuppressWarnings("unused") private PowerupManager pupManager;
 	// Server object
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private SocketServerDiscoveryServer<DefaultDiscoveryData> mSocketServerDiscoveryServer;
