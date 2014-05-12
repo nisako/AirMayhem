@@ -116,8 +116,12 @@ public class Hud extends HUD {
 		};
 		alternateShootButton = new ButtonSprite(100, 375,ResourcesManager.getInstance().button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
+				if (touchEvent.isActionUp()) {
+					alternateShootButton.setCurrentTileIndex(0);
+				}
 				if (touchEvent.isActionDown()) {
 					plane.alternateShoot();
+					alternateShootButton.setCurrentTileIndex(1);
 				}
 				return true;
 			};
