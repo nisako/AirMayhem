@@ -29,6 +29,7 @@ public class PracticeGameScene extends GameScene{
 		super();
 		createBalloon();
 		createGameLoopUpdate();
+		
 		super.physicsWorld.setContactListener(createContactListener());
 		planeEnemy.setVisible(false);
 		detachChild(planeEnemy);
@@ -64,8 +65,6 @@ public class PracticeGameScene extends GameScene{
 	            if (x2.getBody().getUserData().equals("ground") && x1.getBody().getUserData().equals("plane"))
 	            {
 	            	plane.crush();
-	            	
-	        		camera.setChaseEntity(null);
 	            /*	if(animationFlagForPlaneCrush){
 		        		explosionSprite.setPosition(plane);	        			        		
 		        		attachChild(explosionSprite);

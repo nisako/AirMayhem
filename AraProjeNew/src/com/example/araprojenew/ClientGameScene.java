@@ -30,6 +30,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.example.araprojenew.ServerMessages.serverDeathMessage;
+import com.example.araprojenew.ServerMessages.serverPowerupMessage;
 import com.example.araprojenew.ClientMessages.*;
 import com.example.araprojenew.ServerMessages.*;
 
@@ -45,6 +46,7 @@ public class ClientGameScene extends GameScene implements
 	// Client object
 	private float subX,subY;
 	private boolean xBigger;
+	private PowerupManager pupManager;
 	public ClientGameScene() {
 		super();
 		plane.body.setTransform(plane.body.getPosition().x-plane.getWidth()/32, plane.body.getPosition().y, plane.body.getAngle()+(float)Math.PI);
@@ -53,6 +55,7 @@ public class ClientGameScene extends GameScene implements
 		ResourcesManager.getInstance().activity.toastOnUIThread("Server Seeking");
   	    ClientGameScene.this.setIgnoreUpdate(true);
   	   createClientGameLoopUpdate();
+  	    pupManager = new PowerupManager(this, plane,planeEnemy,false);
 		try {
 			initDiscoveryClient();
 		} catch (Throwable e) {
@@ -72,6 +75,8 @@ public class ClientGameScene extends GameScene implements
 				clientShootMessage.class);
 		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_DEATH, serverDeathMessage.class);
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_UTIL, clientShootMessage.class);
+		//this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_POWERUP, clientPowerupMessage.class);
+		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_POWERUP, serverPowerupMessage.class);
 	}
 
 	private void clientStart() {
@@ -114,7 +119,8 @@ public class ClientGameScene extends GameScene implements
 					public void onHandleMessage(
 							ServerConnector<SocketConnection> pServerConnector,
 							IServerMessage pServerMessage) throws IOException {
-
+						serverShootMessage incoming =(serverShootMessage) pServerMessage;
+						planeEnemy.shotType = incoming.shotType;
 						planeEnemy.isShot = true;
 						// sendMessage(new clientPlaneBodyMessage());
 						//ResourcesManager.getInstance().activity.toastOnUIThread("shot message arrived");
@@ -141,7 +147,21 @@ public class ClientGameScene extends GameScene implements
 			}
 		
 			
-		});		
+		});
+		
+		mServerConnector.registerServerMessage(ServerMessages.SERVER_MESSAGE_POWERUP,serverPowerupMessage.class,new IServerMessageHandler<SocketConnection>() {
+
+			@Override
+			public void onHandleMessage(
+					ServerConnector<SocketConnection> pServerConnector,
+					IServerMessage pServerMessage) throws IOException {
+				serverPowerupMessage incoming = (serverPowerupMessage) pServerMessage;
+				pupManager.spawnPowerUp(incoming.x,incoming.y);
+				
+			}
+		
+			
+		});
 
 		mServerConnector.getConnection().start();
 		sendMessage(new clientSpritePositionMesseage(plane.getX(), plane.getY(),plane.getRotation()));
@@ -235,7 +255,7 @@ public class ClientGameScene extends GameScene implements
 	    registerUpdateHandler(clientGameLoopUpdateTimer);
 	}
 	public void sendShootMessage() {
-		sendMessage(new clientShootMessage());
+		sendMessage(new clientShootMessage(plane.shotType));
 	}
 	public void sendPauseMessage() {
 		super.pause();
@@ -245,6 +265,9 @@ public class ClientGameScene extends GameScene implements
 		enemyScore++;
 		sendMessage(new clientUtilMessage());
 	}
+	/*public void sendPowerUp(Powerup testPup) {//remove msg
+		this.sendMessage(new clientPowerupMessage(testPup.getTag()));		
+	}*/
 
 	@Override
 	public void onStarted(ServerConnector<SocketConnection> pServerConnector) {

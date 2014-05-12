@@ -27,7 +27,7 @@ public class Plane extends AnimatedSprite{
 	public Sprite shotSprite;
 	public int shotIndex=0;
 	public int maxShot=35;
-	private int shotType=0; //0 default , 2 double,3 triple
+	public int shotType=0; //0 default , 2 double,3 triple
 	
 	public int maxHealth = 100;
 	public int health = maxHealth;
@@ -35,7 +35,7 @@ public class Plane extends AnimatedSprite{
 	
 	private float gravity;
 
-	boolean animationFlagForPlaneCrush = true;
+	public boolean animationFlagForPlaneCrush = true;
 	
 	
 	public Plane(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
@@ -130,8 +130,8 @@ public class Plane extends AnimatedSprite{
 
 	public void shoot() {
 		float angle = body.getAngle();
-		float x = body.getPosition().x+1*(float)Math.cos(angle);
-		float y = body.getPosition().y+1*(float)Math.sin(angle);
+		float x = body.getPosition().x+(float)Math.cos(angle);
+		float y = body.getPosition().y+(float)Math.sin(angle);
 		shots.get(shotIndex).setTransform(x,y, angle);
 		shots.get(shotIndex).setLinearVelocity(35*(float)Math.cos(shots.get(shotIndex).getAngle()), 35*(float)Math.sin(shots.get(shotIndex).getAngle()));
 		shotIndex = (shotIndex+1)% maxShot;		
@@ -169,13 +169,18 @@ public void alternateShoot(){
 	}
 	
 	public void crush(){
+		try{
+			this.getParent().attachChild(explosionSprite);
+		}
+		catch(Exception e){
+			//TODO burdaki try catch yerine current scene bir yerden öðrenilip ona attack edilmeli
+		}
 		body.setUserData("invul");
 		if( animationFlagForPlaneCrush){
     		explosionSprite.setPosition(this);
-    		getParent().attachChild(explosionSprite);
+    		explosionSprite.setVisible(true);
     		ResourcesManager.getInstance().camera.setChaseEntity(explosionSprite);
     		this.setVisible(false);
-    		//explosionSprite.animate(100,false);
     		explosionSprite.animate(100,false, new IAnimationListener() { 		
 				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
 					ResourcesManager.getInstance().explosionSound.play();
@@ -185,8 +190,7 @@ public void alternateShoot(){
 				public void onAnimationFrameChanged(AnimatedSprite pAnimatedSprite,int pOldFrameIndex, int pNewFrameIndex) {}
 				
 				public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
-
-		    	explosionSprite.detachSelf();
+		    	explosionSprite.setVisible(false);
 		    	respawn();	
 				}
 			});
@@ -226,16 +230,6 @@ public void alternateShoot(){
 				@Override
 				public void onTimePassed(TimerHandler pTimerHandler) {
 					Plane.this.shotType = 0;
-				}
-			}));
-		}
-		else if(pType == powerupType.SHIELD){
-			//TODO bu böyle olmaz yerin dibine de giriyor
-			this.body.setUserData("invul");
-			registerUpdateHandler(new TimerHandler(5, new ITimerCallback() {			
-				@Override
-				public void onTimePassed(TimerHandler pTimerHandler) {
-					Plane.this.body.setUserData("invul");
 				}
 			}));
 		}

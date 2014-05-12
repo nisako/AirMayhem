@@ -20,29 +20,34 @@ public class ServerMessages {
 	public static final short SERVER_MESSAGE_SHOOT = 2;//ClientMessages.CLIENT_FLAG_COUNT;
 	public static final short SERVER_MESSAGE_TEST = 3;
 	public static final short SERVER_MESSAGE_DEATH = 5;//TODO rename this
+	public static final short SERVER_MESSAGE_POWERUP = 7;
 	
 public static class serverShootMessage extends ServerMessage{
 
-		public serverShootMessage(){
-			
-		}
+	public int shotType;
+	public serverShootMessage(){
 		
-		
-		@Override
-		public short getFlag() {
-			return 2;
-		}
+	}
+	
+	public serverShootMessage(int pShotType){
+		shotType = pShotType;
+	}
+	@Override
+	public short getFlag() {
+		return 2;
+	}
 
-		@Override
-		protected void onReadTransmissionData(DataInputStream pDataInputStream)
-				throws IOException {
-		}
+	@Override
+	protected void onReadTransmissionData(DataInputStream pDataInputStream)
+			throws IOException {
+		this.shotType = pDataInputStream.readInt();
+	}
 
-		@Override
-		protected void onWriteTransmissionData(
-				DataOutputStream pDataOutputStream) throws IOException {
-			
-		}
+	@Override
+	protected void onWriteTransmissionData(
+			DataOutputStream pDataOutputStream) throws IOException {
+		pDataOutputStream.writeInt(this.shotType);
+	}
 		
 	}
 	public static class serverSpritePositionMessage extends ServerMessage{
@@ -106,5 +111,33 @@ public static class serverShootMessage extends ServerMessage{
 			}
 			
 		}
+		public static class serverPowerupMessage extends ServerMessage{
+			float x,y;
+			public serverPowerupMessage(){
+				
+			}
+			public serverPowerupMessage(Powerup pPup){
+				x = pPup.getX();
+				y = pPup.getY();
+			}
+			@Override
+			public short getFlag() {
+				return SERVER_MESSAGE_POWERUP;
+			}
 
+			@Override
+			protected void onReadTransmissionData(
+					DataInputStream pDataInputStream) throws IOException {
+				x = pDataInputStream.readFloat();
+				y = pDataInputStream.readFloat();
+			}
+
+			@Override
+			protected void onWriteTransmissionData(
+					DataOutputStream pDataOutputStream) throws IOException {
+				pDataOutputStream.writeFloat(x);
+				pDataOutputStream.writeFloat(y);
+			}
+			
+		}
 }
