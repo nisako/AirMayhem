@@ -145,7 +145,8 @@ public class ResourcesManager {
     	{
     	    e.printStackTrace();
     	}
-    	getInstance().music.play();
+    	if(SharedPreferencesManager.getInstance().getMusicEnabled())
+    		getInstance().music.play();
     	music.setLooping(true);
     }
 

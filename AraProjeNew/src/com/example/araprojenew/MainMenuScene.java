@@ -163,8 +163,14 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        	//TODO Audio'larý master bir noktada yönetmek çok olasý gözükmüyor þu anda
 	        	return true;
 	        case MENU_MUSIC:
-	        	if(ResourcesManager.getInstance().music.isPlaying())ResourcesManager.getInstance().music.pause();
-	        	else ResourcesManager.getInstance().music.play();
+	        	if(ResourcesManager.getInstance().music.isPlaying()){
+	        		ResourcesManager.getInstance().music.pause();
+	        		SharedPreferencesManager.getInstance().setMusicEnabled(false);
+	        	}
+	        	else {
+	        		ResourcesManager.getInstance().music.play();
+	        		SharedPreferencesManager.getInstance().setMusicEnabled(true);
+	        	}
 	        	return true;
 	        default:
 	            return false;

@@ -101,7 +101,8 @@ public class GameActivity extends BaseGameActivity{
 	    System.gc();
 	    if (this.isGameLoaded()){ 	
 	    	 try{
-	    		 ResourcesManager.getInstance().music.resume();
+	    		 if(SharedPreferencesManager.getInstance().getMusicEnabled())
+	    			 ResourcesManager.getInstance().music.resume();
 	 	        }
 	 	        catch(Exception e){
 	 	        	//resume yoksa biþi yapma
