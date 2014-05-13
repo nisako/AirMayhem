@@ -86,7 +86,7 @@ public class GameActivity extends BaseGameActivity{
 	    if (this.isGameLoaded()){
 	        try{
 	        ResourcesManager.getInstance().music.pause();
-	        ((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
+	        ((GameScene) SceneManager.getInstance().getCurrentScene()).activePuaseChildScene();
 	        }
 	        catch(Exception e){
 	        	//pause yoksa biþi yapma
