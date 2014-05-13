@@ -103,6 +103,7 @@ public class Plane extends AnimatedSprite{
 	            if(gravity>0.04) gravity = 0.04f;
 	            body.setTransform((body.getPosition().x+50) % 50, body.getPosition().y+gravity, body.getAngle());
 	            if(body.getLinearVelocity().len() > 4){
+	            	//TODO bura uçak yavaþken yavaþ dönsün hýzlýyken hýzlý þeklinde olabilir
 	            	body.setAngularVelocity(ResourcesManager.getInstance().sensor2/2);
 	            }
 	            body.setLinearVelocity((float)(body.getLinearVelocity().len()*Math.cos(body.getAngle())), (float)(body.getLinearVelocity().len()*Math.sin(body.getAngle())));
@@ -169,6 +170,7 @@ public void alternateShoot(){
 	}
 	
 	public void crush(){
+		this.shotType = -1;
 		try{
 			this.getParent().attachChild(explosionSprite);
 		}
@@ -199,6 +201,7 @@ public void alternateShoot(){
 	}
 	
 	public void respawn(){	
+		this.shotType = 0;
 		this.setVisible(true);
 		this.body.setTransform(1,1,0);
 		health = 100;
