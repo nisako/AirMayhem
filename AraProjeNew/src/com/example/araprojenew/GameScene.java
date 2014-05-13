@@ -14,6 +14,8 @@ import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.opengl.util.GLState;
+import org.andengine.engine.camera.*;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -107,7 +109,14 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	private void createBackground()
 	{
 		fieldSprite = new Sprite(0, 0, ResourcesManager.getInstance().world_region, vbom);
-		backgroundSprite = new Sprite(0, 0, ResourcesManager.getInstance().bacground_region, vbom);
+		backgroundSprite = new Sprite(0, 0, ResourcesManager.getInstance().bacground_region, vbom){
+			@Override
+			protected void preDraw(final GLState pGLState, final Camera pCamera)
+		    {
+		        super.preDraw(pGLState, pCamera);
+		        pGLState.enableDither();
+		    }
+		};//Geçiþleri yumuþatýyor
 		ParallaxBackground background = new ParallaxBackground(0, 0, 0);		
 		background.attachParallaxEntity(new ParallaxEntity(0, backgroundSprite));
 		setBackground(background);
