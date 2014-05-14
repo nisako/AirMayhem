@@ -14,6 +14,7 @@ import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.andengine.opengl.util.GLState;
 import org.andengine.engine.camera.*;
 
@@ -35,7 +36,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected Boolean animationFlagForPlaneCrush = true;
 	private Boolean isPaused=false;
 	
-	private Body groundBody,roofBody;
+	private Body groundBody;
 	
 	private Sprite fieldSprite;
 	private Sprite backgroundSprite;
@@ -60,6 +61,11 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    //engine.registerUpdateHandler(new FPSLogger());
 	}
 	
+	final Vector2[] vertices = {
+			new Vector2(0/32f,400/32f ),
+			new Vector2(400/32f,400/32f),
+			new Vector2(0/32f,400/32f),
+	};
 
 	private void createPauseChildScene() {
 		pauseChildScene = new MenuScene(camera);
@@ -137,12 +143,10 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    //bu kýsým world isimli yeni bir classa taþýnabilir
 	    ground = new Rectangle(1, 850 , WORLD_WIDTH, 1, vbom);
 		roof = new Rectangle(0, 0, WORLD_WIDTH, 1, vbom);
-		
-		roofBody = PhysicsFactory.createBoxBody(physicsWorld, roof,BodyType.StaticBody , PhysicsFactory.createFixtureDef(0, 0, 0));		
+			
 		groundBody = PhysicsFactory.createBoxBody(physicsWorld, ground,BodyType.StaticBody , PhysicsFactory.createFixtureDef(0, 0, 0));
+		//groundBody = PhysicsFactory.createPolygonBody(physicsWorld, fieldSprite, vertices, BodyType.StaticBody, PhysicsFactory.createFixtureDef(0, 0, 0));
 		groundBody.setUserData("ground");
-		roofBody.setUserData("roof");
-		physicsWorld.registerPhysicsConnector(new PhysicsConnector(roof, roofBody,true , true));
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(ground, groundBody,true , true));
 		attachChild(ground);
 		attachChild(roof);
