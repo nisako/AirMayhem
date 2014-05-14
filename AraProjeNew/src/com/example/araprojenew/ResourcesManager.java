@@ -45,6 +45,8 @@ public class ResourcesManager {
     
     public ITiledTextureRegion button_region;
     public ITiledTextureRegion pause_button_region;
+    public ITextureRegion resume_button_region;
+    public ITextureRegion back_button_region;
     
     public ITextureRegion play_region;
     public ITextureRegion options_region;
@@ -56,6 +58,7 @@ public class ResourcesManager {
     public ITextureRegion join_region;
     public ITextureRegion splash1_region;
     public ITextureRegion splash2_region;
+  
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
     private BuildableBitmapTextureAtlas worldTextureAtlas;
@@ -156,6 +159,8 @@ public class ResourcesManager {
         gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2000, 2000, TextureOptions.DEFAULT);
         button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "button1.png", 2, 1);
         pause_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "pause.png", 2, 1);
+        resume_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "resume.png");
+        back_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "menu.png");
         world_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "field.png");
         plane_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "planex.png",6,1);
         planeEnemy_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "enemyPlanex.png",4,1);

@@ -64,8 +64,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	private void createPauseChildScene() {
 		pauseChildScene = new MenuScene(camera);
 		//TODO grafikler yok
-		final IMenuItem resumeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RESUME, resourcesManager.play_region, vbom), 1.2f, 1);
-	    final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, resourcesManager.options_region, vbom), 1.2f, 1);
+		final IMenuItem resumeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RESUME, resourcesManager.resume_button_region, vbom), 1.2f, 1);
+	    final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, resourcesManager.back_button_region, vbom), 1.2f, 1);
 	    
 	    pauseChildScene.addMenuItem(resumeMenuItem);
 	    pauseChildScene.addMenuItem(quitMenuItem);
@@ -73,8 +73,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    pauseChildScene.buildAnimations();
 	    pauseChildScene.setBackgroundEnabled(false);
 	    
-	    resumeMenuItem.setPosition(200, 150);
-	    quitMenuItem.setPosition(200, + 260);
+	    resumeMenuItem.setPosition(250, 125);
+	    quitMenuItem.setPosition(250, + 275);
 	    
 	    pauseChildScene.setOnMenuItemClickListener(this);
 		
