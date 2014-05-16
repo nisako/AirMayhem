@@ -138,8 +138,7 @@ public class Hud extends HUD {
 				ResourcesManager.getInstance().pause_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionDown()) {
-					pauseButtonTileChanger();
-					((GameScene) SceneManager.getInstance().getCurrentScene()).activePuaseChildScene();
+					((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 				}
 				return true;
 			};

@@ -139,9 +139,18 @@ public class ClientGameScene extends GameScene implements
 					score++;
 					planeEnemy.crush();
 				}
-				else if(incoming.type == 1){ //pause
-					ClientGameScene.this.setIgnoreUpdate(true);
+				else if(incoming.type == 1){ //pause et oyununu
 					ClientGameScene.super.pause();
+				}
+				else if(incoming.type == 2){ //resume edebilir misin oyununu
+					if(ResourcesManager.getInstance().activity.isActive){
+						ClientGameScene.super.resume();
+						sendMessage(new clientUtilMessage(3));
+					}
+					
+				}
+				else if(incoming.type == 3){ //ben resume ettim sen de edebilirsin
+					ClientGameScene.super.resume();
 				}
 				
 			}
@@ -257,9 +266,13 @@ public class ClientGameScene extends GameScene implements
 	public void sendShootMessage() {
 		sendMessage(new clientShootMessage(plane.shotType));
 	}
-	public void sendPauseMessage() {
-		super.pause();
-		sendMessage(new clientUtilMessage(1));	
+	@Override
+	public void sendPauseMessage(boolean b) {	
+		if(b){
+			this.sendMessage(new clientUtilMessage(1));
+			super.pause();
+		}		
+		else this.sendMessage(new clientUtilMessage(2));
 	}
 	public void sendDeathMessage(){
 		enemyScore++;
@@ -293,7 +306,12 @@ public class ClientGameScene extends GameScene implements
 		if(mServerConnector != null)mServerConnector.terminate();
 		if(mSocketServerDiscoveryClient != null)mSocketServerDiscoveryClient.terminate();
 	}
-	
+	public void pause(){
+		sendPauseMessage(true);
+	}
+	public void resume(){
+		sendPauseMessage(false);
+	}
 	//Discovery alanlarý baslangýc
     private void initDiscoveryClient() throws Throwable {
         final byte[] broadcastIPAddress = WifiUtils.getBroadcastIPAddressRaw(activity);

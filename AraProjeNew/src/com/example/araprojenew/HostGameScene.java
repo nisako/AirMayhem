@@ -133,8 +133,17 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 									score++;
 									planeEnemy.crush();
 								}
-								else if(incoming.type == 1){ //pause
+								else if(incoming.type == 1){ //pause et oyununu
 									HostGameScene.super.pause();
+								}
+								else if(incoming.type == 2){ //resume edebilir misin oyununu
+									if(ResourcesManager.getInstance().activity.isActive){
+									HostGameScene.super.resume();
+									sendMessage(new serverDeathMessage(3));
+									}
+								}
+								else if(incoming.type == 3){ //ben resume ettim sen de edebilirsin
+									HostGameScene.super.resume();
 								}
 								
 							}	
@@ -251,9 +260,13 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		this.sendMessage(new serverShootMessage(plane.shotType));
 		//this.sendMessage(new serverSpritePositionMessage(plane.getX(),plane.getY(),plane.getRotation()));
 	}
-	public void sendPauseMessage() {
-		super.pause();
-		this.sendMessage(new serverDeathMessage(1));		
+	@Override
+	public void sendPauseMessage(boolean b) {
+		if(b){
+			this.sendMessage(new serverDeathMessage(1));
+			super.pause();
+		}	
+		else this.sendMessage(new serverDeathMessage(2));	
 	}
 	public void sendDeathMessage(){
 		enemyScore++;
@@ -271,7 +284,12 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		}
 	}
 	
-	
+	public void pause(){
+		sendPauseMessage(true);
+	}
+	public void resume(){
+		sendPauseMessage(false);
+	}
 	public void terminate(){
 		if(this.mSocketServer != null)
 		this.mSocketServer.terminate();

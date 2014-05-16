@@ -24,6 +24,7 @@ public class GameActivity extends BaseGameActivity{
 	
 	private BoundCamera camera;
 	@SuppressWarnings("unused") private ResourcesManager resourcesManager;
+	public boolean isActive=true;
 	
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) 
@@ -83,10 +84,11 @@ public class GameActivity extends BaseGameActivity{
 	protected void onPause()
 	{
 	    super.onPause();
+	    isActive = false;
 	    if (this.isGameLoaded()){
 	        try{
 	        ResourcesManager.getInstance().music.pause();
-	        ((GameScene) SceneManager.getInstance().getCurrentScene()).activePuaseChildScene();
+	        ((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 	        }
 	        catch(Exception e){
 	        	//pause yoksa biþi yapma
@@ -98,6 +100,7 @@ public class GameActivity extends BaseGameActivity{
 	protected synchronized void onResume()
 	{
 	    super.onResume();
+	    isActive = true;
 	    System.gc();
 	    if (this.isGameLoaded()){ 	
 	    	 try{

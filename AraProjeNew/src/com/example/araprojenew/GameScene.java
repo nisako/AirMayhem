@@ -1,6 +1,7 @@
 package com.example.araprojenew;
 
 import org.andengine.entity.primitive.Rectangle;
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.ParallaxBackground;
 import org.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
 import org.andengine.entity.scene.menu.MenuScene;
@@ -18,6 +19,9 @@ import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.andengine.opengl.util.GLState;
 import org.andengine.engine.camera.*;
 
+import android.content.Context;
+import android.os.PowerManager;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -34,7 +38,6 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected Sprite arrowSprite;
 	protected AnimatedSprite explosionSprite;
 	protected Boolean animationFlagForPlaneCrush = true;
-	private Boolean isPaused=false;
 	
 	private Body groundBody;
 	
@@ -46,11 +49,12 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	public Plane plane;
 	public PlaneEnemy planeEnemy;
 	public static int score,enemyScore;
-	
+	protected boolean isMultipalyerPause=false;
 	protected Rectangle left,right,ground,roof;
 	
 	private MenuScene pauseChildScene;
-	
+	public PowerManager pm = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
+
 	@Override
 	public void createScene() {
 		createPhysics();
@@ -69,7 +73,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 
 	private void createPauseChildScene() {
 		pauseChildScene = new MenuScene(camera);
-		//TODO grafikler yok
+		
 		final IMenuItem resumeMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_RESUME, resourcesManager.resume_button_region, vbom), 1.2f, 1);
 	    final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, resourcesManager.back_button_region, vbom), 1.2f, 1);
 	    
@@ -80,7 +84,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    pauseChildScene.setBackgroundEnabled(false);
 	    
 	    resumeMenuItem.setPosition(250, 125);
-	    quitMenuItem.setPosition(250, + 275);
+	    quitMenuItem.setPosition(250,  275);
 	    
 	    pauseChildScene.setOnMenuItemClickListener(this);
 		
@@ -90,7 +94,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	@Override
 	public void onBackKeyPressed()
 	{
-		activePuaseChildScene();
+		((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 	}
 	
 	public void activePuaseChildScene() {
@@ -176,17 +180,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	}
 	
 	//TODO burda biþiler çok fena yanlýþ
-	public void pause(){	
-		isPaused = !isPaused;
-		gameHUD.pauseButtonTileChanger();
-		setIgnoreUpdate(isPaused);
-	}
 	
-	public void resume(){
-		isPaused = false;
-		gameHUD.setPauseButtonTile(0);
-		setIgnoreUpdate(false);
-	}
 
 
 	@Override
@@ -195,9 +189,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 		switch(pMenuItem.getID())
         {
         case MENU_RESUME:
-        	//TODO bu 3 satýr metod olmalý
-        	resume();
-        	pauseChildScene.closeMenuScene();
+        	((GameScene) SceneManager.getInstance().getCurrentScene()).resume();
         	return true;
         case MENU_QUIT:
         	SceneManager.getInstance().loadMenuScene(engine);
@@ -206,4 +198,18 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
             return false;
         }
 	}
+
+	public void pause() {
+		activePuaseChildScene();
+	}
+	
+	public void resume(){
+		pauseChildScene.closeMenuScene();
+	}
+
+
+	public void sendPauseMessage(boolean b) {
+		//oyun multi deðilse buna gerek yok, multiler için override edilir	
+	}
+
 }
