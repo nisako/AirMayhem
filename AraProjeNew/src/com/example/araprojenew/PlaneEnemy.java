@@ -83,7 +83,7 @@ public class PlaneEnemy extends AnimatedSprite{
 	        @Override
 	        public void onUpdate(float pSecondsElapsed)
 	        {
-	        	PlaneEnemy.this.body.setTransform(PlaneEnemy.this.getX()/32, PlaneEnemy.this.getY()/32, 
+	        	PlaneEnemy.this.body.setTransform((PlaneEnemy.this.getX()+PlaneEnemy.this.getWidth()/2)/32f, (PlaneEnemy.this.getY()+PlaneEnemy.this.getHeight()/2)/32f, 
 	            		MathUtils.degToRad(PlaneEnemy.this.getRotation()));
 	        	if(isShot){
 	        		if(shotType == 0){
@@ -171,11 +171,7 @@ public void alternateShoot(){
 		shoot(0,0,0);
 		shoot(0,0,-0.5f);
 	}
-	
-	
-	public synchronized void transBody(){
-		this.body.setTransform(100,100, 20);
-	}
+
 	public void crush(){
 		try{
 			this.getParent().attachChild(explosionSprite);

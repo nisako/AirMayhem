@@ -53,7 +53,6 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected Rectangle left,right,ground,roof;
 	
 	private MenuScene pauseChildScene;
-	public PowerManager pm = (PowerManager) activity.getSystemService(Context.POWER_SERVICE);
 
 	@Override
 	public void createScene() {
