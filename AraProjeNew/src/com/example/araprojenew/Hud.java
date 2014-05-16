@@ -6,6 +6,7 @@ import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
@@ -14,6 +15,7 @@ import org.andengine.util.color.Color;
 
 public class Hud extends HUD {
 	private TiledSprite gasButton, breakButton,shootButton,pauseButton,alternateShootButton;
+	private Sprite pennant1,pennant2;
 	private Plane plane;
 	private VertexBufferObjectManager vbom;
 	private Rectangle healtBar,healtBarEmptyArea,healtBarBorder;
@@ -24,7 +26,7 @@ public class Hud extends HUD {
 		this.vbom = vbom;	
 		createButtons();
 		createHealtBar();
-		createScreenTexts();
+		createHudObjects();
 		setTouchAreaBindingOnActionDownEnabled(true); 
 	}
 
@@ -40,16 +42,24 @@ public class Hud extends HUD {
 		attachChild(healtBar);	
 	}
 
-	private void createScreenTexts() {
+	private void createHudObjects() {
+		pennant1 = new Sprite(360, 0, ResourcesManager.getInstance().pennant1_region, vbom);
+		pennant2 = new Sprite(360+50, 0, ResourcesManager.getInstance().pennant2_region, vbom);
 		//TODO Burayý temizlemek gerek
-		//final Text scoreText = new Text(20, 20, ResourcesManager.getInstance().hudFont, "-Scorepeed:0123456789", vbom);
-		//attachChild(healthText);
-		//attachChild(scoreText);
+		final Text scoreText = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
+		final Text scoreText2 = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
+		scoreText.setColor(Color.YELLOW);
+		scoreText2.setColor(Color.YELLOW);
+		scoreText.setPosition(pennant1.getX()+pennant1.getWidth()/2-5,pennant1.getY()+pennant1.getHeight()/2-15);
+		scoreText2.setPosition(pennant2.getX()+pennant2.getWidth()/2-5,pennant2.getY()+pennant2.getHeight()/2-15);
+		attachChild(pennant1);
+		attachChild(pennant2);
+		attachChild(scoreText);
+		attachChild(scoreText2);		
 		TimerHandler scoreUpdateTimer = new TimerHandler(0.1f, true, new ITimerCallback() {
 	        public void onTimePassed(TimerHandler pTimerHandler) {
-	        	//scoreText.setText("S:"+plane.body.getPosition().y);
-	        	//scoreText.setText("Speed:"+(int)plane.body.getLinearVelocity().len()+"       Score:"+GameScene.score+"-"+GameScene.enemyScore);
-	            //scoreText.setText("S:"+(int)plane.shots.get(0).getPosition().x+" d:"+(int)plane.shots.get(0).getPosition().y);
+	        	scoreText.setText(GameScene.score+"");
+	        	scoreText2.setText(GameScene.enemyScore+"");	        		           
 	        	healtBar.setWidth(plane.health);
 	        }
 	    });

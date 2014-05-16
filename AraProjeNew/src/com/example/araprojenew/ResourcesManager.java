@@ -58,6 +58,8 @@ public class ResourcesManager {
     public ITextureRegion join_region;
     public ITextureRegion splash1_region;
     public ITextureRegion splash2_region;
+    public ITextureRegion pennant1_region;
+    public ITextureRegion pennant2_region;
   
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
@@ -170,6 +172,8 @@ public class ResourcesManager {
         balloon_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "balloon_tiled.png", 6, 1);
         arrow_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "arrow.png");
         powerup_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "powerup.png");
+        pennant1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant1.png");
+        pennant2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant2.png");
         try 
         {
             this.gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
@@ -187,11 +191,11 @@ public class ResourcesManager {
     	FontFactory.setAssetBasePath("font/");
         final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-        hudFont = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 28, true, Color.WHITE, 2, Color.BLACK);
+        hudFont = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 28, true, Color.WHITE, 2, Color.WHITE);
         hudFont.load();
         //unload yazýlmadý
-        hudFont = FontFactory.create(activity.getFontManager(),activity.getTextureManager(), 256, 256,Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 28);
-        hudFont.load();
+        //hudFont = FontFactory.create(activity.getFontManager(),activity.getTextureManager(), 256, 256,Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 28);
+       // hudFont.load();
 
     }
     
@@ -230,7 +234,7 @@ public class ResourcesManager {
         FontFactory.setAssetBasePath("font/");
         final ITexture mainFontTexture = new BitmapTextureAtlas(activity.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-        splashScreenFont = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 50, true, Color.WHITE, 2, Color.BLACK);
+        splashScreenFont = FontFactory.createStrokeFromAsset(activity.getFontManager(), mainFontTexture, activity.getAssets(), "font.ttf", 50, true, Color.WHITE, 2, Color.WHITE);
         splashScreenFont.load();
     }
     
