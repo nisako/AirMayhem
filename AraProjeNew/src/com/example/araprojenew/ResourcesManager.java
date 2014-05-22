@@ -52,6 +52,9 @@ public class ResourcesManager {
     public ITextureRegion options_region;
     public ITextureRegion music_region;
     public ITextureRegion audio_region;
+    public ITextureRegion about_region;
+    public ITextureRegion credits_region;
+    public ITextureRegion howtoplay_region;
     public ITiledTextureRegion explosion_region;
     public ITextureRegion practice_region;
     public ITextureRegion host_region;
@@ -115,7 +118,7 @@ public class ResourcesManager {
 	private void loadMenuGraphics()
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.DEFAULT);
+    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 3000, 3000, TextureOptions.DEFAULT);
     	play_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "play.png");
     	options_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "options.png");
     	audio_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "audio.png");
@@ -123,7 +126,10 @@ public class ResourcesManager {
     	practice_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity , "practice.png");
         host_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity , "host.png");
         join_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity , "join.png");
-        // bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background.png");
+        about_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "about.png");
+        howtoplay_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "howtoplay.png");
+        credits_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "credits.png");
+        bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "background.png");
         
     	try 
     	{

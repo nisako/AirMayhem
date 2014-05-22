@@ -1,17 +1,20 @@
 package com.example.araprojenew;
 
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
+import org.andengine.entity.sprite.Sprite;
 
 import com.example.araprojenew.SceneManager.SceneType;
 
 
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener {
-	private MenuScene menuChildScene,optionsMenuChildScene,playMenuChildScene;
+	private MenuScene menuChildScene,optionsMenuChildScene,playMenuChildScene,aboutMenuChildScene,howMenuChildScene;
+	private final int ITEM_WIDTH = 125;
 	private final int MENU_PLAY = 0;
 	private final int MENU_OPTIONS = 1;
 	private final int MENU_AUDIO = 2;
@@ -19,6 +22,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	private final int MENU_PRACTICE = 4;
 	private final int MENU_HOST = 5;
 	private final int MENU_JOIN = 6;
+	private final int MENU_ABOUT = 7;
+	private final int MENU_HOW = 8;
 	
 	
 	@Override
@@ -27,6 +32,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		createMenuChildScene();
 		createOptionsMenuChildScene();
 		createPlayMenuChildScene();
+		createAboutMenuChildScene();
+		createHowMenuChildScene();
 	}
 	
 	
@@ -36,6 +43,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		//TODO zaten menüde ise back'e bastýðýnda çýkabilir
 		if(getChildScene()==optionsMenuChildScene)setChildScene(menuChildScene);
 		else if(getChildScene()==playMenuChildScene)setChildScene(menuChildScene);
+		else if(getChildScene()==aboutMenuChildScene)setChildScene(menuChildScene);
+		else if(getChildScene()==howMenuChildScene)setChildScene(menuChildScene);
 		
 	}
 
@@ -48,10 +57,11 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public void disposeScene() {
 		// TODO boþ dispose gene
 	}
-		
+	
+	//setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 	private void createBackground()
 	{
-	    setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+	    setBackground(new SpriteBackground(new Sprite(0, 0, ResourcesManager.getInstance().bacground_region, vbom)));
 	}
 	
 	private void createMenuChildScene()
@@ -61,15 +71,23 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    
 	    final IMenuItem playMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_PLAY, resourcesManager.play_region, vbom), 1.2f, 1);
 	    final IMenuItem optionsMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_OPTIONS, resourcesManager.options_region, vbom), 1.2f, 1);
+	    final IMenuItem aboutMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_ABOUT, resourcesManager.about_region, vbom), 1.2f, 1);
+	    final IMenuItem howMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_HOW, resourcesManager.howtoplay_region, vbom), 1.2f, 1);
+	    
 	    
 	    menuChildScene.addMenuItem(playMenuItem);
 	    menuChildScene.addMenuItem(optionsMenuItem);
+	    menuChildScene.addMenuItem(aboutMenuItem);
+	    menuChildScene.addMenuItem(howMenuItem);
 	    
 	    menuChildScene.buildAnimations();
 	    menuChildScene.setBackgroundEnabled(false);
 	    
-	    playMenuItem.setPosition(-200, -90);
-	    optionsMenuItem.setPosition(-200, + 20);
+	    playMenuItem.setPosition(ITEM_WIDTH, -200);
+	    optionsMenuItem.setPosition(ITEM_WIDTH, -100);
+	    howMenuItem.setPosition(ITEM_WIDTH, 0);
+	    aboutMenuItem.setPosition(ITEM_WIDTH, +100);
+	    
 	    
 	    menuChildScene.setOnMenuItemClickListener(this);
 	    
@@ -91,9 +109,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		    playMenuChildScene.buildAnimations();
 		    playMenuChildScene.setBackgroundEnabled(false);
 		    
-		    practiceMenuItem.setPosition(-150, -170);
-		    hostMenuItem.setPosition(-150, - 50);
-		    joinMenuItem.setPosition(-150, +70);
+		    practiceMenuItem.setPosition(ITEM_WIDTH, -170);
+		    hostMenuItem.setPosition(ITEM_WIDTH, - 50);
+		    joinMenuItem.setPosition(ITEM_WIDTH, +70);
 		    
 		    playMenuChildScene.setOnMenuItemClickListener(this);
 	}
@@ -111,10 +129,30 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    optionsMenuChildScene.buildAnimations();
 	    optionsMenuChildScene.setBackgroundEnabled(false);
 	    
-	    audioMenuItem.setPosition(-200, -90);
-	    musicMenuItem.setPosition(-200, + 20);
+	    audioMenuItem.setPosition(ITEM_WIDTH, -90);
+	    musicMenuItem.setPosition(ITEM_WIDTH, + 20);
 	    
 	    optionsMenuChildScene.setOnMenuItemClickListener(this);
+		
+	}
+	
+	public void createAboutMenuChildScene(){
+		aboutMenuChildScene = new MenuScene(camera);
+		aboutMenuChildScene.setPosition(400, 240);
+		
+		final IMenuItem creditsMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(99, resourcesManager.credits_region, vbom), 1, 1);
+		aboutMenuChildScene.addMenuItem(creditsMenuItem);
+		aboutMenuChildScene.setBackgroundEnabled(false);
+		
+		//creditsMenuItem.setPosition(-creditsMenuItem.getWidth()/2, -creditsMenuItem.getHeight()/2);
+		creditsMenuItem.setPosition(-creditsMenuItem.getWidth()/2,-creditsMenuItem.getHeight()/2);
+	}
+	
+	public void createHowMenuChildScene(){
+		howMenuChildScene = new MenuScene(camera);
+		howMenuChildScene.setPosition(400, 240);		
+		howMenuChildScene.setBackgroundEnabled(false);
+		
 		
 	}
 	
@@ -171,6 +209,12 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        		ResourcesManager.getInstance().music.play();
 	        		SharedPreferencesManager.getInstance().setMusicEnabled(true);
 	        	}
+	        	return true;
+	        case MENU_ABOUT:
+	        	setChildScene(aboutMenuChildScene);
+	        	return true;
+	        case MENU_HOW:
+	        	setChildScene(howMenuChildScene);
 	        	return true;
 	        default:
 	            return false;
