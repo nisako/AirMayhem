@@ -123,6 +123,7 @@ public class ResourcesManager {
     	practice_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity , "practice.png");
         host_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity , "host.png");
         join_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity , "join.png");
+        // bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background.png");
         
     	try 
     	{
@@ -164,7 +165,7 @@ public class ResourcesManager {
         resume_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "resume.png");
         back_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "menu.png");
         world_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "field.png");
-        plane_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "planex.png",6,1);
+        plane_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "11.png",6,1);
         planeEnemy_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "enemyPlanex.png",6,1);
         bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background.png");
         explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosion.png", 12, 1);
