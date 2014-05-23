@@ -66,12 +66,12 @@ public class ResourcesManager {
   
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
-    private BuildableBitmapTextureAtlas worldTextureAtlas;
+    private BuildableBitmapTextureAtlas sharedTextureAtlas;
     public BuildableBitmapTextureAtlas splashTextureAtlas;
     public BuildableBitmapTextureAtlas gameTextureAtlas;
     
-    public ITiledTextureRegion plane_region;
-    public ITiledTextureRegion planeEnemy_region;
+    public ITiledTextureRegion plane_region,plane11_region,plane21_region,plane31_region,plane41_region;
+    public ITiledTextureRegion planeEnemy_region,plane12_region,plane22_region,plane32_region,plane42_region;
     public ITextureRegion world_region;
     public ITextureRegion bacground_region;
     public ITextureRegion shot_region;
@@ -94,9 +94,33 @@ public class ResourcesManager {
         loadMenuGraphics();
         loadMenuAudio();
         loadMenuFonts();
+        loadSharedResorces();//they never unload
     }
     
-    public void loadGameResources()
+    private void loadSharedResorces() {
+    	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
+    	sharedTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.DEFAULT);
+    	plane11_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "11.png",6,1);
+    	plane12_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "12.png",6,1);
+    	plane21_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "21.png",6,1);
+    	plane22_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "22.png",6,1);
+    	plane31_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "31.png",6,1);
+    	plane32_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "32.png",6,1);
+    	plane41_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "41.png",6,1);
+    	plane42_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "42.png",6,1);
+    	
+    	try 
+    	{
+    	    this.sharedTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+    	    this.sharedTextureAtlas.load();
+    	} 
+    	catch (final TextureAtlasBuilderException e)
+    	{
+    	        Debug.e(e);
+    	}
+	}
+
+	public void loadGameResources()
     {
         loadGameGraphics();
         loadGameFonts();
@@ -118,7 +142,7 @@ public class ResourcesManager {
 	private void loadMenuGraphics()
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 3000, 3000, TextureOptions.DEFAULT);
+    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.DEFAULT);
     	play_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "play.png");
     	options_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "options.png");
     	audio_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "audio.png");

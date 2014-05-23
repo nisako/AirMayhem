@@ -163,7 +163,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 		score = 0;
 	    enemyScore = 0;
 		explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbom);
-		plane = new Plane(0, 0, vbom, camera, physicsWorld);
+		plane = new Plane(0, 0, vbom, camera, physicsWorld,ResourcesManager.getInstance().plane41_region,4);
 	    attachChild(plane);
 	    planeEnemy = new PlaneEnemy(0, 0, vbom, camera, physicsWorld);
 	    attachChild(planeEnemy);

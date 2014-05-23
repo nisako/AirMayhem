@@ -10,6 +10,7 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,7 +22,8 @@ public class Plane extends AnimatedSprite{
 	private boolean isGas;
 	private boolean isBreak;
 	public boolean isShoot,isAlternateShoot;
-	private final int maxSpeed=20;
+	private int maxSpeed=20;
+	private int acceleration=10;
 	
 	public ArrayList<Body> shots;
 	public Sprite shotSprite;
@@ -38,9 +40,10 @@ public class Plane extends AnimatedSprite{
 	public boolean animationFlagForPlaneCrush = true;
 	
 	
-	public Plane(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
+	public Plane(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld,ITiledTextureRegion planeRegion,int planeType)
     {
-        super(pX, pY, ResourcesManager.getInstance().plane_region, vbo);
+        super(pX, pY, planeRegion, vbo);
+        setStats(planeType);
         createPhysics(camera, physicsWorld);
         explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbo);
         camera.setChaseEntity(this);
@@ -51,6 +54,35 @@ public class Plane extends AnimatedSprite{
 	
 
 	
+	private void setStats(int planeType) {
+		switch(planeType){
+		case 1:
+			maxHealth = 100;
+			maxSpeed = 20;
+			acceleration = 10;
+			break;
+		case 2:
+			maxHealth = 90;
+			maxSpeed = 18;
+			acceleration = 12;
+			break;
+		case 3:
+			maxHealth = 120;
+			maxSpeed = 14;
+			acceleration = 7;
+			break;
+		case 4:
+			maxHealth = 110;
+			maxSpeed = 17;
+			acceleration = 9;
+			break;
+		}
+		health = maxHealth;
+		
+	}
+
+
+
 	private void createShots(PhysicsWorld physicsWorld,VertexBufferObjectManager vbo,final Camera camera) {		
 		for(int i=0;i<maxShot;i++){
 			shotSprite = new Sprite(0,9999,ResourcesManager.getInstance().shot_region,vbo);
@@ -107,7 +139,7 @@ public class Plane extends AnimatedSprite{
 	            	body.setAngularVelocity(ResourcesManager.getInstance().sensor2/2);
 	            }
 	            body.setLinearVelocity((float)(body.getLinearVelocity().len()*Math.cos(body.getAngle())), (float)(body.getLinearVelocity().len()*Math.sin(body.getAngle())));
-	            if(isGas)  body.applyForce((float) (10*Math.cos(body.getAngle())), (float) (10*Math.sin(body.getAngle())), mShapeHalfBaseWidth, mShapeHalfBaseHeight);
+	            if(isGas)  body.applyForce((float) (acceleration*Math.cos(body.getAngle())), (float) (acceleration*Math.sin(body.getAngle())), mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            else if(isBreak && body.getLinearVelocity().len() > 0) body.applyForce((float) (-7*Math.cos(body.getAngle())), 0, mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            body.applyForce((float) (-1*Math.cos(body.getAngle())), (float) (-1*Math.sin(body.getAngle())), mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            if(body.getLinearVelocity().len()>maxSpeed) body.setLinearVelocity((float)Math.cos(body.getAngle())*maxSpeed, (float)Math.sin(body.getAngle())*maxSpeed); 
