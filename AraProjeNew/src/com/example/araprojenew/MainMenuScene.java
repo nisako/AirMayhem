@@ -13,7 +13,7 @@ import com.example.araprojenew.SceneManager.SceneType;
 
 
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener {
-	private MenuScene menuChildScene,optionsMenuChildScene,playMenuChildScene,aboutMenuChildScene,howMenuChildScene;
+	private MenuScene menuChildScene,optionsMenuChildScene,preGameMenuChildScene,playMenuChildScene,aboutMenuChildScene,howMenuChildScene;
 	private final int ITEM_WIDTH = 125;
 	private final int MENU_PLAY = 0;
 	private final int MENU_OPTIONS = 1;
@@ -25,6 +25,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	private final int MENU_ABOUT = 7;
 	private final int MENU_HOW = 8;
 	
+	public static int selected_plane=0; //tasarým faciasý olduðunu biliyorum ama daha iyi bi çözüm bulamadým
 	
 	@Override
 	public void createScene() {
@@ -34,6 +35,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		createPlayMenuChildScene();
 		createAboutMenuChildScene();
 		createHowMenuChildScene();
+		createPreGamesMenuChildScene();
 	}
 	
 	
@@ -42,7 +44,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public void onBackKeyPressed() {
 		//TODO zaten menüde ise back'e bastýðýnda çýkabilir
 		if(getChildScene()==optionsMenuChildScene)setChildScene(menuChildScene);
-		else if(getChildScene()==playMenuChildScene)setChildScene(menuChildScene);
+		else if(getChildScene()==playMenuChildScene)setChildScene(preGameMenuChildScene);
+		else if(getChildScene()==preGameMenuChildScene)setChildScene(menuChildScene);
 		else if(getChildScene()==aboutMenuChildScene)setChildScene(menuChildScene);
 		else if(getChildScene()==howMenuChildScene)setChildScene(menuChildScene);
 		
@@ -156,25 +159,45 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		
 	}
 	
-	/*public void preGamesMenuChildScene()
+	public void createPreGamesMenuChildScene()
 	{
-		optionsMenuChildScene = new MenuScene(camera);
-		optionsMenuChildScene.setPosition(400, 240);
-		final IMenuItem audioMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_AUDIO, resourcesManager.audio_region, vbom), 1.2f, 1);
-	    final IMenuItem musicMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_MUSIC, resourcesManager.music_region, vbom), 1.2f, 1);
+		preGameMenuChildScene = new MenuScene(camera);
+		preGameMenuChildScene.setPosition(400, 350);
+	    //TODO select your plane yazsýsý
+	    final IMenuItem plane11 = new ScaleMenuItemDecorator(new SpriteMenuItem(11, resourcesManager.plane_regions[0], vbom), 1.2f, 1);
+	    final IMenuItem plane12 = new ScaleMenuItemDecorator(new SpriteMenuItem(12, resourcesManager.plane_regions[1], vbom), 1.2f, 1);
+	    final IMenuItem plane21 = new ScaleMenuItemDecorator(new SpriteMenuItem(21, resourcesManager.plane_regions[2], vbom), 1.2f, 1);
+	    final IMenuItem plane22 = new ScaleMenuItemDecorator(new SpriteMenuItem(22, resourcesManager.plane_regions[3], vbom), 1.2f, 1);
+	    final IMenuItem plane31 = new ScaleMenuItemDecorator(new SpriteMenuItem(31, resourcesManager.plane_regions[4], vbom), 1.2f, 1);
+	    final IMenuItem plane32 = new ScaleMenuItemDecorator(new SpriteMenuItem(32, resourcesManager.plane_regions[5], vbom), 1.2f, 1);
+	    final IMenuItem plane41 = new ScaleMenuItemDecorator(new SpriteMenuItem(41, resourcesManager.plane_regions[6], vbom), 1.2f, 1);
+	    final IMenuItem plane42 = new ScaleMenuItemDecorator(new SpriteMenuItem(42, resourcesManager.plane_regions[7], vbom), 1.2f, 1);
 	    
-	    optionsMenuChildScene.addMenuItem(audioMenuItem);
-	    optionsMenuChildScene.addMenuItem(musicMenuItem);
+	    preGameMenuChildScene.addMenuItem(plane11);
+	    preGameMenuChildScene.addMenuItem(plane12);
+	    preGameMenuChildScene.addMenuItem(plane21);
+	    preGameMenuChildScene.addMenuItem(plane22);
+	    preGameMenuChildScene.addMenuItem(plane31);
+	    preGameMenuChildScene.addMenuItem(plane32);
+	    preGameMenuChildScene.addMenuItem(plane41);
+	    preGameMenuChildScene.addMenuItem(plane42);
 	    
-	    optionsMenuChildScene.buildAnimations();
-	    optionsMenuChildScene.setBackgroundEnabled(false);
+	    preGameMenuChildScene.buildAnimations();
+	    preGameMenuChildScene.setBackgroundEnabled(false);
 	    
-	    audioMenuItem.setPosition(-200, -110);
-	    musicMenuItem.setPosition(-200, + 0);
+	    plane11.setPosition(-200, -100);
+	    plane12.setPosition(-200, 0);
+	    plane21.setPosition(-100, -100);
+	    plane22.setPosition(-100, 0);
+	    plane31.setPosition(0, -100);
+	    plane32.setPosition(0, 0);
+	    plane41.setPosition(100, -100);
+	    plane42.setPosition(100, 0);
 	    
-	    optionsMenuChildScene.setOnMenuItemClickListener(this);
+	    preGameMenuChildScene.setOnMenuItemClickListener(this);
+	    
 		
-	}*/
+	}
 
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem, float pMenuItemLocalX, float pMenuItemLocalY)
@@ -182,8 +205,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        switch(pMenuItem.getID())
 	        {
 	        case MENU_PLAY:
-	        	//SceneManager.getInstance().loadPractiseGameScene(engine);
-	        	setChildScene(playMenuChildScene);
+	        	setChildScene(preGameMenuChildScene);
 	        	return true;
 	        case MENU_PRACTICE:
 	        	SceneManager.getInstance().loadPractiseGameScene(engine);
@@ -214,7 +236,39 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        	setChildScene(aboutMenuChildScene);
 	        	return true;
 	        case MENU_HOW:
-	        	setChildScene(howMenuChildScene);
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 11:
+	        	selected_plane = 0;
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 12:
+	        	selected_plane = 1;
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 21:
+	        	selected_plane = 2;
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 22:
+	        	selected_plane = 3;
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 31:
+	        	selected_plane = 4;
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 32:
+	        	selected_plane = 5;
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 41:
+	        	selected_plane = 6;
+	        	setChildScene(playMenuChildScene);
+	        	return true;
+	        case 42:
+	        	selected_plane = 7;
+	        	setChildScene(playMenuChildScene);
 	        	return true;
 	        default:
 	            return false;

@@ -56,22 +56,27 @@ public class Plane extends AnimatedSprite{
 	
 	private void setStats(int planeType) {
 		switch(planeType){
-		case 1:
+		case 0:
 			maxHealth = 100;
 			maxSpeed = 20;
 			acceleration = 10;
 			break;
-		case 2:
+		case 1:
 			maxHealth = 90;
 			maxSpeed = 18;
 			acceleration = 12;
 			break;
-		case 3:
+		case 2:
 			maxHealth = 120;
 			maxSpeed = 14;
 			acceleration = 7;
 			break;
-		case 4:
+		case 3:
+			maxHealth = 110;
+			maxSpeed = 17;
+			acceleration = 9;
+			break;
+		default:
 			maxHealth = 110;
 			maxSpeed = 17;
 			acceleration = 9;

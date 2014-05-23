@@ -41,7 +41,7 @@ public class PlaneEnemy extends AnimatedSprite{
 	
 	public PlaneEnemy(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
     {
-        super(pX, pY, ResourcesManager.getInstance().planeEnemy_region, vbo);
+        super(pX, pY, ResourcesManager.getInstance().plane_regions[0], vbo);
         createPhysics(camera, physicsWorld);
         animate(1);
         shots = new ArrayList<Body>();

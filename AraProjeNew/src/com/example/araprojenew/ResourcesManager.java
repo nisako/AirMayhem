@@ -70,8 +70,7 @@ public class ResourcesManager {
     public BuildableBitmapTextureAtlas splashTextureAtlas;
     public BuildableBitmapTextureAtlas gameTextureAtlas;
     
-    public ITiledTextureRegion plane_region,plane11_region,plane21_region,plane31_region,plane41_region;
-    public ITiledTextureRegion planeEnemy_region,plane12_region,plane22_region,plane32_region,plane42_region;
+    public ITiledTextureRegion[] plane_regions;
     public ITextureRegion world_region;
     public ITextureRegion bacground_region;
     public ITextureRegion shot_region;
@@ -94,20 +93,22 @@ public class ResourcesManager {
         loadMenuGraphics();
         loadMenuAudio();
         loadMenuFonts();
+        
+        plane_regions = new ITiledTextureRegion[8];
         loadSharedResorces();//they never unload
     }
     
     private void loadSharedResorces() {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
     	sharedTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.DEFAULT);
-    	plane11_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "11.png",6,1);
-    	plane12_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "12.png",6,1);
-    	plane21_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "21.png",6,1);
-    	plane22_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "22.png",6,1);
-    	plane31_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "31.png",6,1);
-    	plane32_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "32.png",6,1);
-    	plane41_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "41.png",6,1);
-    	plane42_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "42.png",6,1);
+    	plane_regions[0] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "11.png",6,1);
+    	plane_regions[1] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "12.png",6,1);
+    	plane_regions[2] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "21.png",6,1);
+    	plane_regions[3] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "22.png",6,1);
+    	plane_regions[4] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "31.png",6,1);
+    	plane_regions[5] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "32.png",6,1);
+    	plane_regions[6] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "41.png",6,1);
+    	plane_regions[7] =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(sharedTextureAtlas, activity, "42.png",6,1);
     	
     	try 
     	{
@@ -195,8 +196,6 @@ public class ResourcesManager {
         resume_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "resume.png");
         back_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "menu.png");
         world_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "field.png");
-        plane_region =  BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "11.png",6,1);
-        planeEnemy_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "enemyPlanex.png",6,1);
         bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background.png");
         explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosion.png", 12, 1);
         shot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shot.png");
