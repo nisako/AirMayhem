@@ -52,7 +52,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected boolean isMultipalyerPause=false;
 	protected Rectangle left,right,ground,roof;
 	
-	private MenuScene pauseChildScene;
+	public MenuScene pauseChildScene;
 
 	@Override
 	public void createScene() {

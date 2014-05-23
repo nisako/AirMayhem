@@ -307,7 +307,12 @@ public class ClientGameScene extends GameScene implements
 		if(mSocketServerDiscoveryClient != null)mSocketServerDiscoveryClient.terminate();
 	}
 	public void pause(){
+		try{
 		sendPauseMessage(true);
+		}
+		catch(Exception e){
+			//
+		}
 	}
 	public void resume(){
 		sendPauseMessage(false);

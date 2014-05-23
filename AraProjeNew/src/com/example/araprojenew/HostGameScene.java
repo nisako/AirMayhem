@@ -335,10 +335,10 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 			Throwable pThrowable) {
 
 	}
-	public void disposeScene(){
-		super.disposeScene();
+	public void disposeScene(){		
 		mSocketServer.terminate();
 		mSocketServerDiscoveryServer.terminate();
+		super.disposeScene();
 	}
 	
 	//Discovery ile ilgili alanlarin baslangici
