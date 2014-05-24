@@ -284,7 +284,7 @@ public void alternateShoot(){
 				}
 			}));
 		}
-		else if(pType == powerupType.TRIPLESHOT){
+		else if(pType == powerupType.INVUL){
 			invul = true;
 			registerUpdateHandler(new TimerHandler(3, new ITimerCallback() {			
 				@Override
