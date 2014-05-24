@@ -39,7 +39,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected AnimatedSprite explosionSprite;
 	protected Boolean animationFlagForPlaneCrush = true;
 	
-	private Body groundBody;
+	private Body groundBody,groundBody2,groundBody3;
 	
 	private Sprite fieldSprite;
 	private Sprite backgroundSprite;
@@ -53,7 +53,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected Rectangle left,right,ground,roof;
 	
 	public MenuScene pauseChildScene;
-
+	
 	@Override
 	public void createScene() {
 		createPhysics();
@@ -64,11 +64,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    //engine.registerUpdateHandler(new FPSLogger());
 	}
 	
-	final Vector2[] vertices = {
-			new Vector2(0/32f,400/32f ),
-			new Vector2(400/32f,400/32f),
-			new Vector2(0/32f,400/32f),
-	};
+	
 
 	private void createPauseChildScene() {
 		pauseChildScene = new MenuScene(camera);
@@ -142,17 +138,37 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	
 	public void createPhysics()
 	{
+		Vector2[] vertices = { //Custom body for ground
+				new Vector2(0,806/32f),
+				new Vector2(187/32f,792/32f),
+				new Vector2(558/32f,815/32f),
+				new Vector2(558/32f,857/32f),
+		};
+		Vector2[] vertices2 = { //Custom body for ground
+				new Vector2(559/32f,815/32f),
+				new Vector2(860/32f,783/32f),
+				new Vector2(1268/32f,822/32f),
+				new Vector2(1268/32f,862/32f),
+		};
+		Vector2[] vertices3 = { //Custom body for ground
+				new Vector2(1268/32f,862/32f),
+				new Vector2(1600/32f,791/32f),
+				new Vector2(1600/32f,841/32f),
+		};
 	    physicsWorld = new FixedStepPhysicsWorld(60, new Vector2(0, 0), false);		
 	    //bu kýsým world isimli yeni bir classa taþýnabilir
-	    ground = new Rectangle(1, 850 , WORLD_WIDTH, 1, vbom);
-		roof = new Rectangle(0, 0, WORLD_WIDTH, 1, vbom);
-			
-		groundBody = PhysicsFactory.createBoxBody(physicsWorld, ground,BodyType.StaticBody , PhysicsFactory.createFixtureDef(0, 0, 0));
-		//groundBody = PhysicsFactory.createPolygonBody(physicsWorld, fieldSprite, vertices, BodyType.StaticBody, PhysicsFactory.createFixtureDef(0, 0, 0));
+	    ground = new Rectangle(0, 0 , 0, 0, vbom);
+		//roof = new Rectangle(0, 0, WORLD_WIDTH, 1, vbom);
+		groundBody = PhysicsFactory.createPolygonBody(physicsWorld, ground, vertices, BodyType.StaticBody, PhysicsFactory.createFixtureDef(0, 0, 0));
 		groundBody.setUserData("ground");
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(ground, groundBody,true , true));
-		attachChild(ground);
-		attachChild(roof);
+		groundBody2 = PhysicsFactory.createPolygonBody(physicsWorld, ground, vertices2, BodyType.StaticBody, PhysicsFactory.createFixtureDef(0, 0, 0));
+		groundBody2.setUserData("ground");
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(ground, groundBody2,true , true));
+		groundBody3 = PhysicsFactory.createPolygonBody(physicsWorld, ground, vertices3, BodyType.StaticBody, PhysicsFactory.createFixtureDef(0, 0, 0));
+		groundBody3.setUserData("ground");
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(ground, groundBody3,true , true));
+
 		//end of kýsým
 		registerUpdateHandler(physicsWorld);
 	}

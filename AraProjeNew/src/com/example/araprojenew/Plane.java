@@ -241,7 +241,7 @@ public void alternateShoot(){
 		this.shotType = 0;
 		this.setVisible(true);
 		this.body.setTransform(1,1,0);
-		health = 100;
+		health = maxHealth;
 		ResourcesManager.getInstance().camera.setChaseEntity(this);
 		animationFlagForPlaneCrush= true;
 		body.setLinearVelocity(0, 0);
