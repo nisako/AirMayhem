@@ -22,6 +22,7 @@ public class Plane extends AnimatedSprite{
 	private boolean isGas;
 	private boolean isBreak;
 	public boolean isShoot,isAlternateShoot;
+	public boolean invul=false;
 	private int maxSpeed=20;
 	private int acceleration=10;
 	
@@ -246,9 +247,19 @@ public void alternateShoot(){
 		animationFlagForPlaneCrush= true;
 		body.setLinearVelocity(0, 0);
 		body.setUserData("plane");
+		invul = true;
+		registerUpdateHandler(new TimerHandler(1.5f, new ITimerCallback() {			
+			@Override
+			public void onTimePassed(TimerHandler pTimerHandler) {
+				invul = false;
+			}
+		}));
 	}
 
-
+	public void damage(int dmg){
+		if(!invul)
+			health -= dmg;
+	}
 
 	public void aplyPowerup(powerupType pType) {
 		if(pType == powerupType.HEALTUP){
@@ -270,6 +281,15 @@ public void alternateShoot(){
 				@Override
 				public void onTimePassed(TimerHandler pTimerHandler) {
 					Plane.this.shotType = 0;
+				}
+			}));
+		}
+		else if(pType == powerupType.TRIPLESHOT){
+			invul = true;
+			registerUpdateHandler(new TimerHandler(3, new ITimerCallback() {			
+				@Override
+				public void onTimePassed(TimerHandler pTimerHandler) {
+					invul = false;
 				}
 			}));
 		}

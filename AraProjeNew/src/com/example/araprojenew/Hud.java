@@ -34,7 +34,8 @@ public class Hud extends HUD {
 		healtBar = new Rectangle(40, 20, plane.health, 30, ResourcesManager.getInstance().vbom);
 		healtBarBorder = new Rectangle(healtBar.getX()-2, healtBar.getY()-3, healtBar.getWidth()+4, healtBar.getHeight()+5, ResourcesManager.getInstance().vbom);
 		healtBarEmptyArea = new Rectangle(healtBar.getX(), healtBar.getY(), healtBar.getWidth(), healtBar.getHeight(), ResourcesManager.getInstance().vbom);
-		healtBar.setColor(Color.RED);	
+		healtBar.setColor(Color.RED);
+		healtBar.setAlpha(0.7f);//DARK RED
 		healtBarBorder.setColor(Color.BLACK);	
 		healtBarEmptyArea.setColor(0.21f,0.25f,0.24f);//Gray
 		attachChild(healtBarBorder);
@@ -55,12 +56,15 @@ public class Hud extends HUD {
 		attachChild(pennant1);
 		attachChild(pennant2);
 		attachChild(scoreText);
-		attachChild(scoreText2);		
+		attachChild(scoreText2);
+		//TODO sürekli kontrol etmek yerine her deðiþtiðinde callback gönderilmeliydi
 		TimerHandler scoreUpdateTimer = new TimerHandler(0.1f, true, new ITimerCallback() {
 	        public void onTimePassed(TimerHandler pTimerHandler) {
 	        	scoreText.setText(GameScene.score+"");
 	        	scoreText2.setText(GameScene.enemyScore+"");	        		           
 	        	healtBar.setWidth(plane.health);
+	        	if(plane.invul == true) healtBar.setAlpha(0.2f);
+	        	else healtBar.setAlpha(0.7f);
 	        }
 	    });
 	    registerUpdateHandler(scoreUpdateTimer);

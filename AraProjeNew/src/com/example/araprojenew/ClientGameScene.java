@@ -194,8 +194,7 @@ public class ClientGameScene extends GameScene implements
 	           
 	            if (x1.getBody().getUserData().equals("shotEnemy") && x2.getBody().getUserData().equals("plane"))
 	            {
-	            	plane.health -= 10;
-	            	
+	            	plane.damage(10);
 	            	if(plane.health<=0){
 	            		plane.crush();
 	            		sendDeathMessage();
