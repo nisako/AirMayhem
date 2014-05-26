@@ -1,5 +1,7 @@
 package com.example.araprojenew;
 
+import org.andengine.engine.camera.Camera;
+import org.andengine.entity.modifier.CardinalSplineMoveModifier.CardinalSplineMoveModifierConfig;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.scene.menu.MenuScene;
@@ -7,7 +9,19 @@ import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
+import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.modifier.CardinalSplineMoveModifier;
+import org.andengine.entity.modifier.CardinalSplineMoveModifier.CardinalSplineMoveModifierConfig;
+import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.MoveXModifier;
+import org.andengine.entity.modifier.ParallelEntityModifier;
+import org.andengine.entity.modifier.RotationModifier;
+import org.andengine.opengl.util.GLState;
+import org.andengine.util.modifier.ease.EaseLinear;
+
+import android.graphics.Path;
 
 import com.example.araprojenew.SceneManager.SceneType;
 
@@ -24,6 +38,21 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	private final int MENU_JOIN = 6;
 	private final int MENU_ABOUT = 7;
 	private final int MENU_HOW = 8;
+	
+	private static final float[] CONTROLPOINT_1_XS = {
+		200,
+		400,
+		200,
+		20,
+		200
+	};
+	private static final float[] CONTROLPOINT_YS = {
+		20,
+		200,
+		420,
+		200,
+		20
+	};
 	
 	public static int selected_plane=0; //tasarým faciasý olduðunu biliyorum ama daha iyi bi çözüm bulamadým
 	
@@ -64,7 +93,30 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	//setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 	private void createBackground()
 	{
-	    setBackground(new SpriteBackground(new Sprite(0, 0, ResourcesManager.getInstance().bacground_region, vbom)));
+	    setBackground(new SpriteBackground(new Sprite(0, 0, ResourcesManager.getInstance().bacground_region, vbom){
+	    protected void preDraw(final GLState pGLState, final Camera pCamera)
+	    {
+	        super.preDraw(pGLState, pCamera);
+	        pGLState.enableDither();
+	    }
+	}
+	    		));
+	    final CardinalSplineMoveModifierConfig catmullRomMoveModifierConfig1 = new CardinalSplineMoveModifierConfig(MainMenuScene.CONTROLPOINT_1_XS.length, 1);
+	    AnimatedSprite menuplane1 = new AnimatedSprite(20, 20, ResourcesManager.getInstance().plane_regions[0], vbom);
+	    AnimatedSprite menuplane2 = new AnimatedSprite(20, 420, ResourcesManager.getInstance().plane_regions[6], vbom);
+	    menuplane1.animate(1);
+	    menuplane2.animate(1);
+	    attachChild(menuplane1);
+	    attachChild(menuplane2);
+	    for(int i = 0; i < MainMenuScene.CONTROLPOINT_1_XS.length; i++) {
+			catmullRomMoveModifierConfig1.setControlPoint(i, MainMenuScene.CONTROLPOINT_1_XS[i] - 25 / 2, MainMenuScene.CONTROLPOINT_YS[i] - 25 / 2);
+			
+		}
+	  
+	    menuplane1.registerEntityModifier(new LoopEntityModifier( new ParallelEntityModifier(
+				new CardinalSplineMoveModifier(4, catmullRomMoveModifierConfig1, EaseLinear.getInstance()),
+				new RotationModifier(4, 0, 90)
+			)));
 	}
 	
 	private void createMenuChildScene()
