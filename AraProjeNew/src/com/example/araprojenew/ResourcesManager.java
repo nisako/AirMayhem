@@ -63,6 +63,8 @@ public class ResourcesManager {
     public ITextureRegion splash2_region;
     public ITextureRegion pennant1_region;
     public ITextureRegion pennant2_region;
+    public ITextureRegion planechoose_region;
+    public ITextureRegion menubackbutton_region;
   
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
@@ -155,7 +157,8 @@ public class ResourcesManager {
         howtoplay_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "howtoplay.png");
         credits_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "credits.png");
         bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "background.png");
-        
+        planechoose_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "choose.png");
+    	menubackbutton_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "back.png");      
     	try 
     	{
     	    this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));

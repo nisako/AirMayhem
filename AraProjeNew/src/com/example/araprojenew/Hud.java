@@ -126,7 +126,7 @@ public class Hud extends HUD {
 				return true;
 			};
 		};
-		alternateShootButton = new ButtonSprite(100, 375,ResourcesManager.getInstance().button_region, vbom) {
+		/*alternateShootButton = new ButtonSprite(100, 375,ResourcesManager.getInstance().button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
 					alternateShootButton.setCurrentTileIndex(0);
@@ -137,7 +137,7 @@ public class Hud extends HUD {
 				}
 				return true;
 			};
-		};
+		};*/
 		pauseButton = new ButtonSprite(GameScene.WORLD_WIDTH/2-100, 20,
 				ResourcesManager.getInstance().pause_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
@@ -152,8 +152,8 @@ public class Hud extends HUD {
 		attachChild(pauseButton);
 		registerTouchArea(gasButton);
 		attachChild(gasButton);
-		registerTouchArea(alternateShootButton);
-		attachChild(alternateShootButton);
+		/*registerTouchArea(alternateShootButton);
+		attachChild(alternateShootButton);*/
 		registerTouchArea(shootButton);
 		attachChild(shootButton);
 		registerTouchArea(breakButton);

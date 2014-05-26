@@ -1,8 +1,8 @@
 package com.example.araprojenew;
 
 import org.andengine.engine.camera.Camera;
-import org.andengine.entity.modifier.CardinalSplineMoveModifier.CardinalSplineMoveModifierConfig;
-import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
@@ -10,18 +10,10 @@ import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.modifier.CardinalSplineMoveModifier;
-import org.andengine.entity.modifier.CardinalSplineMoveModifier.CardinalSplineMoveModifierConfig;
-import org.andengine.entity.modifier.LoopEntityModifier;
-import org.andengine.entity.modifier.MoveModifier;
-import org.andengine.entity.modifier.MoveXModifier;
-import org.andengine.entity.modifier.ParallelEntityModifier;
-import org.andengine.entity.modifier.RotationModifier;
+import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.util.GLState;
-import org.andengine.util.modifier.ease.EaseLinear;
-
-import android.graphics.Path;
 
 import com.example.araprojenew.SceneManager.SceneType;
 
@@ -38,21 +30,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	private final int MENU_JOIN = 6;
 	private final int MENU_ABOUT = 7;
 	private final int MENU_HOW = 8;
+	private final int MENU_BACK = 9;
+	//TODO bu backler tam olmadý sanýrým
 	
-	private static final float[] CONTROLPOINT_1_XS = {
-		200,
-		400,
-		200,
-		20,
-		200
-	};
-	private static final float[] CONTROLPOINT_YS = {
-		20,
-		200,
-		420,
-		200,
-		20
-	};
 	
 	public static int selected_plane=0; //tasarým faciasý olduðunu biliyorum ama daha iyi bi çözüm bulamadým
 	
@@ -64,7 +44,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		createPlayMenuChildScene();
 		createAboutMenuChildScene();
 		createHowMenuChildScene();
-		createPreGamesMenuChildScene();
+		createPreGameMenuChildScene();
 	}
 	
 	
@@ -101,22 +81,29 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    }
 	}
 	    		));
-	    final CardinalSplineMoveModifierConfig catmullRomMoveModifierConfig1 = new CardinalSplineMoveModifierConfig(MainMenuScene.CONTROLPOINT_1_XS.length, 1);
+	    		
 	    AnimatedSprite menuplane1 = new AnimatedSprite(20, 20, ResourcesManager.getInstance().plane_regions[0], vbom);
 	    AnimatedSprite menuplane2 = new AnimatedSprite(20, 420, ResourcesManager.getInstance().plane_regions[6], vbom);
+	    AnimatedSprite menuplane3 = new AnimatedSprite(-120, 120, ResourcesManager.getInstance().plane_regions[2], vbom);
+	    AnimatedSprite menuplane4 = new AnimatedSprite(-120, 320, ResourcesManager.getInstance().plane_regions[5], vbom);
+	    AnimatedSprite menuplane5 = new AnimatedSprite(-170, 220, ResourcesManager.getInstance().plane_regions[7], vbom);
 	    menuplane1.animate(1);
 	    menuplane2.animate(1);
+	    menuplane3.animate(1);
+	    menuplane4.animate(1);
+	    menuplane5.animate(1);
 	    attachChild(menuplane1);
 	    attachChild(menuplane2);
-	    for(int i = 0; i < MainMenuScene.CONTROLPOINT_1_XS.length; i++) {
-			catmullRomMoveModifierConfig1.setControlPoint(i, MainMenuScene.CONTROLPOINT_1_XS[i] - 25 / 2, MainMenuScene.CONTROLPOINT_YS[i] - 25 / 2);
-			
-		}
+	    attachChild(menuplane3);
+	    attachChild(menuplane4);
+	    attachChild(menuplane5);
+	    menuplane1.registerEntityModifier(new LoopEntityModifier(new MoveXModifier(13,0,850 )));
+	    menuplane2.registerEntityModifier(new LoopEntityModifier(new MoveXModifier(13,0,850 )));
+	    menuplane3.registerEntityModifier(new LoopEntityModifier(new MoveXModifier(13,-120,850 )));
+	    menuplane4.registerEntityModifier(new LoopEntityModifier(new MoveXModifier(13,-120,850 )));
+	    menuplane5.registerEntityModifier(new LoopEntityModifier(new MoveXModifier(13,-170,850 )));
+	    
 	  
-	    menuplane1.registerEntityModifier(new LoopEntityModifier( new ParallelEntityModifier(
-				new CardinalSplineMoveModifier(4, catmullRomMoveModifierConfig1, EaseLinear.getInstance()),
-				new RotationModifier(4, 0, 90)
-			)));
 	}
 	
 	private void createMenuChildScene()
@@ -128,7 +115,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    final IMenuItem optionsMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_OPTIONS, resourcesManager.options_region, vbom), 1.2f, 1);
 	    final IMenuItem aboutMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_ABOUT, resourcesManager.about_region, vbom), 1.2f, 1);
 	    final IMenuItem howMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_HOW, resourcesManager.howtoplay_region, vbom), 1.2f, 1);
-	    
+	   
 	    
 	    menuChildScene.addMenuItem(playMenuItem);
 	    menuChildScene.addMenuItem(optionsMenuItem);
@@ -156,10 +143,12 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 			final IMenuItem practiceMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_PRACTICE, resourcesManager.practice_region, vbom), 1.2f, 1);
 		    final IMenuItem hostMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_HOST, resourcesManager.host_region, vbom), 1.2f, 1);
 		    final IMenuItem joinMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_JOIN, resourcesManager.join_region, vbom), 1.2f, 1);
-	
+		    final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1);
+		   
 		    playMenuChildScene.addMenuItem(practiceMenuItem);
 		    playMenuChildScene.addMenuItem(hostMenuItem);
 		    playMenuChildScene.addMenuItem(joinMenuItem);
+		    playMenuChildScene.addMenuItem(backMenuItem);
 		    
 		    playMenuChildScene.buildAnimations();
 		    playMenuChildScene.setBackgroundEnabled(false);
@@ -167,6 +156,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		    practiceMenuItem.setPosition(ITEM_WIDTH, -170);
 		    hostMenuItem.setPosition(ITEM_WIDTH, - 50);
 		    joinMenuItem.setPosition(ITEM_WIDTH, +70);
+		    backMenuItem.setPosition(-400,120);
 		    
 		    playMenuChildScene.setOnMenuItemClickListener(this);
 	}
@@ -177,13 +167,16 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		optionsMenuChildScene.setPosition(400, 240);
 		final IMenuItem audioMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_AUDIO, resourcesManager.audio_region, vbom), 1.2f, 1);
 	    final IMenuItem musicMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_MUSIC, resourcesManager.music_region, vbom), 1.2f, 1);
+	    final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1); 
 	    
 	    optionsMenuChildScene.addMenuItem(audioMenuItem);
 	    optionsMenuChildScene.addMenuItem(musicMenuItem);
+	    optionsMenuChildScene.addMenuItem(backMenuItem);
 	    
 	    optionsMenuChildScene.buildAnimations();
 	    optionsMenuChildScene.setBackgroundEnabled(false);
 	    
+	    backMenuItem.setPosition(-400,120);
 	    audioMenuItem.setPosition(ITEM_WIDTH, -90);
 	    musicMenuItem.setPosition(ITEM_WIDTH, + 20);
 	    
@@ -195,28 +188,40 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		aboutMenuChildScene = new MenuScene(camera);
 		aboutMenuChildScene.setPosition(400, 240);
 		
+		final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1); 
 		final IMenuItem creditsMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(99, resourcesManager.credits_region, vbom), 1, 1);
+		
+		aboutMenuChildScene.addMenuItem(backMenuItem);
 		aboutMenuChildScene.addMenuItem(creditsMenuItem);
 		aboutMenuChildScene.setBackgroundEnabled(false);
 		
-		//creditsMenuItem.setPosition(-creditsMenuItem.getWidth()/2, -creditsMenuItem.getHeight()/2);
+		backMenuItem.setPosition(-400,120);
 		creditsMenuItem.setPosition(-creditsMenuItem.getWidth()/2,-creditsMenuItem.getHeight()/2);
+		
+		  aboutMenuChildScene.setOnMenuItemClickListener(this);
 	}
 	
 	public void createHowMenuChildScene(){
 		howMenuChildScene = new MenuScene(camera);
-		howMenuChildScene.setPosition(400, 240);		
+		howMenuChildScene.setPosition(400, 240);	
+		
+		final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1); 
+		howMenuChildScene.addMenuItem(backMenuItem);
 		howMenuChildScene.setBackgroundEnabled(false);
 		
+		backMenuItem.setPosition(-400,120);
 		
+		  howMenuChildScene.setOnMenuItemClickListener(this);
 	}
 	
-	public void createPreGamesMenuChildScene()
+	public void createPreGameMenuChildScene()
 	{
 		preGameMenuChildScene = new MenuScene(camera);
 		preGameMenuChildScene.setPosition(400, 350);
-	    //TODO select your plane yazsýsý
-	    final IMenuItem plane11 = new ScaleMenuItemDecorator(new SpriteMenuItem(11, resourcesManager.plane_regions[0], vbom), 1.2f, 1);
+		
+		final IMenuItem choose = new ScaleMenuItemDecorator(new SpriteMenuItem(123, resourcesManager.planechoose_region, vbom), 1, 1);
+		final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1); 
+		final IMenuItem plane11 = new ScaleMenuItemDecorator(new SpriteMenuItem(11, resourcesManager.plane_regions[0], vbom), 1.2f, 1);
 	    final IMenuItem plane12 = new ScaleMenuItemDecorator(new SpriteMenuItem(12, resourcesManager.plane_regions[1], vbom), 1.2f, 1);
 	    final IMenuItem plane21 = new ScaleMenuItemDecorator(new SpriteMenuItem(21, resourcesManager.plane_regions[2], vbom), 1.2f, 1);
 	    final IMenuItem plane22 = new ScaleMenuItemDecorator(new SpriteMenuItem(22, resourcesManager.plane_regions[3], vbom), 1.2f, 1);
@@ -225,6 +230,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    final IMenuItem plane41 = new ScaleMenuItemDecorator(new SpriteMenuItem(41, resourcesManager.plane_regions[6], vbom), 1.2f, 1);
 	    final IMenuItem plane42 = new ScaleMenuItemDecorator(new SpriteMenuItem(42, resourcesManager.plane_regions[7], vbom), 1.2f, 1);
 	    
+	    preGameMenuChildScene.addMenuItem(choose);
+	    preGameMenuChildScene.addMenuItem(backMenuItem);
 	    preGameMenuChildScene.addMenuItem(plane11);
 	    preGameMenuChildScene.addMenuItem(plane12);
 	    preGameMenuChildScene.addMenuItem(plane21);
@@ -237,6 +244,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    preGameMenuChildScene.buildAnimations();
 	    preGameMenuChildScene.setBackgroundEnabled(false);
 	    
+	    choose.setPosition(-325,-250);
+	    backMenuItem.setPosition(-400,0);
 	    plane11.setPosition(-200, -100);
 	    plane12.setPosition(-200, 0);
 	    plane21.setPosition(-100, -100);
@@ -288,7 +297,14 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        	setChildScene(aboutMenuChildScene);
 	        	return true;
 	        case MENU_HOW:
-	        	setChildScene(playMenuChildScene);
+	        	setChildScene(howMenuChildScene);
+	        	return true;
+	        case MENU_BACK:
+	        	if(getChildScene()==optionsMenuChildScene)setChildScene(menuChildScene);
+	    		else if(getChildScene()==playMenuChildScene)setChildScene(preGameMenuChildScene);
+	    		else if(getChildScene()==preGameMenuChildScene)setChildScene(menuChildScene);
+	    		else if(getChildScene()==aboutMenuChildScene)setChildScene(menuChildScene);
+	    		else if(getChildScene()==howMenuChildScene)setChildScene(menuChildScene);
 	        	return true;
 	        case 11:
 	        	selected_plane = 0;
