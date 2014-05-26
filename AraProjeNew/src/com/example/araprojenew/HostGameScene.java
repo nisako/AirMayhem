@@ -34,6 +34,14 @@ import com.example.araprojenew.ClientMessages.*;
 import com.example.araprojenew.ServerMessages.*;
 
 //TODO Client game scene ile ayný notlar geçerli
+/*TODO þunlar eklencek mermi kaybolsun diye
+ * activity.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							x1.getBody().setTransform(-100, -100,0);						
+						}
+					});
+ */
 public class HostGameScene extends GameScene implements ISocketServerListener<SocketConnectionClientConnector>,ISocketConnectionClientConnectorListener {
 	private float subX,subY;
 	private boolean xBigger;
@@ -185,8 +193,8 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	            final Fixture x1 = contact.getFixtureB();
 	           
 	            if (x1.getBody().getUserData().equals("shotEnemy") && x2.getBody().getUserData().equals("plane"))
-	            {	            
-	            	plane.damage(10);
+	            {	            	
+	            	plane.health -= 10;
 	            	if(plane.health<=0){
 	            		plane.crush();
 	            		sendDeathMessage();
