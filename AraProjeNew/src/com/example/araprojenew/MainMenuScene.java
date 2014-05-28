@@ -300,11 +300,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        	setChildScene(howMenuChildScene);
 	        	return true;
 	        case MENU_BACK:
-	        	if(getChildScene()==optionsMenuChildScene)setChildScene(menuChildScene);
-	    		else if(getChildScene()==playMenuChildScene)setChildScene(preGameMenuChildScene);
-	    		else if(getChildScene()==preGameMenuChildScene)setChildScene(menuChildScene);
-	    		else if(getChildScene()==aboutMenuChildScene)setChildScene(menuChildScene);
-	    		else if(getChildScene()==howMenuChildScene)setChildScene(menuChildScene);
+	        	onBackKeyPressed();
 	        	return true;
 	        case 11:
 	        	selected_plane = 0;
