@@ -43,7 +43,10 @@ public class ResourcesManager {
     private SensorManager sensorManager;
     
     
-    public ITiledTextureRegion button_region;
+    public ITiledTextureRegion gas_button_region;
+    public ITiledTextureRegion fren_button_region;
+    public ITiledTextureRegion shoot_button_region;
+    public ITiledTextureRegion alternate_shoot_button_region;
     public ITiledTextureRegion pause_button_region;
     public ITextureRegion resume_button_region;
     public ITextureRegion back_button_region;
@@ -194,13 +197,16 @@ public class ResourcesManager {
     {
         BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/game/");
         gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2000, 2000, TextureOptions.DEFAULT);
-        button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "button1.png", 2, 1);
+        gas_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "GazButon.png", 2, 1);
+        fren_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "FrenButon.png", 2, 1);
+        shoot_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "AtesButon.png", 2, 1);
+        alternate_shoot_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "AlternatifAtesButon.png", 2, 1);
         pause_button_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "pause.png", 2, 1);
         resume_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "resume.png");
         back_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "menu.png");
         world_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "field.png");
         bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background.png");
-        explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosion.png", 12, 1);
+        explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosion.png", 5, 5);
         shot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shot.png");
         balloon_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "balloon_tiled.png", 6, 1);
         arrow_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "arrow.png");

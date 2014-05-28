@@ -79,7 +79,7 @@ public class Hud extends HUD {
 	
 	private void createButtons() {
 		gasButton = new ButtonSprite(700, 300,
-				ResourcesManager.getInstance().button_region, vbom) {
+				ResourcesManager.getInstance().gas_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
 					plane.gasShip(false);
@@ -93,7 +93,7 @@ public class Hud extends HUD {
 			};
 		};
 		breakButton = new ButtonSprite(625, 375,
-				ResourcesManager.getInstance().button_region, vbom) {
+				ResourcesManager.getInstance().fren_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
 					plane.breakShip(false);
@@ -108,7 +108,7 @@ public class Hud extends HUD {
 			};
 		};
 		shootButton = new ButtonSprite(25, 300,
-				ResourcesManager.getInstance().button_region, vbom) {
+				ResourcesManager.getInstance().shoot_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
 					shootButton.setCurrentTileIndex(0);
@@ -126,7 +126,7 @@ public class Hud extends HUD {
 				return true;
 			};
 		};
-		/*alternateShootButton = new ButtonSprite(100, 375,ResourcesManager.getInstance().button_region, vbom) {
+		alternateShootButton = new ButtonSprite(100, 375,ResourcesManager.getInstance().alternate_shoot_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
 				if (touchEvent.isActionUp()) {
 					alternateShootButton.setCurrentTileIndex(0);
@@ -137,7 +137,7 @@ public class Hud extends HUD {
 				}
 				return true;
 			};
-		};*/
+		};
 		pauseButton = new ButtonSprite(GameScene.WORLD_WIDTH/2-100, 20,
 				ResourcesManager.getInstance().pause_button_region, vbom) {
 			public boolean onAreaTouched(TouchEvent touchEvent, float X, float Y) {
@@ -152,8 +152,8 @@ public class Hud extends HUD {
 		attachChild(pauseButton);
 		registerTouchArea(gasButton);
 		attachChild(gasButton);
-		/*registerTouchArea(alternateShootButton);
-		attachChild(alternateShootButton);*/
+		registerTouchArea(alternateShootButton);
+		attachChild(alternateShootButton);
 		registerTouchArea(shootButton);
 		attachChild(shootButton);
 		registerTouchArea(breakButton);

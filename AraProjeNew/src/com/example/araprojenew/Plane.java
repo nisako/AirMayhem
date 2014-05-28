@@ -221,7 +221,7 @@ public void alternateShoot(){
     		explosionSprite.setVisible(true);
     		ResourcesManager.getInstance().camera.setChaseEntity(explosionSprite);
     		this.setVisible(false);
-    		explosionSprite.animate(100,false, new IAnimationListener() { 		
+    		explosionSprite.animate(50,false, new IAnimationListener() { 		
 				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
 					ResourcesManager.getInstance().explosionSound.play();
 				}					
