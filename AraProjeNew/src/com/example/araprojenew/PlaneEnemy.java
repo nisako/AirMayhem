@@ -10,6 +10,7 @@ import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.math.MathUtils;
 
@@ -38,11 +39,14 @@ public class PlaneEnemy extends AnimatedSprite{
 	private AnimatedSprite explosionSprite;
 	boolean animationFlagForPlaneCrush = true;
 	public int shotType;
+	public AnimatedSprite planeEnemySprite;
+	private VertexBufferObjectManager vbox;
 	
 	public PlaneEnemy(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
     {
         super(pX, pY, ResourcesManager.getInstance().plane_regions[0], vbo);
         createPhysics(camera, physicsWorld);
+        vbox = vbo;
         animate(1);
         shots = new ArrayList<Body>();
         createShots(physicsWorld,vbo,camera);
@@ -97,7 +101,10 @@ public class PlaneEnemy extends AnimatedSprite{
 	        		}
 	        		isShot = false;
 	        	}
-	            
+	            if(planeEnemySprite != null){
+	            	planeEnemySprite.setPosition(PlaneEnemy.this);
+	            	planeEnemySprite.setRotation(PlaneEnemy.this.getRotation());
+	            }
 	            /*super.onUpdate(pSecondsElapsed);
 	            camera.onUpdate(0.1f);
 	            body.setTransform((body.getPosition().x+50) % 50, body.getPosition().y, body.getAngle());
@@ -182,7 +189,7 @@ public void alternateShoot(){
 		if( animationFlagForPlaneCrush){
     		explosionSprite.setPosition(this);
     		explosionSprite.setVisible(true);
-    		this.setVisible(false);
+    		planeEnemySprite.setVisible(false);
     		//explosionSprite.animate(100,false);
     		explosionSprite.animate(100,false, new IAnimationListener() { 		
 				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {}					
@@ -201,10 +208,20 @@ public void alternateShoot(){
     	}
 	}
 	public void respawn(){
-		this.setVisible(true);
+		planeEnemySprite.setVisible(true);
 		animationFlagForPlaneCrush = true;
 		this.body.setTransform(0,0,0);
 		health = 100;
 		
 	}
+
+
+
+	public void changePlane(int i) {
+		planeEnemySprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().plane_regions[i], vbox);
+		SceneManager.getInstance().getCurrentScene().attachChild(planeEnemySprite);
+		this.setVisible(false);
+		}
+		
+	
 }

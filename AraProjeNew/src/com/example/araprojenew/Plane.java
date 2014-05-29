@@ -143,7 +143,19 @@ public class Plane extends AnimatedSprite{
 	            if(body.getLinearVelocity().len() > 4){
 	            	//TODO bura uçak yavaþken yavaþ dönsün hýzlýyken hýzlý þeklinde olabilir
 	            	body.setAngularVelocity(ResourcesManager.getInstance().sensor2/2);
+	            	if(!Plane.this.isAnimationRunning()){
+	            		Plane.this.animate(1);
+	            	}
 	            }
+	            else{//uçak yavaþsa
+	            	if(Plane.this.isAnimationRunning()){
+	            		Plane.this.stopAnimation();
+	            	}
+	            }
+	            /*if((Plane.this.getRotation()%360) +360 > 90) setFlippedVertical(true);
+	            else if ((Plane.this.getRotation()%360) +360 > 180) setFlippedVertical(false);
+	            else setFlippedVertical(false);*/
+	            
 	            body.setLinearVelocity((float)(body.getLinearVelocity().len()*Math.cos(body.getAngle())), (float)(body.getLinearVelocity().len()*Math.sin(body.getAngle())));
 	            if(isGas)  body.applyForce((float) (acceleration*Math.cos(body.getAngle())), (float) (acceleration*Math.sin(body.getAngle())), mShapeHalfBaseWidth, mShapeHalfBaseHeight);
 	            else if(isBreak && body.getLinearVelocity().len() > 0) body.applyForce((float) (-7*Math.cos(body.getAngle())), 0, mShapeHalfBaseWidth, mShapeHalfBaseHeight);

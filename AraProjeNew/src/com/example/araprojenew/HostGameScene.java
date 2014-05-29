@@ -153,7 +153,38 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 								else if(incoming.type == 3){ //ben resume ettim sen de edebilirsin
 									HostGameScene.super.resume();
 								}
-								
+								else if(incoming.type == 11){ //plane 0 secildi
+									planeEnemy.changePlane(1);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
+								else if(incoming.type == 12){ //plane 0 secildi
+									planeEnemy.changePlane(2);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
+								else if(incoming.type == 13){ //plane 0 secildi
+									planeEnemy.changePlane(3);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
+								else if(incoming.type == 14){ //plane 0 secildi
+									planeEnemy.changePlane(4);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
+								else if(incoming.type == 15){ //plane 0 secildi
+									planeEnemy.changePlane(5);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
+								else if(incoming.type == 16){ //plane 0 secildi
+									planeEnemy.changePlane(6);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
+								else if(incoming.type == 17){ //plane 0 secildi
+									planeEnemy.changePlane(7);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
+								else if(incoming.type == 18){ //plane 0 secildi
+									planeEnemy.changePlane(8);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
 							}	
 						});
 						
@@ -199,6 +230,22 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	            		plane.crush();
 	            		sendDeathMessage();
 	            	}
+	            	engine.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								x1.getBody().setTransform(-10000, -10000,0);						
+							}
+						});
+	            }
+	            if (x1.getBody().getUserData().equals("shotSprite") && x2.getBody().getUserData().equals("planeEnemy"))
+	            {
+	            	engine.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								x1.getBody().setTransform(-10000, -10000,0);						
+							}
+						});
+
 	            }
 	            if (x2.getBody().getUserData().equals("ground") && x1.getBody().getUserData().equals("plane"))
 	            {
