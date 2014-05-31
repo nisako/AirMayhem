@@ -233,12 +233,12 @@ public class ClientGameScene extends GameScene implements
 						});
 
 	            }
-	            if (x1.getBody().getUserData().equals("shotSprite") && x2.getBody().getUserData().equals("planeEnemy"))
+	            if (x2.getBody().getUserData().equals("shot") && x1.getBody().getUserData().equals("planeEnemy"))
 	            {
 	            	engine.runOnUpdateThread(new Runnable() {
 							@Override
 							public void run() {
-								x1.getBody().setTransform(-10000, -10000,0);						
+								x2.getBody().setTransform(-10000, -10000,0);						
 							}
 						});
 

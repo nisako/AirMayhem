@@ -232,7 +232,10 @@ public void alternateShoot(){
 	
 	public void healtPack(){
 		health += (int)maxHealth*0.25;
+		
 		if(health>maxHealth) health = maxHealth;
+		GameScene a = (GameScene) SceneManager.getInstance().getCurrentScene();
+    	a.gameHUD.updateHudHealth();
 	}
 	
 	public void crush(){
