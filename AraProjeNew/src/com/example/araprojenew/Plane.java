@@ -13,6 +13,8 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import android.transition.Scene;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 //TODO bu class'ýn plane enemy ile birlikte ortak bi atasý olmalýydý
@@ -33,9 +35,17 @@ public class Plane extends AnimatedSprite{
 	public int shotType=0; //0 default , 2 double,3 triple
 	
 	public int maxHealth = 100;
-	public int health = maxHealth;
+	private int health = maxHealth;
 	
 	
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int phealth) {
+		this.health = phealth;
+	}
+
 	private float gravity;
 
 	public boolean animationFlagForPlaneCrush = true;
@@ -47,12 +57,14 @@ public class Plane extends AnimatedSprite{
         setStats(planeType);
         createPhysics(camera, physicsWorld);
         explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbo);
-       // smokeSprite = new AnimatedSprite(90, 90, ResourcesManager.getInstance().explosion_region, vbo);
-       // smokeSprite.animate(1);
+        /*smokeSprite = new AnimatedSprite(90, 90, ResourcesManager.getInstance().smoke_region, vbo);
+        smokeSprite.animate(200);
+        attachChild(smokeSprite);*/
         camera.setChaseEntity(this);
         animate(1);
         shots = new ArrayList<Body>();
         createShots(physicsWorld,vbo,camera);
+        
     }
 	
 
@@ -112,6 +124,7 @@ public class Plane extends AnimatedSprite{
 	
 	private void createPhysics(final Camera camera, PhysicsWorld physicsWorld)
 	{   
+		
 	    body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, PhysicsFactory.createFixtureDef(0, 0, 0));
 	    body.setUserData("plane");
         this.body.getMassData().mass = 0f;
@@ -169,6 +182,7 @@ public class Plane extends AnimatedSprite{
 	    });
 	    
 	}
+	
 
 	public void gasShip(Boolean status) {
 		isGas = status;
@@ -178,7 +192,7 @@ public class Plane extends AnimatedSprite{
 	public void breakShip(Boolean status) {
 		isBreak = status;	
 	}
-
+	
 
 
 	public void shoot() {
@@ -257,6 +271,8 @@ public void alternateShoot(){
 		this.setVisible(true);
 		this.body.setTransform(1,1,0);
 		health = maxHealth;
+		GameScene a = (GameScene) SceneManager.getInstance().getCurrentScene();
+    	a.gameHUD.updateHudHealth();
 		ResourcesManager.getInstance().camera.setChaseEntity(this);
 		animationFlagForPlaneCrush= true;
 		body.setLinearVelocity(0, 0);
@@ -273,7 +289,9 @@ public void alternateShoot(){
 	public void damage(int dmg){
 		if(!invul){
 			health -= dmg;
-			
+			GameScene a = (GameScene) SceneManager.getInstance().getCurrentScene();
+        	a.gameHUD.updateHudHealth();
+        	
 		}
 	}
 

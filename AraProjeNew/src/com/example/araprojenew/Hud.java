@@ -32,7 +32,7 @@ public class Hud extends HUD {
 	}
 
 	private void createHealtBar() {
-		healtBar = new Rectangle(40, 20, plane.health, 30, ResourcesManager.getInstance().vbom);
+		healtBar = new Rectangle(40, 20, plane.getHealth(), 30, ResourcesManager.getInstance().vbom);
 		healtBarBorder = new Rectangle(healtBar.getX()-2, healtBar.getY()-3, healtBar.getWidth()+4, healtBar.getHeight()+5, ResourcesManager.getInstance().vbom);
 		healtBarEmptyArea = new Rectangle(healtBar.getX(), healtBar.getY(), healtBar.getWidth(), healtBar.getHeight(), ResourcesManager.getInstance().vbom);
 		healtBar.setColor(Color.RED);
@@ -74,7 +74,7 @@ public class Hud extends HUD {
 	    registerUpdateHandler(scoreUpdateTimer);
 	}*/
 	public void updateHudHealth(){
-		healtBar.setWidth(plane.health);
+		healtBar.setWidth(plane.getHealth());
 	}
 	public void updateHudScore(){
 		GameScene.score++;

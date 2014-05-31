@@ -226,7 +226,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	            if (x1.getBody().getUserData().equals("shotEnemy") && x2.getBody().getUserData().equals("plane"))
 	            {	            	
 	            	plane.damage(10);
-	            	if(plane.health<=0){
+	            	if(plane.getHealth()<=0){
 	            		plane.crush();
 	            		sendDeathMessage();
 	            	}
