@@ -53,7 +53,8 @@ public class ClientGameScene extends GameScene implements
 		super.physicsWorld.setContactListener(clientContactListener());
 		setupMessages();
 		ResourcesManager.getInstance().activity.toastOnUIThread("Server Seeking");
-  	    ClientGameScene.this.setIgnoreUpdate(true);
+  	    //ClientGameScene.this.setIgnoreUpdate(true);
+  	   setChildScene(waitChildScene,false,true,true);
   	   createClientGameLoopUpdate();
   	    pupManager = new PowerupManager(this, plane,planeEnemy,false);
 		try {
@@ -152,6 +153,9 @@ public class ClientGameScene extends GameScene implements
 				else if(incoming.type == 3){ //ben resume ettim sen de edebilirsin
 					ClientGameScene.super.resume();
 				}
+				else if(incoming.type == 10){ //plane 0 secildi
+					planeEnemy.changePlane(0);
+				}
 				else if(incoming.type == 11){ //plane 0 secildi
 					planeEnemy.changePlane(1);
 				}
@@ -173,9 +177,7 @@ public class ClientGameScene extends GameScene implements
 				else if(incoming.type == 17){ //plane 0 secildi
 					planeEnemy.changePlane(7);
 				}
-				else if(incoming.type == 18){ //plane 0 secildi
-					planeEnemy.changePlane(8);
-				}
+				
 				
 			}
 		
@@ -326,13 +328,15 @@ public class ClientGameScene extends GameScene implements
 	public void onStarted(ServerConnector<SocketConnection> pServerConnector) {
 		ResourcesManager.getInstance().activity.toastOnUIThread("Connected");
 		sendMessage(new clientUtilMessage(MainMenuScene.selected_plane+10));
-		ClientGameScene.this.setIgnoreUpdate(false);
+		//ClientGameScene.this.setIgnoreUpdate(false);
+		ClientGameScene.this.waitChildScene.closeMenuScene();
 	}
 
 	@Override
 	public void onTerminated(ServerConnector<SocketConnection> pServerConnector) {
 		ResourcesManager.getInstance().activity.toastOnUIThread("Connection Lost");
-		ClientGameScene.this.setIgnoreUpdate(true);
+		//ClientGameScene.this.setIgnoreUpdate(true);
+		ClientGameScene.this.setChildScene(waitChildScene,false,true,true);
 	}
 
 	public void sendMessage(ClientMessage pClientMessage) {
@@ -356,7 +360,12 @@ public class ClientGameScene extends GameScene implements
 		}
 	}
 	public void resume(){
+		try{
 		sendPauseMessage(false);
+		}
+		catch(Exception e){
+			//yakaladim yakaladim yakaladim yakalayamadim
+		}
 	}
 	//Discovery alanlarý baslangýc
     private void initDiscoveryClient() throws Throwable {
@@ -382,9 +391,16 @@ public class ClientGameScene extends GameScene implements
 			@Override
 			public void onTimeout(
 					SocketServerDiscoveryClient<DefaultDiscoveryData> pSocketServerDiscoveryClient,
-					SocketTimeoutException pSocketTimeoutException) {
-				ResourcesManager.getInstance().activity.toastOnUIThread("Server not found!");
-				SceneManager.getInstance().loadMenuScene(engine);			
+					SocketTimeoutException pSocketTimeoutException) {				
+				try {
+					if(SceneManager.getInstance().getCurrentScene().equals(ClientGameScene.this)){
+						initDiscoveryClient();
+						ResourcesManager.getInstance().activity.toastOnUIThread("Seeking...");
+					}
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
 			}
 
 			@Override

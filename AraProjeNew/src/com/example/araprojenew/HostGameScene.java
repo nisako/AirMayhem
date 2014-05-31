@@ -153,6 +153,10 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 								else if(incoming.type == 3){ //ben resume ettim sen de edebilirsin
 									HostGameScene.super.resume();
 								}
+								else if(incoming.type == 10){ //plane 0 secildi
+									planeEnemy.changePlane(0);
+									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+								}
 								else if(incoming.type == 11){ //plane 0 secildi
 									planeEnemy.changePlane(1);
 									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
@@ -179,10 +183,6 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 								}
 								else if(incoming.type == 17){ //plane 0 secildi
 									planeEnemy.changePlane(7);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
-								}
-								else if(incoming.type == 18){ //plane 0 secildi
-									planeEnemy.changePlane(8);
 									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
 								}
 							}	
@@ -225,7 +225,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	           
 	            if (x1.getBody().getUserData().equals("shotEnemy") && x2.getBody().getUserData().equals("plane"))
 	            {	            	
-	            	plane.health -= 10;
+	            	plane.damage(10);
 	            	if(plane.health<=0){
 	            		plane.crush();
 	            		sendDeathMessage();
@@ -354,7 +354,9 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	@Override
 	public void onStarted(ClientConnector<SocketConnection> pClientConnector) {
 		ResourcesManager.getInstance().activity.toastOnUIThread("Client connected.");
-		this.setIgnoreUpdate(false);
+		mSocketServerDiscoveryServer.terminate();
+		//this.setIgnoreUpdate(false);
+		waitChildScene.closeMenuScene();
 		/*Log.i(TAG, "Client Connected: "
 				+ pClientConnector.getConnection().getSocket().getInetAddress()
 						.getHostAddress());*/
@@ -364,7 +366,8 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	@Override
 	public void onTerminated(ClientConnector<SocketConnection> pClientConnector) {
 		ResourcesManager.getInstance().activity.toastOnUIThread("Client disconnected.");
-		this.setIgnoreUpdate(true);
+		//this.setIgnoreUpdate(true);
+		setChildScene(waitChildScene,false,true,true);
 		/*Log.i(TAG, "Client Disconnected: "
 				+ pClientConnector.getConnection().getSocket().getInetAddress()
 						.getHostAddress());*/
@@ -373,14 +376,15 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 	// Listener - In the event of the server starting up
 	@Override
 	public void onStarted(SocketServer<SocketConnectionClientConnector> pSocketServer) {
-		this.setIgnoreUpdate(true);
+		//this.setIgnoreUpdate(true);
+		setChildScene(waitChildScene,false,true,true);
 		ResourcesManager.getInstance().activity.toastOnUIThread("Server started waiting for clients.");
 	}
 
 	// Listener - In the event of the server shutting down
 	@Override
 	public void onTerminated(SocketServer<SocketConnectionClientConnector> pSocketServer) {
-		this.setIgnoreUpdate(false); //olmalý mý?
+		//this.setIgnoreUpdate(false); //olmalý mý?
 		ResourcesManager.getInstance().activity.toastOnUIThread("Server terminated.");
 	}
 
@@ -391,8 +395,8 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 
 	}
 	public void disposeScene(){		
-		mSocketServer.terminate();
-		mSocketServerDiscoveryServer.terminate();
+		if(mSocketServer != null) mSocketServer.terminate();
+		if(mSocketServerDiscoveryServer != null) mSocketServerDiscoveryServer.terminate();
 		super.disposeScene();
 	}
 	

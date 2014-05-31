@@ -269,8 +269,9 @@ public void alternateShoot(){
 	}
 
 	public void damage(int dmg){
-		if(!invul)
+		if(!invul){
 			health -= dmg;
+		}
 	}
 
 	public void aplyPowerup(powerupType pType) {

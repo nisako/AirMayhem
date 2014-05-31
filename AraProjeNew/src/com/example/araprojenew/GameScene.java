@@ -52,7 +52,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected boolean isMultipalyerPause=false;
 	protected Rectangle left,right,ground,roof;
 	
-	public MenuScene pauseChildScene;
+	public MenuScene pauseChildScene,waitChildScene;
 	
 	@Override
 	public void createScene() {
@@ -61,6 +61,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    createHUD();
 	    createBackground();
 	    createPauseChildScene();
+	    createWaitChildScene();
 	    //engine.registerUpdateHandler(new FPSLogger());
 	}
 	
@@ -81,7 +82,21 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    resumeMenuItem.setPosition(250, 125);
 	    quitMenuItem.setPosition(250,  275);
 	    
-	    pauseChildScene.setOnMenuItemClickListener(this);
+	    pauseChildScene.setOnMenuItemClickListener(this);		
+	}
+	
+	private void createWaitChildScene() {
+		waitChildScene = new MenuScene(camera);
+		
+	    final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, resourcesManager.back_button_region, vbom), 1.2f, 1);
+
+	    waitChildScene.addMenuItem(quitMenuItem);
+	    
+	    waitChildScene.buildAnimations();
+	    waitChildScene.setBackgroundEnabled(false);
+	    quitMenuItem.setPosition(250,  275);
+	    
+	    waitChildScene.setOnMenuItemClickListener(this);
 		
 	}
 

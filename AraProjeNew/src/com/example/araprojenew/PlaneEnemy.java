@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.IEntity;
+import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
@@ -35,7 +36,6 @@ public class PlaneEnemy extends AnimatedSprite{
 	public int maxShot=35;
 	public boolean isShot=false;
 	public FixtureDef planefix;
-	public int health=70;
 	private AnimatedSprite explosionSprite;
 	boolean animationFlagForPlaneCrush = true;
 	public int shotType;
@@ -47,7 +47,6 @@ public class PlaneEnemy extends AnimatedSprite{
         super(pX, pY, ResourcesManager.getInstance().plane_regions[0], vbo);
         createPhysics(camera, physicsWorld);
         vbox = vbo;
-        animate(1);
         shots = new ArrayList<Body>();
         createShots(physicsWorld,vbo,camera);
         explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbo);
@@ -178,7 +177,11 @@ public void alternateShoot(){
 		shoot(0,0,0);
 		shoot(0,0,-0.5f);
 	}
-
+	
+	public void moveSmoothly(Vector2 v){
+		registerEntityModifier(new MoveModifier(v.dst(this.getX(),this.getY()), this.getX(), v.x, this.getY(), v.y));
+	}
+	
 	public void crush(){
 		try{
 			this.getParent().attachChild(explosionSprite);
@@ -190,8 +193,7 @@ public void alternateShoot(){
     		explosionSprite.setPosition(this);
     		explosionSprite.setVisible(true);
     		planeEnemySprite.setVisible(false);
-    		//explosionSprite.animate(100,false);
-    		explosionSprite.animate(100,false, new IAnimationListener() { 		
+    		explosionSprite.animate(50,false, new IAnimationListener() { 		
 				public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {}					
 				public void onAnimationLoopFinished(AnimatedSprite pAnimatedSprite,int pRemainingLoopCount, int pInitialLoopCount) {
 												}								
@@ -211,7 +213,6 @@ public void alternateShoot(){
 		planeEnemySprite.setVisible(true);
 		animationFlagForPlaneCrush = true;
 		this.body.setTransform(0,0,0);
-		health = 100;
 		
 	}
 
@@ -220,6 +221,7 @@ public void alternateShoot(){
 	public void changePlane(int i) {
 		planeEnemySprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().plane_regions[i], vbox);
 		SceneManager.getInstance().getCurrentScene().attachChild(planeEnemySprite);
+		planeEnemySprite.animate(1);
 		this.setVisible(false);
 		}
 		
