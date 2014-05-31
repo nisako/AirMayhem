@@ -69,6 +69,8 @@ public class ResourcesManager {
     public ITextureRegion pennant2_region;
     public ITextureRegion planechoose_region;
     public ITextureRegion menubackbutton_region;
+    public ITextureRegion victory_region;
+    public ITextureRegion defeat_region;
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
     private BuildableBitmapTextureAtlas sharedTextureAtlas;
@@ -216,6 +218,8 @@ public class ResourcesManager {
         powerup_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "powerup.png");
         pennant1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant1.png");
         pennant2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant2.png");
+        victory_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "victory.png");
+        defeat_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "defeat.png");
         powerup_regions[0] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "doubleshoticon.png");
         powerup_regions[1] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "tripleshoticon.png");
         powerup_regions[2] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "healthicon.png");

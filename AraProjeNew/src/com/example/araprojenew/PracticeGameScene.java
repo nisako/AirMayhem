@@ -144,4 +144,10 @@ public class PracticeGameScene extends GameScene{
 		attachChild(balloonSprite);
 	}
 	
+	@Override
+public void victory(){
+		}
+	@Override
+	public void defeat(){
+	}
 }

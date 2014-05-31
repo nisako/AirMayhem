@@ -79,10 +79,16 @@ public class Hud extends HUD {
 	public void updateHudScore(){
 		GameScene.score++;
 		scoreText.setText(GameScene.score+"");
+		if(GameScene.score>=7){
+			((GameScene) SceneManager.getInstance().getCurrentScene()).victory();
+		}		
 	}
 	public void updateHudEnemyScore(){
 		GameScene.enemyScore++;
     	scoreText2.setText(GameScene.enemyScore+"");
+    	if(GameScene.enemyScore>=7){
+    		((GameScene) SceneManager.getInstance().getCurrentScene()).defeat();
+    	}
 	}
 	
 	public void pauseButtonTileChanger(){

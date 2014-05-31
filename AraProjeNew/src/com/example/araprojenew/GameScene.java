@@ -52,7 +52,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	protected boolean isMultipalyerPause=false;
 	protected Rectangle left,right,ground,roof;
 	
-	public MenuScene pauseChildScene,waitChildScene;
+	public MenuScene pauseChildScene,waitChildScene,postVictoryGameChildScene,postDefeatGameChildScene;
 	
 	@Override
 	public void createScene() {
@@ -62,6 +62,8 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    createBackground();
 	    createPauseChildScene();
 	    createWaitChildScene();
+	    createVictoryPostGameScene();
+	    createDefeatPostGameScene();
 	    //engine.registerUpdateHandler(new FPSLogger());
 	}
 	
@@ -85,7 +87,44 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    pauseChildScene.setOnMenuItemClickListener(this);		
 	}
 	
+	private void createVictoryPostGameScene(){
+		postVictoryGameChildScene = new MenuScene(camera);
+			
+		final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, resourcesManager.back_button_region, vbom), 1.2f, 1);
+		final IMenuItem victoryMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(33, resourcesManager.victory_region, vbom), 1, 1);
+		
+		postVictoryGameChildScene.addMenuItem(victoryMenuItem);
+		postVictoryGameChildScene.addMenuItem(quitMenuItem);
+	    
+	    postVictoryGameChildScene.buildAnimations();
+		postVictoryGameChildScene.setBackgroundEnabled(false);
+
+		victoryMenuItem.setPosition(250, 125);
+	    quitMenuItem.setPosition(250,  275);
+	    
+		postVictoryGameChildScene.setOnMenuItemClickListener(this);
+	}
+	
+	private void createDefeatPostGameScene(){
+		postDefeatGameChildScene = new MenuScene(camera);
+			
+		final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, resourcesManager.back_button_region, vbom), 1.2f, 1);
+		final IMenuItem defeatMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(33, resourcesManager.defeat_region, vbom), 1, 1);
+		
+		postDefeatGameChildScene.addMenuItem(defeatMenuItem);
+		postDefeatGameChildScene.addMenuItem(quitMenuItem);
+		
+	    postDefeatGameChildScene.buildAnimations();
+		postDefeatGameChildScene.setBackgroundEnabled(false);
+
+		defeatMenuItem.setPosition(250, 125);
+	    quitMenuItem.setPosition(250,  275);
+		
+		postDefeatGameChildScene.setOnMenuItemClickListener(this);
+	}
 	private void createWaitChildScene() {
+		
+		
 		waitChildScene = new MenuScene(camera);
 		
 	    final IMenuItem quitMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_QUIT, resourcesManager.back_button_region, vbom), 1.2f, 1);
@@ -107,9 +146,10 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 		((GameScene) SceneManager.getInstance().getCurrentScene()).pause();
 	}
 	
-	public void activePuaseChildScene() {
-		
+	public void activePauseChildScene() {
+		if(getChildScene()!=postDefeatGameChildScene && getChildScene()!=postVictoryGameChildScene ){
 		setChildScene(pauseChildScene,false,true,true);
+		}
 	}
 	
 	@Override
@@ -228,9 +268,16 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
             return false;
         }
 	}
+	public void victory(){
+		
+		setChildScene(postVictoryGameChildScene,false,true,true);
+	}
+	public void defeat(){
+		setChildScene(postDefeatGameChildScene, false, true, true);
+	}
 
 	public void pause() {
-		activePuaseChildScene();
+		activePauseChildScene();
 	}
 	
 	public void resume(){
