@@ -113,12 +113,14 @@ public static class serverShootMessage extends ServerMessage{
 		}
 		public static class serverPowerupMessage extends ServerMessage{
 			float x,y;
+			int type;
 			public serverPowerupMessage(){
 				
 			}
 			public serverPowerupMessage(Powerup pPup){
 				x = pPup.getX();
 				y = pPup.getY();
+				type = powerupType.toInt(pPup.getType());
 			}
 			@Override
 			public short getFlag() {
@@ -130,6 +132,7 @@ public static class serverShootMessage extends ServerMessage{
 					DataInputStream pDataInputStream) throws IOException {
 				x = pDataInputStream.readFloat();
 				y = pDataInputStream.readFloat();
+				type = pDataInputStream.readInt();
 			}
 
 			@Override
@@ -137,6 +140,7 @@ public static class serverShootMessage extends ServerMessage{
 					DataOutputStream pDataOutputStream) throws IOException {
 				pDataOutputStream.writeFloat(x);
 				pDataOutputStream.writeFloat(y);
+				pDataOutputStream.writeInt(type);
 			}
 			
 		}

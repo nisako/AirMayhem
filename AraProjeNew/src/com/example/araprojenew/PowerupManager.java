@@ -24,7 +24,8 @@ public class PowerupManager {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				if(plane.animationFlagForPlaneCrush == true){
-					testPup = new Powerup(rand.nextInt(GameScene.WORLD_WIDTH), rand.nextInt(GameScene.WORLD_HEIGHT-200), plane,planeEnemy, powerupType.getRandom());
+					powerupType a =  powerupType.getRandom();
+					testPup = new Powerup(rand.nextInt(GameScene.WORLD_WIDTH), rand.nextInt(GameScene.WORLD_HEIGHT-200), plane,planeEnemy, a,ResourcesManager.getInstance().powerup_regions[powerupType.toInt(a)]);
 					pScene.attachChild(testPup);
 					testPup.setTag(tagCounter);
 					tagCounter++;
@@ -34,9 +35,9 @@ public class PowerupManager {
 		}));
 		}
 	}
-	public void spawnPowerUp(float x,float y){
+	public void spawnPowerUp(float x,float y,int type){
 		if(plane.animationFlagForPlaneCrush == true){
-			testPup = new Powerup(x, y, plane,planeEnemy, powerupType.getRandom());
+			testPup = new Powerup(x, y, plane,planeEnemy, powerupType.toPowerupType(type),ResourcesManager.getInstance().powerup_regions[type]);
 			testPup.setTag(tagCounter);
 			tagCounter++;
 			scene.attachChild(testPup);

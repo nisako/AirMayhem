@@ -68,7 +68,6 @@ public class ResourcesManager {
     public ITextureRegion pennant2_region;
     public ITextureRegion planechoose_region;
     public ITextureRegion menubackbutton_region;
-  
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
     private BuildableBitmapTextureAtlas sharedTextureAtlas;
@@ -76,6 +75,7 @@ public class ResourcesManager {
     public BuildableBitmapTextureAtlas gameTextureAtlas;
     
     public ITiledTextureRegion[] plane_regions;
+    public ITextureRegion[] powerup_regions;
     public ITextureRegion world_region;
     public ITextureRegion bacground_region;
     public ITextureRegion shot_region;
@@ -100,6 +100,7 @@ public class ResourcesManager {
         loadMenuFonts();
         
         plane_regions = new ITiledTextureRegion[8];
+        powerup_regions = new ITextureRegion[5];
         loadSharedResorces();//they never unload
     }
     
@@ -148,7 +149,7 @@ public class ResourcesManager {
 	private void loadMenuGraphics()
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.DEFAULT);
+    	menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2500, 2500, TextureOptions.DEFAULT);
     	play_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "play.png");
     	options_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "options.png");
     	audio_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "audio.png");
@@ -213,6 +214,12 @@ public class ResourcesManager {
         powerup_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "powerup.png");
         pennant1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant1.png");
         pennant2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant2.png");
+        powerup_regions[0] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "doubleshoticon.png");
+        powerup_regions[1] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "tripleshoticon.png");
+        powerup_regions[2] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "healthicon.png");
+        powerup_regions[3] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shieldicon.png");
+        powerup_regions[4] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "missleicon.png");
+        
         try 
         {
             this.gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));

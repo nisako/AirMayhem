@@ -18,4 +18,12 @@ public enum powerupType{
 		}
 		return powerupType.HEALTUP;
 	}
+	
+	public static int toInt(powerupType a){
+		if(a.equals(powerupType.DOUBLESHOT)) return 0;
+		else if(a.equals(powerupType.TRIPLESHOT)) return 1;
+		else if(a.equals(powerupType.HEALTUP)) return 2;
+		else if(a.equals(powerupType.INVUL)) return 3;
+		return 2;
+	}
 }

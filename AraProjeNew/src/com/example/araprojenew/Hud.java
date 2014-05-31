@@ -51,8 +51,8 @@ public class Hud extends HUD {
 		final Text scoreText2 = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
 		scoreText.setColor(Color.YELLOW);
 		scoreText2.setColor(Color.YELLOW);
-		scoreText.setPosition(pennant1.getX()+pennant1.getWidth()/2-5,pennant1.getY()+pennant1.getHeight()/2-15);
-		scoreText2.setPosition(pennant2.getX()+pennant2.getWidth()/2-5,pennant2.getY()+pennant2.getHeight()/2-15);
+		scoreText.setPosition(pennant1.getX()+pennant1.getWidth()/2-8,pennant1.getY()+pennant1.getHeight()/2-15);
+		scoreText2.setPosition(pennant2.getX()+pennant2.getWidth()/2-8,pennant2.getY()+pennant2.getHeight()/2-15);
 		attachChild(pennant1);
 		attachChild(pennant2);
 		attachChild(scoreText);

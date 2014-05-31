@@ -1,14 +1,15 @@
 package com.example.araprojenew;
 
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.texture.region.ITextureRegion;
 public class Powerup extends Sprite
 {
 	private Plane plane;
 	private powerupType pType;
 	private PlaneEnemy planeEnemy;
-	public Powerup(float pX, float pY,Plane mPlane,PlaneEnemy planeEnemy,powerupType mpType){
+	public Powerup(float pX, float pY,Plane mPlane,PlaneEnemy planeEnemy,powerupType mpType,ITextureRegion pTextureRegion){
 		
-		super(pX, pY, ResourcesManager.getInstance().powerup_region, ResourcesManager.getInstance().vbom);
+		super(pX, pY, pTextureRegion, ResourcesManager.getInstance().vbom);
 		this.plane = mPlane;
 		this.pType = mpType;
 		this.planeEnemy = planeEnemy;

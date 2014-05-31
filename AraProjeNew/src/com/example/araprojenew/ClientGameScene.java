@@ -191,7 +191,7 @@ public class ClientGameScene extends GameScene implements
 					ServerConnector<SocketConnection> pServerConnector,
 					IServerMessage pServerMessage) throws IOException {
 				serverPowerupMessage incoming = (serverPowerupMessage) pServerMessage;
-				pupManager.spawnPowerUp(incoming.x,incoming.y);
+				pupManager.spawnPowerUp(incoming.x,incoming.y,incoming.type);
 				
 			}
 		
