@@ -138,7 +138,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 									throws IOException {
 								clientUtilMessage incoming = (clientUtilMessage) pClientMessage;
 								if(incoming.type == 0){ //dead
-									score++;
+									HostGameScene.super.gameHUD.updateHudScore();
 									planeEnemy.crush();
 								}
 								else if(incoming.type == 1){ //pause et oyununu
@@ -324,7 +324,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		else this.sendMessage(new serverDeathMessage(2));	
 	}
 	public void sendDeathMessage(){
-		enemyScore++;
+		super.gameHUD.updateHudEnemyScore();
 		this.sendMessage(new serverDeathMessage());
 	}
 	public void sendPowerUp(Powerup testPup) {//eklemek

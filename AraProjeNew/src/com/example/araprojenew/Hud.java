@@ -19,6 +19,7 @@ public class Hud extends HUD {
 	private Plane plane;
 	private VertexBufferObjectManager vbom;
 	private Rectangle healtBar,healtBarEmptyArea,healtBarBorder;
+	private Text scoreText,scoreText2;
 	
 	public Hud(final Plane plane, Camera camera, VertexBufferObjectManager vbom) {
 		this.plane = plane;
@@ -47,8 +48,10 @@ public class Hud extends HUD {
 		pennant1 = new Sprite(360, 0, ResourcesManager.getInstance().pennant1_region, vbom);
 		pennant2 = new Sprite(360+50, 0, ResourcesManager.getInstance().pennant2_region, vbom);
 		//TODO Burayý temizlemek gerek
-		final Text scoreText = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
-		final Text scoreText2 = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
+		 scoreText = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
+		 scoreText2 = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
+		 scoreText.setText(GameScene.score+"");
+		 scoreText2.setText(GameScene.enemyScore+"");
 		scoreText.setColor(Color.YELLOW);
 		scoreText2.setColor(Color.YELLOW);
 		scoreText.setPosition(pennant1.getX()+pennant1.getWidth()/2-8,pennant1.getY()+pennant1.getHeight()/2-15);
@@ -57,8 +60,9 @@ public class Hud extends HUD {
 		attachChild(pennant2);
 		attachChild(scoreText);
 		attachChild(scoreText2);
+	}
 		//TODO sürekli kontrol etmek yerine her deðiþtiðinde callback gönderilmeliydi
-		TimerHandler scoreUpdateTimer = new TimerHandler(0.1f, true, new ITimerCallback() {
+		/*TimerHandler scoreUpdateTimer = new TimerHandler(0.1f, true, new ITimerCallback() {
 	        public void onTimePassed(TimerHandler pTimerHandler) {
 	        	scoreText.setText(GameScene.score+"");
 	        	scoreText2.setText(GameScene.enemyScore+"");	        		           
@@ -68,6 +72,17 @@ public class Hud extends HUD {
 	        }
 	    });
 	    registerUpdateHandler(scoreUpdateTimer);
+	}*/
+	public void updateHudHealth(){
+		healtBar.setWidth(plane.health);
+	}
+	public void updateHudScore(){
+		GameScene.score++;
+		scoreText.setText(GameScene.score+"");
+	}
+	public void updateHudEnemyScore(){
+		GameScene.enemyScore++;
+    	scoreText2.setText(GameScene.enemyScore+"");
 	}
 	
 	public void pauseButtonTileChanger(){

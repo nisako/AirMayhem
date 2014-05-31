@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 //TODO bu class'ýn plane enemy ile birlikte ortak bi atasý olmalýydý
 public class Plane extends AnimatedSprite{
 	public Body body; 
-	private AnimatedSprite explosionSprite;
+	private AnimatedSprite explosionSprite,smokeSprite;
 	private boolean isGas;
 	private boolean isBreak;
 	public boolean isShoot,isAlternateShoot;
@@ -47,6 +47,8 @@ public class Plane extends AnimatedSprite{
         setStats(planeType);
         createPhysics(camera, physicsWorld);
         explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbo);
+       // smokeSprite = new AnimatedSprite(90, 90, ResourcesManager.getInstance().explosion_region, vbo);
+       // smokeSprite.animate(1);
         camera.setChaseEntity(this);
         animate(1);
         shots = new ArrayList<Body>();
@@ -271,6 +273,7 @@ public void alternateShoot(){
 	public void damage(int dmg){
 		if(!invul){
 			health -= dmg;
+			
 		}
 	}
 

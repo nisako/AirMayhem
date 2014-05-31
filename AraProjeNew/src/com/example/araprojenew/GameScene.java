@@ -44,7 +44,7 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	private Sprite fieldSprite;
 	private Sprite backgroundSprite;
 
-	protected Hud gameHUD;
+	public Hud gameHUD;
 	public PhysicsWorld physicsWorld;
 	public Plane plane;
 	public PlaneEnemy planeEnemy;

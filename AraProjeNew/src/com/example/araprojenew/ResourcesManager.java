@@ -59,6 +59,7 @@ public class ResourcesManager {
     public ITextureRegion credits_region;
     public ITextureRegion howtoplay_region;
     public ITiledTextureRegion explosion_region;
+    public ITiledTextureRegion smoke_region;
     public ITextureRegion practice_region;
     public ITextureRegion host_region;
     public ITextureRegion join_region;
@@ -208,6 +209,7 @@ public class ResourcesManager {
         world_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "field.png");
         bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "background.png");
         explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosion.png", 5, 5);
+       // smoke_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "duman.png", 5, 3);
         shot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shot.png");
         balloon_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "balloon_tiled.png", 6, 1);
         arrow_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "arrow.png");

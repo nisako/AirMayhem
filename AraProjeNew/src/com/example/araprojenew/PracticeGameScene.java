@@ -45,7 +45,7 @@ public class PracticeGameScene extends GameScene{
 	            final Fixture x1 = contact.getFixtureB();
 	            if (x2.getBody().getUserData().equals("balloon") || x1.getBody().getUserData().equals("balloon"))
 	            {
-	            	 score++;
+	            	PracticeGameScene.super.gameHUD.updateHudScore();
 	            	 balloonSprite.animate(35,false, new IAnimationListener() { 		
 						public void onAnimationStarted(AnimatedSprite pAnimatedSprite,int pInitialLoopCount) {
 							balloonBody.setUserData("balloonnotanimate");

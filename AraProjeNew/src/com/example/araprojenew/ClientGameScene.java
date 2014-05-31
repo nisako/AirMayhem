@@ -137,7 +137,7 @@ public class ClientGameScene extends GameScene implements
 					IServerMessage pServerMessage) throws IOException {
 				serverDeathMessage incoming = (serverDeathMessage) pServerMessage;
 				if(incoming.type == 0){ //dead
-					score++;
+					ClientGameScene.super.gameHUD.updateHudScore();
 					planeEnemy.crush();
 				}
 				else if(incoming.type == 1){ //pause et oyununu
@@ -221,6 +221,7 @@ public class ClientGameScene extends GameScene implements
 	            if (x1.getBody().getUserData().equals("shotEnemy") && x2.getBody().getUserData().equals("plane"))
 	            {
 	            	plane.damage(10);
+	            	ClientGameScene.super.gameHUD.updateHudHealth();
 	            	if(plane.health<=0){
 	            		plane.crush();
 	            		sendDeathMessage();
@@ -317,7 +318,7 @@ public class ClientGameScene extends GameScene implements
 		else this.sendMessage(new clientUtilMessage(2));
 	}
 	public void sendDeathMessage(){
-		enemyScore++;
+		super.gameHUD.updateHudEnemyScore();
 		sendMessage(new clientUtilMessage());
 	}
 	/*public void sendPowerUp(Powerup testPup) {//remove msg
