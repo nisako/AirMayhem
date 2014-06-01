@@ -35,8 +35,8 @@ public class Hud extends HUD {
 		healtBar = new Rectangle(40, 20, plane.getHealth(), 30, ResourcesManager.getInstance().vbom);
 		healtBarBorder = new Rectangle(healtBar.getX()-2, healtBar.getY()-3, healtBar.getWidth()+4, healtBar.getHeight()+5, ResourcesManager.getInstance().vbom);
 		healtBarEmptyArea = new Rectangle(healtBar.getX(), healtBar.getY(), healtBar.getWidth(), healtBar.getHeight(), ResourcesManager.getInstance().vbom);
-		healtBar.setColor(Color.RED);
-		healtBar.setAlpha(0.7f);//DARK RED
+		healtBar.setColor(Color.GREEN);
+		//healtBar.setAlpha(0.7f);//DARK RED
 		healtBarBorder.setColor(Color.BLACK);	
 		healtBarEmptyArea.setColor(0.21f,0.25f,0.24f);//Gray
 		attachChild(healtBarBorder);
@@ -75,6 +75,10 @@ public class Hud extends HUD {
 	}*/
 	public void updateHudHealth(){
 		healtBar.setWidth(plane.getHealth());
+		if(plane.getHealth() <= 30) healtBar.setColor(Color.RED);
+		else if (plane.getHealth() <= 70) healtBar.setColor(1,0.5f,0);
+		else healtBar.setColor(Color.GREEN);
+	
 	}
 	public void updateHudScore(){
 		GameScene.score++;

@@ -3,6 +3,8 @@ package com.example.araprojenew;
 import java.util.ArrayList;
 
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -41,12 +43,14 @@ public class PlaneEnemy extends AnimatedSprite{
 	public int shotType;
 	public AnimatedSprite planeEnemySprite;
 	private VertexBufferObjectManager vbox;
+	private Sprite shieldSprite;
 	
 	public PlaneEnemy(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
     {
-        super(pX, pY, ResourcesManager.getInstance().plane_regions[0], vbo);
+        super(-333, -333, ResourcesManager.getInstance().plane_regions[0], vbo);
         createPhysics(camera, physicsWorld);
         vbox = vbo;
+        shieldSprite = new Sprite(-35,-35,ResourcesManager.getInstance().shield_region,vbo);
         shots = new ArrayList<Body>();
         createShots(physicsWorld,vbo,camera);
         explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbo);
@@ -223,7 +227,21 @@ public void alternateShoot(){
 		SceneManager.getInstance().getCurrentScene().attachChild(planeEnemySprite);
 		planeEnemySprite.animate(1);
 		this.setVisible(false);
+		 planeEnemySprite.attachChild(shieldSprite);
+		 shieldSprite.setVisible(false);
 		}
 		
-	
+	public void aplyPowerup(powerupType pType) {
+		
+		 if(pType == powerupType.INVUL){
+			shieldSprite.setVisible(true);
+			registerUpdateHandler(new TimerHandler(3, new ITimerCallback() {			
+				@Override
+				public void onTimePassed(TimerHandler pTimerHandler) {
+					
+					shieldSprite.setVisible(false);
+				}
+			}));
+		}
+	}
 }

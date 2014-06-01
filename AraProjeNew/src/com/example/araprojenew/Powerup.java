@@ -19,6 +19,7 @@ public class Powerup extends Sprite
 		super.onManagedUpdate(pSecondsElapsed);
 		if (this.collidesWith(planeEnemy))
         {
+			planeEnemy.aplyPowerup(pType);
             this.setVisible(false);
             this.setIgnoreUpdate(true);
         }

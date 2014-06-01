@@ -49,6 +49,7 @@ public class Plane extends AnimatedSprite{
 	private float gravity;
 
 	public boolean animationFlagForPlaneCrush = true;
+	private Sprite shieldSprite;
 	
 	
 	public Plane(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld,ITiledTextureRegion planeRegion,int planeType)
@@ -57,6 +58,9 @@ public class Plane extends AnimatedSprite{
         setStats(planeType);
         createPhysics(camera, physicsWorld);
         explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbo);
+        shieldSprite = new Sprite(-35,-35,ResourcesManager.getInstance().shield_region,vbo);
+        this.attachChild(shieldSprite);
+        shieldSprite.setVisible(false);
         /*smokeSprite = new AnimatedSprite(90, 90, ResourcesManager.getInstance().smoke_region, vbo);
         smokeSprite.animate(200);
         attachChild(smokeSprite);*/
@@ -323,10 +327,12 @@ public void alternateShoot(){
 		}
 		else if(pType == powerupType.INVUL){
 			invul = true;
+			shieldSprite.setVisible(true);
 			registerUpdateHandler(new TimerHandler(3, new ITimerCallback() {			
 				@Override
 				public void onTimePassed(TimerHandler pTimerHandler) {
 					invul = false;
+					shieldSprite.setVisible(false);
 				}
 			}));
 		}

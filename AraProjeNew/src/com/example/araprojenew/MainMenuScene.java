@@ -19,7 +19,7 @@ import com.example.araprojenew.SceneManager.SceneType;
 
 
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener {
-	private MenuScene menuChildScene,optionsMenuChildScene,preGameMenuChildScene,playMenuChildScene,aboutMenuChildScene,howMenuChildScene;
+	private MenuScene menuChildScene,optionsMenuChildScene,preGameMenuChildScene,playMenuChildScene,aboutMenuChildScene,howMenuChildScene,howMenu2ChildScene;
 	private final int ITEM_WIDTH = 125;
 	private final int MENU_PLAY = 0;
 	private final int MENU_OPTIONS = 1;
@@ -31,6 +31,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	private final int MENU_ABOUT = 7;
 	private final int MENU_HOW = 8;
 	private final int MENU_BACK = 9;
+	private final int MENU_NEXT = 10;
 	//TODO bu backler tam olmadý sanýrým
 	
 	
@@ -44,6 +45,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		createPlayMenuChildScene();
 		createAboutMenuChildScene();
 		createHowMenuChildScene();
+		createHowMenu2ChildScene();
 		createPreGameMenuChildScene();
 	}
 	
@@ -57,6 +59,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		else if(getChildScene()==preGameMenuChildScene)setChildScene(menuChildScene);
 		else if(getChildScene()==aboutMenuChildScene)setChildScene(menuChildScene);
 		else if(getChildScene()==howMenuChildScene)setChildScene(menuChildScene);
+		else if(getChildScene()==howMenu2ChildScene)setChildScene(howMenuChildScene);
 		
 	}
 
@@ -203,15 +206,42 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	
 	public void createHowMenuChildScene(){
 		howMenuChildScene = new MenuScene(camera);
-		howMenuChildScene.setPosition(400, 240);	
+		howMenuChildScene.setPosition(0,0);	
 		
 		final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1); 
+		final IMenuItem nextMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_NEXT, resourcesManager.menunextbutton_region, vbom), 1.2f, 1); 
+		final IMenuItem tutorialMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(33, resourcesManager.tutorial_region, vbom), 1, 1); 
+		
+		howMenuChildScene.addMenuItem(tutorialMenuItem);
 		howMenuChildScene.addMenuItem(backMenuItem);
+		howMenuChildScene.addMenuItem(nextMenuItem);
 		howMenuChildScene.setBackgroundEnabled(false);
 		
-		backMenuItem.setPosition(-400,120);
+		tutorialMenuItem.setPosition(0, 0);
+		backMenuItem.setPosition(0,360);
+		nextMenuItem.setPosition(700, 360);
 		
 		  howMenuChildScene.setOnMenuItemClickListener(this);
+	}
+	
+	public void createHowMenu2ChildScene(){
+		howMenu2ChildScene = new MenuScene(camera);
+		howMenu2ChildScene.setPosition(0,0);	
+		
+		final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1); 
+		final IMenuItem nextMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_NEXT, resourcesManager.menunextbutton_region, vbom), 1.2f, 1); 
+		final IMenuItem tutorial2MenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(33, resourcesManager.tutorial2_region, vbom), 1, 1); 
+
+		howMenu2ChildScene.addMenuItem(tutorial2MenuItem);
+		howMenu2ChildScene.addMenuItem(backMenuItem);
+		howMenu2ChildScene.addMenuItem(nextMenuItem);
+		howMenu2ChildScene.setBackgroundEnabled(false);
+		
+		tutorial2MenuItem.setPosition(0, 0);
+		backMenuItem.setPosition(0,360);
+		nextMenuItem.setPosition(700, 360);
+		
+		howMenu2ChildScene.setOnMenuItemClickListener(this);
 	}
 	
 	public void createPreGameMenuChildScene()
@@ -301,6 +331,11 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	        	return true;
 	        case MENU_BACK:
 	        	onBackKeyPressed();
+	        	return true;
+	        case MENU_NEXT:
+	        	if(getChildScene()==howMenuChildScene){
+	        		setChildScene(howMenu2ChildScene);
+	        	}else if(getChildScene()==howMenu2ChildScene) setChildScene(howMenuChildScene);
 	        	return true;
 	        case 11:
 	        	selected_plane = 0;

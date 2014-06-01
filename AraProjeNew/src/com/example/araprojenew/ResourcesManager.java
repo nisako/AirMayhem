@@ -50,6 +50,7 @@ public class ResourcesManager {
     public ITiledTextureRegion pause_button_region;
     public ITextureRegion resume_button_region;
     public ITextureRegion back_button_region;
+    public ITextureRegion menunextbutton_region;
     
     public ITextureRegion play_region;
     public ITextureRegion options_region;
@@ -71,6 +72,8 @@ public class ResourcesManager {
     public ITextureRegion menubackbutton_region;
     public ITextureRegion victory_region;
     public ITextureRegion defeat_region;
+    public ITextureRegion tutorial_region;
+    public ITextureRegion tutorial2_region;
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
     private BuildableBitmapTextureAtlas sharedTextureAtlas;
@@ -85,6 +88,7 @@ public class ResourcesManager {
     public ITiledTextureRegion balloon_region;
     public ITextureRegion arrow_region;
     public ITextureRegion powerup_region;
+    public ITextureRegion shield_region;
 
     public Music music;
     public Sound fireSound;
@@ -165,7 +169,10 @@ public class ResourcesManager {
         credits_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "credits.png");
         bacground_region =  BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "background.png");
         planechoose_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "choose.png");
-    	menubackbutton_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "back.png");      
+    	menubackbutton_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "back.png");
+    	menunextbutton_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "next.png");      
+    	tutorial_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "tutorial.png");
+    	tutorial2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "tutorial2.png");      
     	try 
     	{
     	    this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
@@ -215,7 +222,7 @@ public class ResourcesManager {
         shot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shot.png");
         balloon_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "balloon_tiled.png", 6, 1);
         arrow_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "arrow.png");
-        powerup_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "powerup.png");
+        shield_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "shield.png");
         pennant1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant1.png");
         pennant2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "pennant2.png");
         victory_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "victory.png");
