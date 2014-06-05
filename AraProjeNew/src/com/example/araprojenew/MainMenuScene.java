@@ -60,6 +60,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		else if(getChildScene()==aboutMenuChildScene)setChildScene(menuChildScene);
 		else if(getChildScene()==howMenuChildScene)setChildScene(menuChildScene);
 		else if(getChildScene()==howMenu2ChildScene)setChildScene(howMenuChildScene);
+		else System.exit(0); 
 		
 	}
 

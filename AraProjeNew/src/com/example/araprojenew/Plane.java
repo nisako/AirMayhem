@@ -61,8 +61,8 @@ public class Plane extends AnimatedSprite{
         shieldSprite = new Sprite(-35,-35,ResourcesManager.getInstance().shield_region,vbo);
         this.attachChild(shieldSprite);
         shieldSprite.setVisible(false);
-        /*smokeSprite = new AnimatedSprite(90, 90, ResourcesManager.getInstance().smoke_region, vbo);
-        smokeSprite.animate(200);
+      /* smokeSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().smoke_region, vbo);
+        smokeSprite.animate(100);
         attachChild(smokeSprite);*/
         camera.setChaseEntity(this);
         animate(1);
