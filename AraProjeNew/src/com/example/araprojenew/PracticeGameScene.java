@@ -124,7 +124,7 @@ public class PracticeGameScene extends GameScene{
 	private void relocateBalloon(){
 		Random rand = new Random();
 		balloonSprite.setCurrentTileIndex(0);
-		balloonBody.setTransform(new Vector2(rand.nextInt(50),1+rand.nextInt(23)), balloonBody.getAngle());
+		balloonBody.setTransform(new Vector2(rand.nextInt(50),1+rand.nextInt(18)), balloonBody.getAngle());
      	//balloonBody.setTransform(new Vector2(balloonBody.getPosition().x+3,balloonBody.getPosition().y),0);
 	}
 	

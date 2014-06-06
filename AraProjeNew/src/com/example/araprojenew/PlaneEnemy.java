@@ -36,7 +36,7 @@ public class PlaneEnemy extends AnimatedSprite{
 	public Sprite shotSprite;
 	public int shotIndex=0;
 	public int maxShot=35;
-	public boolean isShot=false;
+	public boolean isShot,isMissile=false;
 	public FixtureDef planefix;
 	private AnimatedSprite explosionSprite;
 	boolean animationFlagForPlaneCrush = true;
@@ -44,6 +44,8 @@ public class PlaneEnemy extends AnimatedSprite{
 	public AnimatedSprite planeEnemySprite;
 	private VertexBufferObjectManager vbox;
 	private Sprite shieldSprite;
+	public Body enemyMissileBody;
+	public Sprite enemyMissileSprite;
 	
 	public PlaneEnemy(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
     {
@@ -51,12 +53,30 @@ public class PlaneEnemy extends AnimatedSprite{
         createPhysics(camera, physicsWorld);
         vbox = vbo;
         shieldSprite = new Sprite(-35,-35,ResourcesManager.getInstance().shield_region,vbo);
+        createMissile(physicsWorld,vbo,camera);
         shots = new ArrayList<Body>();
         createShots(physicsWorld,vbo,camera);
         explosionSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().explosion_region, vbo);
     }
 	
+	private void createMissile(PhysicsWorld physicsWorld,VertexBufferObjectManager vbo,final Camera camera) {		
+		
+		enemyMissileSprite = new Sprite(9997,9997,ResourcesManager.getInstance().missile_region,vbo);
+		enemyMissileBody = PhysicsFactory.createBoxBody(physicsWorld, enemyMissileSprite, BodyType.KinematicBody, PhysicsFactory.createFixtureDef(0, 1, 0));
+		enemyMissileBody.setUserData(enemyMissileSprite);
+		enemyMissileBody.setBullet(true);
 
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(enemyMissileSprite, enemyMissileBody, true, true){
+			@Override
+	        public void onUpdate(float pSecondsElapsed)
+	        {
+	            super.onUpdate(pSecondsElapsed);
+	            //camera.onUpdate(0.1f);
+	           
+	        }
+		});
+		
+}
 	
 	private void createShots(PhysicsWorld physicsWorld,VertexBufferObjectManager vbo,final Camera camera) {		
 		for(int i=0;i<maxShot;i++){
@@ -103,6 +123,10 @@ public class PlaneEnemy extends AnimatedSprite{
 	        			tripleShot();
 	        		}
 	        		isShot = false;
+	        	}
+	        	if(isMissile){
+	        		alternateShoot();
+	        		isMissile = false;
 	        	}
 	            if(planeEnemySprite != null){
 	            	planeEnemySprite.setPosition(PlaneEnemy.this);
@@ -168,6 +192,11 @@ public class PlaneEnemy extends AnimatedSprite{
 	}
 	
 public void alternateShoot(){
+	float angle = body.getAngle();
+	float x = body.getPosition().x+(float)Math.cos(angle);
+	float y = body.getPosition().y+(float)Math.sin(angle);
+	enemyMissileBody.setTransform(x,y, angle);
+	enemyMissileBody.setLinearVelocity(55*(float)Math.cos(enemyMissileBody.getAngle()), 55*(float)Math.sin(enemyMissileBody.getAngle()));
 		ResourcesManager.getInstance().alternateFireSound.play();
 	}
 	

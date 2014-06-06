@@ -238,6 +238,10 @@ public class GameScene extends BaseScene implements IOnMenuItemClickListener{
 	    attachChild(plane);
 	    planeEnemy = new PlaneEnemy(0, 0, vbom, camera, physicsWorld);
 	    attachChild(planeEnemy);
+	    attachChild((Sprite) plane.missileBody.getUserData());
+	    plane.missileBody.setUserData("missile");
+	    attachChild((Sprite) planeEnemy.enemyMissileBody.getUserData());
+	    planeEnemy.enemyMissileBody.setUserData("missileEnemy");
 	    for(int i=0;i<plane.maxShot;i++){
 		   /*plane.*/attachChild((Sprite) plane.shots.get(i).getUserData());
 		   plane.shots.get(i).setUserData("shot");

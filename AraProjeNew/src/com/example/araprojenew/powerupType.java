@@ -4,7 +4,8 @@ public enum powerupType{
 	DOUBLESHOT,
 	TRIPLESHOT,
 	HEALTUP,
-	INVUL;
+	INVUL,
+	MISSILE;
 	public static powerupType getRandom() {
         return values()[(int) (Math.random() * values().length)];
     }
@@ -15,6 +16,7 @@ public enum powerupType{
 			case 1:return powerupType.TRIPLESHOT;
 			case 2:return powerupType.HEALTUP;
 			case 3:return powerupType.INVUL;
+			case 4:return powerupType.MISSILE;
 		}
 		return powerupType.HEALTUP;
 	}
@@ -24,6 +26,7 @@ public enum powerupType{
 		else if(a.equals(powerupType.TRIPLESHOT)) return 1;
 		else if(a.equals(powerupType.HEALTUP)) return 2;
 		else if(a.equals(powerupType.INVUL)) return 3;
+		else if(a.equals(powerupType.MISSILE))return 4;
 		return 2;
 	}
 }

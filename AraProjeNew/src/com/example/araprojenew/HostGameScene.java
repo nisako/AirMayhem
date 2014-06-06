@@ -71,7 +71,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_POSITION, clientSpritePositionMesseage.class);
 		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_SHOOT, serverShootMessage.class);
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_SHOOT, clientShootMessage.class);
-		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_DEATH, serverDeathMessage.class);
+		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_UTIL, serverUtilMessage.class);
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_UTIL, clientShootMessage.class);
 		//this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_POWERUP, clientPowerupMessage.class);
 		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_POWERUP, serverPowerupMessage.class);
@@ -147,43 +147,46 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 								else if(incoming.type == 2){ //resume edebilir misin oyununu
 									if(ResourcesManager.getInstance().activity.isActive){
 									HostGameScene.super.resume();
-									sendMessage(new serverDeathMessage(3));
+									sendMessage(new serverUtilMessage(3));
 									}
 								}
 								else if(incoming.type == 3){ //ben resume ettim sen de edebilirsin
 									HostGameScene.super.resume();
 								}
+								else if(incoming.type == 4){
+									HostGameScene.super.planeEnemy.isMissile = true;
+								}
 								else if(incoming.type == 10){ //plane 0 secildi
 									planeEnemy.changePlane(0);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 								else if(incoming.type == 11){ //plane 0 secildi
 									planeEnemy.changePlane(1);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 								else if(incoming.type == 12){ //plane 0 secildi
 									planeEnemy.changePlane(2);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 								else if(incoming.type == 13){ //plane 0 secildi
 									planeEnemy.changePlane(3);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 								else if(incoming.type == 14){ //plane 0 secildi
 									planeEnemy.changePlane(4);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 								else if(incoming.type == 15){ //plane 0 secildi
 									planeEnemy.changePlane(5);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 								else if(incoming.type == 16){ //plane 0 secildi
 									planeEnemy.changePlane(6);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 								else if(incoming.type == 17){ //plane 0 secildi
 									planeEnemy.changePlane(7);
-									sendMessage(new serverDeathMessage(MainMenuScene.selected_plane+10));
+									sendMessage(new serverUtilMessage(MainMenuScene.selected_plane+10));
 								}
 							}	
 						});
@@ -315,17 +318,20 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		this.sendMessage(new serverShootMessage(plane.shotType));
 		//this.sendMessage(new serverSpritePositionMessage(plane.getX(),plane.getY(),plane.getRotation()));
 	}
+	public void sendMissileMessage(){
+		this.sendMessage(new serverUtilMessage(4));
+	}
 	@Override
 	public void sendPauseMessage(boolean b) {
 		if(b){
-			this.sendMessage(new serverDeathMessage(1));
+			this.sendMessage(new serverUtilMessage(1));
 			super.pause();
 		}	
-		else this.sendMessage(new serverDeathMessage(2));	
+		else this.sendMessage(new serverUtilMessage(2));	
 	}
 	public void sendDeathMessage(){
 		super.gameHUD.updateHudEnemyScore();
-		this.sendMessage(new serverDeathMessage());
+		this.sendMessage(new serverUtilMessage());
 	}
 	public void sendPowerUp(Powerup testPup) {//eklemek
 		this.sendMessage(new serverPowerupMessage(testPup));		

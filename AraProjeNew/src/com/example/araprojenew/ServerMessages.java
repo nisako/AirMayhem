@@ -19,7 +19,7 @@ public class ServerMessages {
 	
 	public static final short SERVER_MESSAGE_SHOOT = 2;//ClientMessages.CLIENT_FLAG_COUNT;
 	public static final short SERVER_MESSAGE_TEST = 3;
-	public static final short SERVER_MESSAGE_DEATH = 5;//TODO rename this
+	public static final short SERVER_MESSAGE_UTIL = 5;//TODO rename this
 	public static final short SERVER_MESSAGE_POWERUP = 7;
 	
 public static class serverShootMessage extends ServerMessage{
@@ -85,17 +85,17 @@ public static class serverShootMessage extends ServerMessage{
 		}
 		
 	}
-		public static class serverDeathMessage extends ServerMessage{
+		public static class serverUtilMessage extends ServerMessage{
 			public int type;
-			public serverDeathMessage(){
+			public serverUtilMessage(){
 				
 			}
-			public serverDeathMessage(int pType){
+			public serverUtilMessage(int pType){
 				type = pType;
 			}
 			@Override
 			public short getFlag() {
-				return SERVER_MESSAGE_DEATH;
+				return SERVER_MESSAGE_UTIL;
 			}
 
 			@Override

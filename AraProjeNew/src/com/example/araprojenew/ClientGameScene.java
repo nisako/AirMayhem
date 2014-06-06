@@ -29,7 +29,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.example.araprojenew.ServerMessages.serverDeathMessage;
+import com.example.araprojenew.ServerMessages.serverUtilMessage;
 import com.example.araprojenew.ServerMessages.serverPowerupMessage;
 import com.example.araprojenew.ClientMessages.*;
 import com.example.araprojenew.ServerMessages.*;
@@ -74,7 +74,7 @@ public class ClientGameScene extends GameScene implements
 				serverShootMessage.class);
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_SHOOT,
 				clientShootMessage.class);
-		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_DEATH, serverDeathMessage.class);
+		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_UTIL, serverUtilMessage.class);
 		this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_UTIL, clientShootMessage.class);
 		//this.mMessagePool.registerMessage(ClientMessages.CLIENT_MESSAGE_POWERUP, clientPowerupMessage.class);
 		this.mMessagePool.registerMessage(ServerMessages.SERVER_MESSAGE_POWERUP, serverPowerupMessage.class);
@@ -129,13 +129,13 @@ public class ClientGameScene extends GameScene implements
 					
 
 				});
-		mServerConnector.registerServerMessage(ServerMessages.SERVER_MESSAGE_DEATH,serverDeathMessage.class,new IServerMessageHandler<SocketConnection>() {
+		mServerConnector.registerServerMessage(ServerMessages.SERVER_MESSAGE_UTIL,serverUtilMessage.class,new IServerMessageHandler<SocketConnection>() {
 
 			@Override
 			public void onHandleMessage(
 					ServerConnector<SocketConnection> pServerConnector,
 					IServerMessage pServerMessage) throws IOException {
-				serverDeathMessage incoming = (serverDeathMessage) pServerMessage;
+				serverUtilMessage incoming = (serverUtilMessage) pServerMessage;
 				if(incoming.type == 0){ //dead
 					ClientGameScene.super.gameHUD.updateHudScore();
 					planeEnemy.crush();
@@ -152,6 +152,9 @@ public class ClientGameScene extends GameScene implements
 				}
 				else if(incoming.type == 3){ //ben resume ettim sen de edebilirsin
 					ClientGameScene.super.resume();
+				}
+				else if(incoming.type == 4){
+					planeEnemy.isMissile = true;
 				}
 				else if(incoming.type == 10){ //plane 0 secildi
 					planeEnemy.changePlane(0);
@@ -307,6 +310,9 @@ public class ClientGameScene extends GameScene implements
 	}
 	public void sendShootMessage() {
 		sendMessage(new clientShootMessage(plane.shotType));
+	}
+	public void sendMissileMessage(){
+		this.sendMessage(new clientUtilMessage(4));
 	}
 	@Override
 	public void sendPauseMessage(boolean b) {	

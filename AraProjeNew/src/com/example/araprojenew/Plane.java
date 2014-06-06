@@ -23,16 +23,20 @@ public class Plane extends AnimatedSprite{
 	private AnimatedSprite explosionSprite,smokeSprite;
 	private boolean isGas;
 	private boolean isBreak;
-	public boolean isShoot,isAlternateShoot;
+	public boolean isShoot,isMissile;
 	public boolean invul=false;
 	private int maxSpeed=20;
 	private int acceleration=10;
 	
 	public ArrayList<Body> shots;
-	public Sprite shotSprite;
+	public Body missileBody;
+	public Sprite shotSprite,missileSprite;
 	public int shotIndex=0;
 	public int maxShot=35;
+	public int maxMissileShot=5;
 	public int shotType=0; //0 default , 2 double,3 triple
+
+	private int missileCount=0;
 	
 	public int maxHealth = 100;
 	private int health = maxHealth;
@@ -61,11 +65,13 @@ public class Plane extends AnimatedSprite{
         shieldSprite = new Sprite(-35,-35,ResourcesManager.getInstance().shield_region,vbo);
         this.attachChild(shieldSprite);
         shieldSprite.setVisible(false);
+        
       /* smokeSprite = new AnimatedSprite(0, 0, ResourcesManager.getInstance().smoke_region, vbo);
         smokeSprite.animate(100);
         attachChild(smokeSprite);*/
         camera.setChaseEntity(this);
         animate(1);
+        createMissile(physicsWorld,vbo,camera);
         shots = new ArrayList<Body>();
         createShots(physicsWorld,vbo,camera);
         
@@ -105,7 +111,24 @@ public class Plane extends AnimatedSprite{
 		
 	}
 
+	private void createMissile(PhysicsWorld physicsWorld,VertexBufferObjectManager vbo,final Camera camera) {		
+		
+			missileSprite = new Sprite(9999,9999,ResourcesManager.getInstance().missile_region,vbo);
+			missileBody = PhysicsFactory.createBoxBody(physicsWorld, missileSprite, BodyType.KinematicBody, PhysicsFactory.createFixtureDef(0, 1, 0));
+			missileBody.setUserData(missileSprite);
+			missileBody.setBullet(true);
 
+			physicsWorld.registerPhysicsConnector(new PhysicsConnector(missileSprite, missileBody, true, true){
+				@Override
+		        public void onUpdate(float pSecondsElapsed)
+		        {
+		            super.onUpdate(pSecondsElapsed);
+		            //camera.onUpdate(0.1f);
+		           
+		        }
+			});
+			
+	}
 
 	private void createShots(PhysicsWorld physicsWorld,VertexBufferObjectManager vbo,final Camera camera) {		
 		for(int i=0;i<maxShot;i++){
@@ -137,7 +160,9 @@ public class Plane extends AnimatedSprite{
 	    }
 	    physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body,true , true)
 	    {
-	        @Override
+
+
+			@Override
 	        public void onUpdate(float pSecondsElapsed)
 	        {
 	        	if(isShoot){
@@ -152,9 +177,11 @@ public class Plane extends AnimatedSprite{
 	        		}
 	        		isShoot = false;
 	        	}
-	        	if(isAlternateShoot){
-	        		
+	        	if(isMissile && missileCount>0){
+	        		alternateShoot();
+	        		isMissile = false;
 	        	}
+	        	
 	            if(body.getPosition().y < 0) body.setTransform(body.getPosition().x, 0,body.getAngle());
 	            gravity = 1/(1+body.getLinearVelocity().len());
 	            if(gravity>0.04) gravity = 0.04f;
@@ -209,6 +236,16 @@ public class Plane extends AnimatedSprite{
 		ResourcesManager.getInstance().fireSound.play();
 	}
 	
+	public void alternateShoot(){
+		float angle = body.getAngle();
+		float x = body.getPosition().x+(float)Math.cos(angle);
+		float y = body.getPosition().y+(float)Math.sin(angle);
+		missileBody.setTransform(x,y, angle);
+		missileBody.setLinearVelocity(55*(float)Math.cos(missileBody.getAngle()), 55*(float)Math.sin(missileBody.getAngle()));
+		missileCount--;	
+		ResourcesManager.getInstance().alternateFireSound.play();
+		}
+		
 	public void shoot(float dx,float dy,float dAngle) {
 		float angle = body.getAngle()+dAngle;
 		float x = body.getPosition().x+dx+1*(float)Math.cos(angle);
@@ -219,10 +256,7 @@ public class Plane extends AnimatedSprite{
 		ResourcesManager.getInstance().fireSound.play();
 	}
 	
-public void alternateShoot(){
-		ResourcesManager.getInstance().alternateFireSound.play();
-	}
-	
+
 	public void doubleShot(){
 		shoot(shotSprite.getWidth()/32,shotSprite.getHeightScaled()/32,0);
 		shoot(-shotSprite.getWidth()/32,-shotSprite.getHeightScaled()/32,0);
@@ -305,6 +339,11 @@ public void alternateShoot(){
 	public void aplyPowerup(powerupType pType) {
 		if(pType == powerupType.HEALTUP){
 			healtPack();
+		}
+		else if(pType == powerupType.MISSILE){
+			if(missileCount<1)
+			this.missileCount++;
+
 		}
 		//TODO yeni powerup almýþ olsanda normale dönüyor süre bitince düzeltilmesi lazým
 		else if(pType == powerupType.DOUBLESHOT){

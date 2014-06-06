@@ -56,6 +56,8 @@ public class Hud extends HUD {
 		scoreText2.setColor(Color.YELLOW);
 		scoreText.setPosition(pennant1.getX()+pennant1.getWidth()/2-8,pennant1.getY()+pennant1.getHeight()/2-15);
 		scoreText2.setPosition(pennant2.getX()+pennant2.getWidth()/2-8,pennant2.getY()+pennant2.getHeight()/2-15);
+		pennant1.setZIndex(-1222);
+		pennant2.setZIndex(-1222);
 		attachChild(pennant1);
 		attachChild(pennant2);
 		attachChild(scoreText);
@@ -157,7 +159,13 @@ public class Hud extends HUD {
 					alternateShootButton.setCurrentTileIndex(0);
 				}
 				if (touchEvent.isActionDown()) {
-					plane.alternateShoot();
+					if(SceneManager.getInstance().getCurrentScene().getClass().equals(HostGameScene.class)){
+						((HostGameScene) SceneManager.getInstance().getCurrentScene()).sendMissileMessage();
+						}
+					else if(SceneManager.getInstance().getCurrentScene().getClass().equals(ClientGameScene.class)){
+							((ClientGameScene) SceneManager.getInstance().getCurrentScene()).sendMissileMessage();
+						}
+					plane.isMissile = true;
 					alternateShootButton.setCurrentTileIndex(1);
 				}
 				return true;
