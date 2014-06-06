@@ -46,6 +46,7 @@ public class PlaneEnemy extends AnimatedSprite{
 	private Sprite shieldSprite;
 	public Body enemyMissileBody;
 	public Sprite enemyMissileSprite;
+	private int enemyMissileCount=0;
 	
 	public PlaneEnemy(float pX, float pY, VertexBufferObjectManager vbo, Camera camera, PhysicsWorld physicsWorld)
     {

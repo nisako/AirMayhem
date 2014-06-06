@@ -159,6 +159,7 @@ public class Hud extends HUD {
 					alternateShootButton.setCurrentTileIndex(0);
 				}
 				if (touchEvent.isActionDown()) {
+					if(plane.missileCount>0){
 					if(SceneManager.getInstance().getCurrentScene().getClass().equals(HostGameScene.class)){
 						((HostGameScene) SceneManager.getInstance().getCurrentScene()).sendMissileMessage();
 						}
@@ -166,6 +167,7 @@ public class Hud extends HUD {
 							((ClientGameScene) SceneManager.getInstance().getCurrentScene()).sendMissileMessage();
 						}
 					plane.isMissile = true;
+					}
 					alternateShootButton.setCurrentTileIndex(1);
 				}
 				return true;

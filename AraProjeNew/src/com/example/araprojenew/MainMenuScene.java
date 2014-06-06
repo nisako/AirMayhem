@@ -313,6 +313,11 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    	    return true;
 	        case MENU_AUDIO:
 	        	//TODO Audio'larý master bir noktada yönetmek çok olasý gözükmüyor þu anda
+	        	if(engine.getSoundManager().getMasterVolume()!=0){
+	        	engine.getSoundManager().setMasterVolume(0);}
+	        	else {
+	        		engine.getSoundManager().setMasterVolume(100);
+	        	}
 	        	return true;
 	        case MENU_MUSIC:
 	        	if(ResourcesManager.getInstance().music.isPlaying()){

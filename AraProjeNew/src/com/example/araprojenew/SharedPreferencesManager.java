@@ -20,6 +20,16 @@ public class SharedPreferencesManager {
 		editor.commit();
 	}
 	
+	public void setAudioEnabled(boolean b){
+		editor = preferences.edit();
+		editor.putBoolean("AUDIO", b);
+		editor.commit();
+	}
+	
+	public boolean getAudioEnabled(){
+		return preferences.getBoolean("AUDIO", true);
+	}
+	
 	public boolean getMusicEnabled(){
 		return preferences.getBoolean("MUSIC", true);
 	}

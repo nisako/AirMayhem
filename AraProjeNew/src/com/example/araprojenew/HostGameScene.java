@@ -249,6 +249,39 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 							}
 						});
 
+	            }	            
+	            if (x2.getBody().getUserData().equals("shot") && x1.getBody().getUserData().equals("planeEnemy"))
+	            {
+	            	engine.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								x2.getBody().setTransform(-10000, -10000,0);						
+							}
+						});
+	            }
+	            if (x1.getBody().getUserData().equals("missileEnemy") && x2.getBody().getUserData().equals("plane"))
+	            {	           
+	            	plane.damage(30);
+	            	if(plane.getHealth()<=0){
+	            		plane.crush();
+	            		sendDeathMessage();
+	            	}
+	            	engine.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								x1.getBody().setTransform(-10000, -10000,0);						
+							}
+						});
+	            }
+	            if (x2.getBody().getUserData().equals("missile") && x1.getBody().getUserData().equals("planeEnemy"))
+	            {
+	            	engine.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								x2.getBody().setTransform(-10000, -10000,0);						
+							}
+						});
+
 	            }
 	            if (x2.getBody().getUserData().equals("ground") && x1.getBody().getUserData().equals("plane"))
 	            {
@@ -319,6 +352,7 @@ public class HostGameScene extends GameScene implements ISocketServerListener<So
 		//this.sendMessage(new serverSpritePositionMessage(plane.getX(),plane.getY(),plane.getRotation()));
 	}
 	public void sendMissileMessage(){
+		if(plane.missileCount>0)
 		this.sendMessage(new serverUtilMessage(4));
 	}
 	@Override

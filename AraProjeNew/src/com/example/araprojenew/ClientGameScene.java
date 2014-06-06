@@ -246,6 +246,31 @@ public class ClientGameScene extends GameScene implements
 						});
 
 	            }
+	            if (x1.getBody().getUserData().equals("missileEnemy") && x2.getBody().getUserData().equals("plane"))
+	            {
+	            	plane.damage(10);
+	            	if(plane.getHealth()<=0){
+	            		plane.crush();
+	            		sendDeathMessage();
+	            	}
+	            	engine.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								x1.getBody().setTransform(-10000, -10000,0);						
+							}
+						});
+
+	            }
+	            if (x2.getBody().getUserData().equals("missile") && x1.getBody().getUserData().equals("planeEnemy"))
+	            {
+	            	engine.runOnUpdateThread(new Runnable() {
+							@Override
+							public void run() {
+								x2.getBody().setTransform(-10000, -10000,0);						
+							}
+						});
+
+	            }
 	            if (x2.getBody().getUserData().equals("ground") && x1.getBody().getUserData().equals("plane"))
 	            {
 	            	plane.crush();
@@ -312,6 +337,7 @@ public class ClientGameScene extends GameScene implements
 		sendMessage(new clientShootMessage(plane.shotType));
 	}
 	public void sendMissileMessage(){
+		if(plane.missileCount>0)
 		this.sendMessage(new clientUtilMessage(4));
 	}
 	@Override

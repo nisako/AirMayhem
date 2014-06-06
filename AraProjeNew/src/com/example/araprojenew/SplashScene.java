@@ -4,6 +4,7 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
+import org.andengine.entity.modifier.MoveYModifier;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.modifier.IModifier;
@@ -17,23 +18,24 @@ public class SplashScene extends BaseScene{
 	@Override
 	public void createScene() {
 		setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		Sprite thunder = new Sprite(0, 0, ResourcesManager.getInstance().splash1_region,vbom);
-		Sprite struck = new Sprite(0, 0, ResourcesManager.getInstance().splash2_region,vbom);
+		Sprite air = new Sprite(0, 0, ResourcesManager.getInstance().splash1_region,vbom);
+		Sprite mayhem = new Sprite(0, 0, ResourcesManager.getInstance().splash2_region,vbom);
 
-		thunder.setPosition(-thunder.getWidth(), -thunder.getHeight()+(camera.getHeight() / 2));
-		struck.setPosition(camera.getWidth(), -struck.getHeight()+(camera.getHeight() / 2));
+		air.setPosition(300,-108);
+		mayhem.setPosition(200,480);
 
-		attachChild(thunder);
-		attachChild(struck);
-
-		thunder.registerEntityModifier(new MoveXModifier(1, thunder.getX(),camera.getWidth() / 2 - thunder.getWidth()));
-		struck.registerEntityModifier(new MoveXModifier(1, struck.getX(),camera.getWidth() / 2));
-
+		attachChild(air);
+		attachChild(mayhem);
+		
+		
+		air.registerEntityModifier(new MoveYModifier(1, air.getY(),100 ));
+		mayhem.registerEntityModifier(new MoveYModifier(1, mayhem.getY(),208));
+		
 		loadResources();
 	}
 	
 	void loadResources() {
-		DelayModifier dMod = new DelayModifier(2,
+		DelayModifier dMod = new DelayModifier( 10000,
 				new IEntityModifierListener() {
 
 					@Override

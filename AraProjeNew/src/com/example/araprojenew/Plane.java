@@ -36,7 +36,7 @@ public class Plane extends AnimatedSprite{
 	public int maxMissileShot=5;
 	public int shotType=0; //0 default , 2 double,3 triple
 
-	private int missileCount=0;
+	public int missileCount=0;
 	
 	public int maxHealth = 100;
 	private int health = maxHealth;
