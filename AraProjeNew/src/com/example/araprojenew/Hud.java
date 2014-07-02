@@ -45,8 +45,8 @@ public class Hud extends HUD {
 	}
 
 	private void createHudObjects() {
-		pennant1 = new Sprite(360, 0, ResourcesManager.getInstance().pennant1_region, vbom);
-		pennant2 = new Sprite(360+50, 0, ResourcesManager.getInstance().pennant2_region, vbom);
+		pennant1 = new Sprite(820-73, 150, ResourcesManager.getInstance().pennant1_region, vbom);
+		pennant2 = new Sprite(820-73, 210, ResourcesManager.getInstance().pennant2_region, vbom);
 		//TODO Burayý temizlemek gerek
 		 scoreText = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
 		 scoreText2 = new Text(20, 20, ResourcesManager.getInstance().hudFont, "0123456789", vbom);
@@ -56,8 +56,8 @@ public class Hud extends HUD {
 		scoreText2.setColor(Color.YELLOW);
 		scoreText.setPosition(pennant1.getX()+pennant1.getWidth()/2-8,pennant1.getY()+pennant1.getHeight()/2-15);
 		scoreText2.setPosition(pennant2.getX()+pennant2.getWidth()/2-8,pennant2.getY()+pennant2.getHeight()/2-15);
-		pennant1.setZIndex(-1222);
-		pennant2.setZIndex(-1222);
+		pennant1.setRotation(90);
+		pennant2.setRotation(90);
 		attachChild(pennant1);
 		attachChild(pennant2);
 		attachChild(scoreText);

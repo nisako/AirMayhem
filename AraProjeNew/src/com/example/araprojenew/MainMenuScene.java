@@ -252,6 +252,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		
 		final IMenuItem choose = new ScaleMenuItemDecorator(new SpriteMenuItem(123, resourcesManager.planechoose_region, vbom), 1, 1);
 		final IMenuItem backMenuItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, resourcesManager.menubackbutton_region, vbom), 1.2f, 1); 
+		final IMenuItem backUp = new ScaleMenuItemDecorator(new SpriteMenuItem(91, resourcesManager.backup_region, vbom), 1, 1);
 		final IMenuItem plane11 = new ScaleMenuItemDecorator(new SpriteMenuItem(11, resourcesManager.plane_regions[0], vbom), 1.2f, 1);
 	    final IMenuItem plane12 = new ScaleMenuItemDecorator(new SpriteMenuItem(12, resourcesManager.plane_regions[1], vbom), 1.2f, 1);
 	    final IMenuItem plane21 = new ScaleMenuItemDecorator(new SpriteMenuItem(21, resourcesManager.plane_regions[2], vbom), 1.2f, 1);
@@ -263,6 +264,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    
 	    preGameMenuChildScene.addMenuItem(choose);
 	    preGameMenuChildScene.addMenuItem(backMenuItem);
+	    preGameMenuChildScene.addMenuItem(backUp);
 	    preGameMenuChildScene.addMenuItem(plane11);
 	    preGameMenuChildScene.addMenuItem(plane12);
 	    preGameMenuChildScene.addMenuItem(plane21);
@@ -277,6 +279,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	    
 	    choose.setPosition(-325,-250);
 	    backMenuItem.setPosition(-400,0);
+	    backUp.setPosition(-300,-150);
 	    plane11.setPosition(-200, -100);
 	    plane12.setPosition(-200, 0);
 	    plane21.setPosition(-100, -100);

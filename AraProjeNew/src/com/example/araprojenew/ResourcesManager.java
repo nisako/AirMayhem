@@ -20,6 +20,7 @@ import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtla
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
+import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
@@ -74,6 +75,7 @@ public class ResourcesManager {
     public ITextureRegion defeat_region;
     public ITextureRegion tutorial_region;
     public ITextureRegion tutorial2_region;
+    public ITextureRegion splash_region;
     
     private BuildableBitmapTextureAtlas menuTextureAtlas;
     private BuildableBitmapTextureAtlas sharedTextureAtlas;
@@ -90,14 +92,16 @@ public class ResourcesManager {
     public ITextureRegion missile_region;
     public ITextureRegion powerup_region;
     public ITextureRegion shield_region;
-
+	public ITextureRegion backup_region;
     public Music music;
+    
     public Sound fireSound;
     public Sound explosionSound;
     public Sound alternateFireSound;    
     
     public Font splashScreenFont;
     public Font hudFont;
+
 
 	
     
@@ -174,6 +178,7 @@ public class ResourcesManager {
     	menunextbutton_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "next.png");      
     	tutorial_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "tutorial.png");
     	tutorial2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "tutorial2.png");      
+    	backup_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "backup.png");
     	try 
     	{
     	    this.menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
@@ -269,6 +274,7 @@ public class ResourcesManager {
     {
     	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");    	
     	splashTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.DEFAULT);
+    	splash_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "AIRMAYHEM.png");
     	splash1_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "thunder.png");
     	splash2_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(splashTextureAtlas, activity, "struck.png");
     	splashScreenFont = FontFactory.create(activity.getFontManager(),activity.getTextureManager(), 256, 256,Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);

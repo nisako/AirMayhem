@@ -1,12 +1,15 @@
 package com.example.araprojenew;
 
+import org.andengine.engine.camera.Camera;
 import org.andengine.entity.IEntity;
 import org.andengine.entity.modifier.DelayModifier;
 import org.andengine.entity.modifier.MoveXModifier;
 import org.andengine.entity.modifier.IEntityModifier.IEntityModifierListener;
 import org.andengine.entity.modifier.MoveYModifier;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.scene.background.SpriteBackground;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.util.GLState;
 import org.andengine.util.modifier.IModifier;
 
 import com.example.araprojenew.SceneManager.SceneType;
@@ -17,8 +20,8 @@ public class SplashScene extends BaseScene{
 	
 	@Override
 	public void createScene() {
-		setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		Sprite air = new Sprite(0, 0, ResourcesManager.getInstance().splash1_region,vbom);
+		 setBackground(new SpriteBackground(new Sprite(0, 0, ResourcesManager.getInstance().splash_region, vbom)));
+		/*Sprite air = new Sprite(0, 0, ResourcesManager.getInstance().splash1_region,vbom);
 		Sprite mayhem = new Sprite(0, 0, ResourcesManager.getInstance().splash2_region,vbom);
 
 		air.setPosition(300,-108);
@@ -29,7 +32,7 @@ public class SplashScene extends BaseScene{
 		
 		
 		air.registerEntityModifier(new MoveYModifier(1, air.getY(),100 ));
-		mayhem.registerEntityModifier(new MoveYModifier(1, mayhem.getY(),208));
+		mayhem.registerEntityModifier(new MoveYModifier(1, mayhem.getY(),208));*/
 		
 		loadResources();
 	}
